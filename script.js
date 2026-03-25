@@ -32,26 +32,25 @@ document.addEventListener("DOMContentLoaded", () => {
         observer.observe(el);
     });
 
-    // 2. Magnetic Interactive Elements
+    // 2. Magnetic Interactive Elements (Desktop Only)
     // High-end portfolio hover interaction where buttons "pull" towards the cursor
-    const magneticElements = document.querySelectorAll('.cta, .card-arrow, .cs-next-link');
-    
-    magneticElements.forEach(el => {
-        el.addEventListener('mousemove', (e) => {
-            const rect = el.getBoundingClientRect();
-            // Calculate mouse position relative to center of the button
-            const h = rect.width / 2;
-            const v = rect.height / 2;
-            const x = e.clientX - rect.left - h;
-            const y = e.clientY - rect.top - v;
-            
-            // Adjust the 0.2 factor to make the magnet stronger or weaker
-            el.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.05)`;
-        });
+    if (window.matchMedia("(pointer: fine)").matches) {
+        const magneticElements = document.querySelectorAll('.cta, .card-arrow, .cs-next-link');
         
-        el.addEventListener('mouseleave', () => {
-            // Reset to default on mouse out
-            el.style.transform = `translate(0px, 0px) scale(1)`;
+        magneticElements.forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const h = rect.width / 2;
+                const v = rect.height / 2;
+                const x = e.clientX - rect.left - h;
+                const y = e.clientY - rect.top - v;
+                
+                el.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.05)`;
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `translate(0px, 0px) scale(1)`;
+            });
         });
-    });
+    }
 });
