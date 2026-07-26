@@ -1,0 +1,45 @@
+/* ── Design tokens ─────────────────────────────────────────────────────────
+   The whole system lives here. Expressive brutalist, but LOCKED:
+   two type families + one mono, one accent, a small fixed type scale.
+   Craft, not chaos.
+*/
+:root {
+  /* Palette — paper / ink / one loud accent */
+  --paper: #f5f2ea;
+  --paper-2: #ece7da;   /* recessed panels */
+  --ink: #0b0b0b;
+  --ink-70: rgba(11, 11, 11, 0.7);
+  --ink-45: rgba(11, 11, 11, 0.45);
+  --accent: #ff4a1c;    /* hot vermillion — the single identity color */
+  --accent-ink: #0b0b0b;
+  /* Deepened vermillion for ACCENT TEXT ON PAPER only.
+     Pure --accent is 3.0:1 on paper (fails WCAG AA); this is 5.0:1.
+     Pure --accent stays correct for fills and for text on ink (5.9:1). */
+  --accent-deep: #c2320d;
+
+  /* Fonts. Noto Sans JP is appended to every stack: the Latin faces have no
+     CJK glyphs, so without it Japanese would drop to an arbitrary system font
+     mid-sentence. Latin still renders in the primary face — the browser only
+     falls through for characters the first font lacks. */
+  --font-display: 'Bricolage Grotesque', 'Noto Sans JP', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
+  --font-mono: 'Space Mono', 'Noto Sans JP', ui-monospace, monospace;
+
+  /* Type scale — few steps, no ad-hoc sizes */
+  --fs-hero: clamp(3.5rem, 14vw, 11rem);
+  --fs-display: clamp(2.4rem, 7vw, 5.5rem);
+  --fs-h2: clamp(1.9rem, 4.5vw, 3.4rem);
+  --fs-h3: clamp(1.3rem, 2.4vw, 1.85rem);
+  --fs-body-lg: clamp(1.05rem, 1.6vw, 1.35rem);
+  --fs-body: 1.0625rem;
+  --fs-label: 0.78rem;     /* mono, uppercase, tracked */
+
+  /* Structure */
+  --border: 1.5px solid var(--ink);
+  --border-thick: 3px solid var(--ink);
+  --maxw: 1360px;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+
+  /* Motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}

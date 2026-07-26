@@ -1,0 +1,234 @@
+/* ── Motion layer ──────────────────────────────────────────────────────────
+   Everything here animates transform/opacity only, so it stays on the
+   compositor. The reduced-motion block at the bottom is the kill switch and
+   must keep covering every animation added above it.
+*/
+
+:root {
+  --t-cover: 220ms;   /* keep in sync with COVER_MS in lib/transitionNav.jsx */
+}
+
+/* ── Heading mask reveal ─────────────────────────────────────────────────── */
+.mask { display: block; }
+/* The clip box is extended below the baseline and pulled back with a matching
+   negative margin: without this, overflow:hidden shears the descenders off
+   "g", "p" and "y" while leaving the line rhythm looking correct. */
+.mask__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+.mask__inner {
+  display: block;
+  /* >100% so the line still clears the padded clip box while hidden */
+  transform: translateY(125%);
+  transition: transform 0.85s var(--ease);
+  will-change: transform;
+}
+.mask__inner.in { transform: none; }
+
+/* ── Route transition wipe ───────────────────────────────────────────────── */
+.wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: var(--ink);
+  pointer-events: none;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--t-cover) var(--ease);
+}
+.wipe--on {
+  transform: scaleY(1);
+  transform-origin: top;
+  pointer-events: all;
+}
+
+/* ── Scroll progress ─────────────────────────────────────────────────────── */
+.progress {
+  position: fixed;
+  top: 60px;              /* sits directly under the 60px nav */
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 49;
+  pointer-events: none;
+}
+.progress__bar {
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* ── Custom cursor ───────────────────────────────────────────────────────── */
+.cursor__dot,
+.cursor__ring {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 1000;
+  pointer-events: none;
+  border-radius: 50%;
+  margin-left: -50%;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+.cursor__dot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  margin: -3.5px 0 0 -3.5px;
+}
+.cursor__ring {
+  width: 34px; height: 34px;
+  border: 1.5px solid var(--ink);
+  margin: -17px 0 0 -17px;
+  transition: opacity 0.25s var(--ease), width 0.25s var(--ease),
+              height 0.25s var(--ease), margin 0.25s var(--ease),
+              background 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+body.has-cursor .cursor__dot,
+body.has-cursor .cursor__ring { opacity: 1; }
+.cursor__ring--active {
+  width: 54px; height: 54px;
+  margin: -27px 0 0 -27px;
+  background: rgba(255, 74, 28, 0.12);
+  border-color: var(--accent);
+}
+/* Hide the native cursor only where ours is actually running. */
+@media (pointer: fine) {
+  body.has-cursor,
+  body.has-cursor a,
+  body.has-cursor button { cursor: none; }
+}
+
+/* ── Nav auto-hide ───────────────────────────────────────────────────────── */
+.nav { transition: transform 0.4s var(--ease); }
+.nav--hidden { transform: translateY(-100%); }
+/* Never hide the bar while something inside it has keyboard focus. */
+.nav:focus-within { transform: none; }
+
+/* ── Stat underline wipe ─────────────────────────────────────────────────── */
+.hero__stat-rule {
+  display: block;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s var(--ease);
+  margin-top: 0.9rem;
+}
+.hero__stat-rule.in { transform: scaleX(1); }
+
+/* ── Staggered children (tags, list rows, shipped names) ─────────────────── */
+/* Delays live here as nth-child rules so Reveal never has to wrap children in
+   extra elements — flex and grid layouts stay untouched. */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.stagger.in > * { opacity: 1; transform: none; }
+.stagger > *:nth-child(1)  { transition-delay: 0.00s; }
+.stagger > *:nth-child(2)  { transition-delay: 0.05s; }
+.stagger > *:nth-child(3)  { transition-delay: 0.10s; }
+.stagger > *:nth-child(4)  { transition-delay: 0.15s; }
+.stagger > *:nth-child(5)  { transition-delay: 0.20s; }
+.stagger > *:nth-child(6)  { transition-delay: 0.25s; }
+.stagger > *:nth-child(7)  { transition-delay: 0.30s; }
+.stagger > *:nth-child(8)  { transition-delay: 0.35s; }
+.stagger > *:nth-child(n+9) { transition-delay: 0.40s; }
+
+/* ── Work-row accent bar on hover ────────────────────────────────────────── */
+.wrow::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.35s var(--ease);
+}
+.wrow:hover::before,
+.wrow:focus-visible::before { transform: scaleY(1); transform-origin: top; }
+
+/* ── Case card parallax + tilt ───────────────────────────────────────────── */
+.ccard__visual { perspective: 900px; }
+.ccard__mockwrap {
+  transition: transform 0.5s var(--ease);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ── Animated phone mocks ────────────────────────────────────────────────── */
+/* Children start hidden and cascade in once the mock enters the viewport. */
+.mock__screen > * {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.mock--play .mock__screen > * {
+  animation: mockIn 0.5s var(--ease) forwards;
+}
+.mock--play .mock__screen > *:nth-child(1) { animation-delay: 0.05s; }
+.mock--play .mock__screen > *:nth-child(2) { animation-delay: 0.18s; }
+.mock--play .mock__screen > *:nth-child(3) { animation-delay: 0.31s; }
+.mock--play .mock__screen > *:nth-child(4) { animation-delay: 0.44s; }
+.mock--play .mock__screen > *:nth-child(5) { animation-delay: 0.57s; }
+.mock--play .mock__screen > *:nth-child(6) { animation-delay: 0.70s; }
+.mock--play .mock__screen > *:nth-child(7) { animation-delay: 0.83s; }
+.mock--play .mock__screen > *:nth-child(8) { animation-delay: 0.96s; }
+@keyframes mockIn { to { opacity: 1; transform: none; } }
+
+/* Upload progress fills as the card lands */
+.mk-progress span { transform: scaleX(0); transform-origin: left; }
+.mock--play .mk-progress span { animation: fillBar 1.6s var(--ease) 0.5s forwards; }
+@keyframes fillBar { to { transform: scaleX(1); } }
+
+/* Validation ticks pop after their field appears */
+.mk-check { transform: scale(0); }
+.mock--play .mk-check { animation: pop 0.4s var(--ease) forwards; }
+.mock--play .mk-field:nth-of-type(1) .mk-check { animation-delay: 0.6s; }
+.mock--play .mk-field:nth-of-type(2) .mk-check { animation-delay: 0.78s; }
+@keyframes pop { 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+
+/* ── Footer CTA character stagger ────────────────────────────────────────── */
+.fcta__line { display: block; }
+/* The trailing "." picks up the accent now that the span is gone */
+.fcta__line:last-child .fchar:last-child { color: var(--accent); }
+.fchar {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.fchar.in { opacity: 1; transform: none; }
+
+/* ── Screen-reader-only ──────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Reduced motion: resolve everything to its final state ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mask__inner { transform: none !important; transition: none !important; }
+  .wipe { display: none !important; }
+  .progress__bar { transition: none !important; }
+  .cursor__dot, .cursor__ring { display: none !important; }
+  .nav { transition: none !important; }
+  .nav--hidden { transform: none !important; }
+  .hero__stat-rule { transform: scaleX(1) !important; transition: none !important; }
+  .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .wrow::before { transition: none !important; }
+  .ccard__mockwrap { transform: none !important; transition: none !important; }
+  .mock__screen > * { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .mk-progress span { transform: scaleX(1) !important; animation: none !important; }
+  .mk-check { transform: scale(1) !important; animation: none !important; }
+  .fchar { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
