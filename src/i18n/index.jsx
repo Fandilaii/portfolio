@@ -4,11 +4,23 @@ import * as id from './locales/id.js'
 import * as ja from './locales/ja.js'
 
 const BUNDLES = { en, id, ja }
-export const LOCALES = [
+
+const ALL_LOCALES = [
   { code: 'en', label: 'EN', name: 'English' },
   { code: 'id', label: 'ID', name: 'Bahasa Indonesia' },
   { code: 'ja', label: 'JP', name: '日本語' },
 ]
+
+// Locales offered in the UI.
+//
+// `ja` is written and complete but withheld from launch until a native speaker
+// reviews it — the register and the case-study prose are unverified, and this
+// site carries Lai's professional reputation. To ship it, add 'ja' back here;
+// nothing else needs to change.
+const ENABLED = ['en', 'id']
+
+export const LOCALES = ALL_LOCALES.filter((l) => ENABLED.includes(l.code))
+const isEnabled = (code) => ENABLED.includes(code) && !!BUNDLES[code]
 
 const STORAGE_KEY = 'fl-locale'
 const Ctx = createContext(null)
@@ -17,7 +29,9 @@ function readSaved() {
   if (typeof window === 'undefined') return null
   try {
     const saved = window.localStorage?.getItem(STORAGE_KEY)
-    return saved && BUNDLES[saved] ? saved : null
+    // A stored locale that is no longer offered (e.g. someone picked JP before
+    // it was withheld) must not strand them in a hidden language.
+    return isEnabled(saved) ? saved : null
   } catch { return null } // private mode / storage disabled
 }
 
@@ -26,9 +40,9 @@ function readSaved() {
 function detectBrowser() {
   if (typeof navigator === 'undefined') return 'en'
   const nav = (navigator.languages?.[0] || navigator.language || 'en').toLowerCase()
-  if (nav.startsWith('id')) return 'id'
-  if (nav.startsWith('ja')) return 'ja'
-  return 'en'
+  const guess = nav.startsWith('id') ? 'id' : nav.startsWith('ja') ? 'ja' : 'en'
+  // Never suggest a locale that isn't offered.
+  return isEnabled(guess) ? guess : 'en'
 }
 
 export function LocaleProvider({ children }) {
@@ -41,7 +55,7 @@ export function LocaleProvider({ children }) {
   const [needsChoice, setNeedsChoice] = useState(saved === null)
 
   const setLocale = useCallback((code) => {
-    if (!BUNDLES[code]) return
+    if (!isEnabled(code)) return
     setLocaleState(code)
     try { window.localStorage?.setItem(STORAGE_KEY, code) } catch { /* private mode */ }
   }, [])
