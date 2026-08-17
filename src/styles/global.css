@@ -15,7 +15,11 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* `clip` rather than `hidden`: both stop horizontal scrolling, but `hidden`
+     makes the body a scroll container, which can leave view() timelines
+     resolving against a scrollport that never scrolls — scroll-driven
+     animations then sit inactive. `clip` does not establish a scrollport. */
+  overflow-x: clip;
 }
 
 /* Paper grain: a faint dotted texture so the flat brutalist fields have tooth */

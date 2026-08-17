@@ -48,7 +48,7 @@ export default function WorkIndex() {
           ))}
         </ul>
 
-        <div className="edu">
+        <div className="edu px">
           <span className="mono-label">{ui.index.education}</span>
           <p className="edu__line">
             <strong>{education.degree}</strong>, {education.school}

@@ -32,7 +32,7 @@ export default function Footer() {
         <span className="mono-label footer__eyebrow">{ui.footer.eyebrow}</span>
 
         <a
-          className="footer__cta display"
+          className="footer__cta display px"
           href={`mailto:${profile.email}`}
           ref={ctaRef}
           aria-label={ui.footer.ctaAria}

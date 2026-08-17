@@ -100,6 +100,44 @@
   to { font-variation-settings: 'wght' 800; }
 }
 
+/* ── Parallax ────────────────────────────────────────────────────────────────
+   Depth is expressed once as `--px` (pixels of travel across the element's
+   whole pass through the viewport) and driven by a view() timeline, so the
+   motion is tied to scroll position on the compositor rather than to a JS
+   scroll handler.
+
+   Crucially this animates the `translate` property, NOT `transform`. They are
+   separate properties that compose, so parallax here can coexist with the
+   pointer-tilt `transform` on the same element without either overwriting the
+   other — no shared matrix to fight over.
+
+   Negative --px moves against the scroll (recedes), positive moves with it. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .px {
+      animation: parallax linear both;
+      animation-timeline: view();
+      animation-range: cover;
+      will-change: translate;
+    }
+  }
+}
+@keyframes parallax {
+  from { translate: 0 calc(var(--px, 40px) * 1); }
+  to   { translate: 0 calc(var(--px, 40px) * -1); }
+}
+
+/* Depth assignments — bigger numbers sit "further" from the reader */
+.ccard__mockwrap { --px: 34px; }
+.cs-hero__figure .vt-mock { --px: 30px; }
+.cs-hero__accent { --px: -16px; }   /* drifts against the mock beside it */
+.hero__shipped { --px: 18px; }
+.hero__stats-grid { --px: 14px; }
+.about__skills { --px: 22px; }
+.edu { --px: 16px; }
+.footer__cta { --px: 26px; }
+.cs-impact__grid { --px: 20px; }
+
 /* ── Variable-font interaction on the hero name ──────────────────────────────
    Hovering the name thins every letter except the one under the cursor, which
    holds its weight. Interpolating an axis rather than swapping cut weights. */
@@ -335,6 +373,7 @@ body.has-cursor .cursor__ring { opacity: 1; }
   ::view-transition-old(*),
   ::view-transition-new(*) { animation: none !important; }
   .cgrid, .wlist, .hero__shipped-list { transform: none !important; }
+  .px { animation: none !important; translate: none !important; }
   .kw__c { transition: none !important; font-variation-settings: 'wght' 800 !important; }
   .section-head h2 .mask__inner { animation: none !important; }
 

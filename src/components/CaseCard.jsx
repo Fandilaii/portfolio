@@ -13,48 +13,38 @@ export default function CaseCard({ study, flip = false }) {
   const reduced = usePrefersReducedMotion()
   const { ui } = useT()
 
-  // Scroll parallax — the mock drifts a little slower than the page.
+  // Pointer tilt only. Scroll parallax is handled declaratively by the `.px`
+  // scroll-timeline in motion.css, which animates `translate` — a separate
+  // property from `transform`, so the two compose instead of overwriting each
+  // other, and the parallax runs on the compositor rather than this handler.
   useEffect(() => {
     if (reduced) return
     const wrap = wrapRef.current
     const card = cardRef.current
     if (!wrap || !card) return
+    if (!window.matchMedia?.('(pointer: fine)').matches) return
 
     let raf = 0
-    let tilt = { x: 0, y: 0 }
-
-    const update = () => {
-      raf = 0
-      const r = card.getBoundingClientRect()
-      // -1 (below viewport) .. 1 (above viewport)
-      const centre = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight
-      const drift = Math.max(-26, Math.min(26, -centre * 42))
-      wrap.style.transform =
-        `translate3d(0, ${drift.toFixed(1)}px, 0) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
+    const apply = (x, y) => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        wrap.style.transform = x || y ? `rotateX(${y}deg) rotateY(${x}deg)` : ''
+      })
     }
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
 
     const onPointerMove = (e) => {
       const r = card.getBoundingClientRect()
-      tilt = {
-        x: ((e.clientX - (r.left + r.width / 2)) / r.width) * 9,
-        y: -((e.clientY - (r.top + r.height / 2)) / r.height) * 9,
-      }
-      onScroll()
+      apply(
+        ((e.clientX - (r.left + r.width / 2)) / r.width) * 9,
+        -((e.clientY - (r.top + r.height / 2)) / r.height) * 9
+      )
     }
-    const onPointerLeave = () => { tilt = { x: 0, y: 0 }; onScroll() }
+    const onPointerLeave = () => apply(0, 0)
 
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    if (window.matchMedia?.('(pointer: fine)').matches) {
-      card.addEventListener('pointermove', onPointerMove)
-      card.addEventListener('pointerleave', onPointerLeave)
-    }
+    card.addEventListener('pointermove', onPointerMove)
+    card.addEventListener('pointerleave', onPointerLeave)
     return () => {
       cancelAnimationFrame(raf)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
       card.removeEventListener('pointermove', onPointerMove)
       card.removeEventListener('pointerleave', onPointerLeave)
       wrap.style.transform = ''
@@ -71,7 +61,7 @@ export default function CaseCard({ study, flip = false }) {
       <div className="ccard__visual" ref={cardRef}>
         {/* data-morph pairs these with the case-study page for the shared-element
             view transition — the mock and title fly to their new positions. */}
-        <div className="ccard__mockwrap" ref={wrapRef} data-morph="mock">
+        <div className="ccard__mockwrap px" ref={wrapRef} data-morph="mock">
           <Mock kind={study.slug} />
         </div>
       </div>

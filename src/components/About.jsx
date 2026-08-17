@@ -23,7 +23,7 @@ export default function About() {
             <p className="about__body">{profile.ownership}</p>
           </Reveal>
 
-          <div className="about__skills">
+          <div className="about__skills px">
             {skills.map((s, i) => (
               <Reveal className="skillblock" key={s.group} delay={i * 70}>
                 <span className="skillblock__group mono-label">{s.group}</span>

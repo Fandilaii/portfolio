@@ -92,7 +92,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="shell hero__shipped">
+      <div className="shell hero__shipped px">
         <span className="hero__shipped-label mono-label">{ui.hero.shippedAt}</span>
         <Reveal as="ul" className="hero__shipped-list" stagger>
           {shippedAt.map((c) => (
@@ -102,7 +102,7 @@ export default function Hero() {
       </div>
 
       <div className="hero__stats">
-        <div className="shell hero__stats-grid">
+        <div className="shell hero__stats-grid px">
           {heroStats.map((s, i) => (
             <Stat stat={s} key={i} />
           ))}

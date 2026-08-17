@@ -34,8 +34,8 @@ export default function CaseStudy() {
             <p className="cs-hero__tagline">{study.tagline}</p>
 
             <div className="cs-hero__figure">
-              <div className="vt-mock"><Mock kind={study.slug} /></div>
-              <div className="cs-hero__accent">
+              <div className="vt-mock px"><Mock kind={study.slug} /></div>
+              <div className="cs-hero__accent px">
                 <span className="cs-hero__accent-val display">
                   <CountUp value={study.accentMetric.value} />
                   {study.accentMetric.suffix && <span>{study.accentMetric.suffix}</span>}
@@ -96,7 +96,7 @@ export default function CaseStudy() {
         <section className="cs-impact">
           <div className="shell">
             <span className="mono-label cs-kicker">{ui.caseStudy.impact}</span>
-            <div className="cs-impact__grid">
+            <div className="cs-impact__grid px">
               {study.impact.map((m, idx) => (
                 <Reveal className="cs-impact__cell" key={idx} delay={idx * 70}>
                   <span className="cs-impact__val display">
