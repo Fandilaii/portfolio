@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './styles/global.css'
 import Home from './pages/Home.jsx'
 import CaseStudy from './pages/CaseStudy.jsx'
@@ -11,11 +11,12 @@ import { TransitionProvider } from './lib/transitionNav.jsx'
 import { LocaleProvider } from './i18n/index.jsx'
 import LangGate from './components/LangGate.jsx'
 
-// HashRouter keeps deep links working on static hosts (github.io) with no
-// server-side rewrite config.
+// BrowserRouter gives clean paths (/work/finku-fingpt). Deep links survive on
+// GitHub Pages because the build emits a 404.html copy of index.html — see the
+// spaFallback plugin in vite.config.js.
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <HashRouter>
+    <BrowserRouter>
       <LocaleProvider>
       <LangGate />
       <TransitionProvider>
@@ -28,6 +29,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </Routes>
       </TransitionProvider>
       </LocaleProvider>
-    </HashRouter>
+    </BrowserRouter>
   </React.StrictMode>
 )
