@@ -6,6 +6,119 @@
 
 :root {
   --t-cover: 220ms;   /* keep in sync with COVER_MS in lib/transitionNav.jsx */
+
+  /* A real spring, sampled into a linear() curve. Overshoots ~1.5% and settles,
+     which a cubic-bezier physically cannot express — beziers are monotonic
+     between their endpoints, so they can ease but never overshoot-and-return. */
+  --spring: linear(
+    0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%,
+    0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 60%, 1.006 80%, 1
+  );
+}
+
+/* Typed custom property: registering it lets the browser interpolate it as a
+   number rather than swapping strings, so scroll velocity can be animated. */
+@property --sv {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* ── Shared-element route morph (View Transitions API) ───────────────────────
+   The card's phone mock and title carry the same view-transition-name as their
+   counterparts on the case-study page, so the browser tweens between the two
+   boxes: the card visually becomes the page. */
+.vt-mock { view-transition-name: case-mock; }
+.vt-title { view-transition-name: case-title; }
+
+::view-transition-group(case-mock),
+::view-transition-group(case-title) {
+  animation-duration: 0.62s;
+  animation-timing-function: var(--spring);
+}
+/* Cross-fade the paired snapshots quickly; the box morph carries the motion */
+::view-transition-old(case-mock),
+::view-transition-new(case-mock),
+::view-transition-old(case-title),
+::view-transition-new(case-title) {
+  animation-duration: 0.28s;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 0.42s; }
+
+/* The morphing pair must sit above the page fade */
+::view-transition-group(case-mock) { z-index: 10; }
+::view-transition-group(case-title) { z-index: 11; }
+
+/* ── Scroll-driven reveals ───────────────────────────────────────────────────
+   Where the browser supports it, reveals are driven by a view() timeline rather
+   than an IntersectionObserver toggling a class. The animation is then tied to
+   scroll position on the compositor: it cannot jank behind a busy main thread,
+   and it scrubs backwards when you scroll up instead of firing once.
+   The JS path in Reveal.jsx stays as the fallback and does no harm here. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      animation: revealIn linear both;
+      animation-timeline: view();
+      animation-range: entry 4% cover 30%;
+    }
+    .stagger > * {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      animation: revealIn linear both;
+      animation-timeline: view();
+      animation-range: entry 2% cover 26%;
+    }
+    /* Scroll-linked stagger: each child's range is nudged progressively later */
+    .stagger > *:nth-child(2) { animation-range: entry 5% cover 29%; }
+    .stagger > *:nth-child(3) { animation-range: entry 8% cover 32%; }
+    .stagger > *:nth-child(4) { animation-range: entry 11% cover 35%; }
+    .stagger > *:nth-child(5) { animation-range: entry 14% cover 38%; }
+    .stagger > *:nth-child(n+6) { animation-range: entry 17% cover 41%; }
+
+    /* Section headings gain weight as they enter — only possible because
+       Bricolage Grotesque is a variable font with a live wght axis. */
+    .section-head h2 .mask__inner {
+      animation: weightIn linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes revealIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes weightIn {
+  from { font-variation-settings: 'wght' 500; }
+  to { font-variation-settings: 'wght' 800; }
+}
+
+/* ── Variable-font interaction on the hero name ──────────────────────────────
+   Hovering the name thins every letter except the one under the cursor, which
+   holds its weight. Interpolating an axis rather than swapping cut weights. */
+.kw__c {
+  font-variation-settings: 'wght' 800;
+  transition: font-variation-settings 0.4s var(--spring), transform 0.4s var(--spring);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .hero__name:hover .kw__c { font-variation-settings: 'wght' 460; }
+  .hero__name .kw__c:hover { font-variation-settings: 'wght' 800; transform: translateY(-0.02em); }
+}
+
+/* ── Scroll-velocity skew ────────────────────────────────────────────────────
+   --sv is written from rAF-throttled scroll velocity and decays back to 0.
+   Applied only to containers that carry no transform of their own, so it never
+   fights the card hover-lift or the mock parallax. */
+.cgrid, .wlist, .hero__shipped-list {
+  transform: skewY(calc(var(--sv, 0) * 0.28deg));
+  will-change: transform;
 }
 
 /* ── Heading mask reveal ─────────────────────────────────────────────────── */
@@ -217,6 +330,14 @@ body.has-cursor .cursor__ring { opacity: 1; }
 
 /* ── Reduced motion: resolve everything to its final state ───────────────── */
 @media (prefers-reduced-motion: reduce) {
+  /* New-technique kill switches */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+  .cgrid, .wlist, .hero__shipped-list { transform: none !important; }
+  .kw__c { transition: none !important; font-variation-settings: 'wght' 800 !important; }
+  .section-head h2 .mask__inner { animation: none !important; }
+
   .mask__inner { transform: none !important; transition: none !important; }
   .wipe { display: none !important; }
   .progress__bar { transition: none !important; }

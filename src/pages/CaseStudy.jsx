@@ -29,11 +29,12 @@ export default function CaseStudy() {
               <span>{study.index}</span><span>/</span><span>{study.company}</span>
               <span>/</span><span>{study.timeline}</span>
             </div>
-            <MaskLines as="h1" className="cs-hero__title display" lines={[study.title]} />
+            {/* vt-title / vt-mock receive the shared-element morph from the card */}
+            <MaskLines as="h1" className="cs-hero__title display vt-title" lines={[study.title]} />
             <p className="cs-hero__tagline">{study.tagline}</p>
 
             <div className="cs-hero__figure">
-              <Mock kind={study.slug} />
+              <div className="vt-mock"><Mock kind={study.slug} /></div>
               <div className="cs-hero__accent">
                 <span className="cs-hero__accent-val display">
                   <CountUp value={study.accentMetric.value} />

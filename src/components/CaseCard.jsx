@@ -65,10 +65,13 @@ export default function CaseCard({ study, flip = false }) {
     <TransitionLink
       to={`/work/${study.slug}`}
       className={`ccard ${flip ? 'ccard--flip' : ''}`}
+      morph
     >
       {/* cardRef measures the visual panel — that's what parallax/tilt act on */}
       <div className="ccard__visual" ref={cardRef}>
-        <div className="ccard__mockwrap" ref={wrapRef}>
+        {/* data-morph pairs these with the case-study page for the shared-element
+            view transition — the mock and title fly to their new positions. */}
+        <div className="ccard__mockwrap" ref={wrapRef} data-morph="mock">
           <Mock kind={study.slug} />
         </div>
       </div>
@@ -80,7 +83,7 @@ export default function CaseCard({ study, flip = false }) {
           <span className="ccard__time">{study.timeline}</span>
         </div>
 
-        <h3 className="ccard__title display">{study.title}</h3>
+        <h3 className="ccard__title display" data-morph="title">{study.title}</h3>
         <p className="ccard__tagline">{study.tagline}</p>
 
         <div className="ccard__foot">
