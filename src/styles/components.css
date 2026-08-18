@@ -116,28 +116,54 @@
   .lang__opt { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
 }
 
-/* ── Theme toggle ─────────────────────────────────────────────────────────── */
-.theme-toggle {
+/* ── Theme toggle — a literal lamp switch ────────────────────────────────────
+   Light mode = lamp ON (paddle up, accent-lit, soft glow). Dark mode = lamp
+   OFF (paddle down, neutral). State is driven purely by the [aria-checked]
+   attribute React already sets for a11y — no separate JS-toggled class, one
+   source of truth. --spring (defined above) gives the paddle a real
+   flick-and-settle motion a plain ease-out can't produce. */
+.lamp-switch {
   display: inline-flex;
   align-items: center;
-  gap: 0.5em;
+  justify-content: center;
   background: transparent;
-  border: var(--border);
+  border: none;
+  padding: 4px;
+  cursor: pointer;
   border-radius: 2px;
-  padding: 7px 10px;
-  line-height: 1;
-  color: var(--ink-70);
-  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+  transition: transform 0.15s var(--ease);
 }
-.theme-toggle:hover { color: var(--fg); background: var(--bg-2); }
-.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.theme-toggle__dot {
-  width: 7px; height: 7px; border-radius: 50%;
+.lamp-switch:hover { transform: translateY(-1px); }
+.lamp-switch:active .lamp-switch__plate { transform: scale(0.93); }
+.lamp-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.lamp-switch__plate {
+  position: relative;
+  width: 20px;
+  height: 32px;
+  border: var(--border);
+  border-radius: 3px;
+  background: var(--bg-2);
+  transition: box-shadow 0.3s var(--ease), transform 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.lamp-switch[aria-checked='true'] .lamp-switch__plate {
+  box-shadow: 0 0 10px 1px rgba(255, 74, 28, 0.35);
+}
+
+.lamp-switch__paddle {
+  position: absolute;
+  left: 3px; right: 3px; top: 3px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--border-color);
+  transform: translateY(16px); /* off / dark: resting at the bottom of the plate */
+  transition: transform 0.42s var(--spring), background-color 0.2s var(--ease);
+}
+.lamp-switch[aria-checked='true'] .lamp-switch__paddle {
+  transform: translateY(0); /* on / light: flicked to the top */
   background: var(--accent);
-  flex: none;
 }
-@media (max-width: 560px) { .theme-toggle { padding: 7px 8px; font-size: 0.7rem; } }
-@media (pointer: coarse) { .theme-toggle { min-height: 44px; } }
+@media (pointer: coarse) { .lamp-switch { min-width: 44px; min-height: 44px; } }
 
 /* ── Japanese typography ─────────────────────────────────────────────────────
    Japanese has no inter-word spaces, so the tracking that gives the Latin mono

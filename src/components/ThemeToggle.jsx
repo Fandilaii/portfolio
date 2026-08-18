@@ -1,25 +1,29 @@
 import { useTheme } from '../theme/index.jsx'
 
-// A single compact toggle rather than a segmented pair (unlike LangSwitcher):
-// light/dark is inherently a binary flip, not a set of peer choices, so one
-// button showing the current state is the more idiomatic pattern here — and
-// it costs less nav width, which matters since the mobile nav is already
-// tight with LangSwitcher and the Contact button.
+// A literal lamp switch rather than a text pill: light mode = lamp on
+// (paddle up, accent-lit), dark mode = lamp off (paddle down, neutral). Drawn
+// entirely in CSS — no icon import — so it stays inside the same "typographic
+// glyphs and CSS-drawn shapes" system as the rest of the site (nav dot, hero
+// pulse). role="switch" + aria-checked is the correct ARIA pattern for a
+// two-state on/off control, more accurate here than a push-button's
+// aria-pressed.
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
-  const isDark = theme === 'dark'
+  const isLight = theme === 'light'
 
   return (
     <button
       type="button"
-      className="theme-toggle mono-label"
+      role="switch"
+      aria-checked={isLight}
+      className="lamp-switch"
       onClick={toggleTheme}
-      aria-pressed={isDark}
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-label={`Lamp is ${isLight ? 'on' : 'off'} — switch to ${isLight ? 'dark' : 'light'} mode`}
+      title={`Switch to ${isLight ? 'dark' : 'light'} mode`}
     >
-      <span className="theme-toggle__dot" aria-hidden="true" />
-      {isDark ? 'DARK' : 'LIGHT'}
+      <span className="lamp-switch__plate" aria-hidden="true">
+        <span className="lamp-switch__paddle" />
+      </span>
     </button>
   )
 }

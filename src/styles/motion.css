@@ -391,4 +391,5 @@ body.has-cursor .cursor__ring { opacity: 1; }
   .mk-progress span { transform: scaleX(1) !important; animation: none !important; }
   .mk-check { transform: scale(1) !important; animation: none !important; }
   .fchar { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .lamp-switch, .lamp-switch__plate, .lamp-switch__paddle { transition: none !important; }
 }
