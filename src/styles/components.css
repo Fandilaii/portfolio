@@ -7,17 +7,17 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: var(--border);
 }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .nav__brand { display: inline-flex; align-items: center; gap: 0.6em; }
-.nav__dot { width: 10px; height: 10px; background: var(--accent); border: 1.5px solid var(--ink); border-radius: 50%; }
+.nav__dot { width: 10px; height: 10px; background: var(--accent); border: 1.5px solid var(--border-color); border-radius: 50%; }
 .nav__links { display: flex; align-items: center; gap: clamp(0.9rem, 2.5vw, 2rem); }
 .nav__links a { position: relative; padding: 4px 0; transition: color 0.2s var(--ease); }
 .nav__links a:not(.nav__cta)::after {
-  content: ''; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0; background: var(--ink);
+  content: ''; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0; background: var(--fg);
   transition: width 0.3s var(--ease);
 }
 .nav__links a:not(.nav__cta):hover::after { width: 100%; }
@@ -107,7 +107,7 @@
   transition: background 0.2s var(--ease), color 0.2s var(--ease);
 }
 .lang__opt:first-child { border-left: none; }
-.lang__opt:hover { color: var(--ink); background: var(--paper-2); }
+.lang__opt:hover { color: var(--fg); background: var(--bg-2); }
 .lang__opt--on { background: var(--ink); color: var(--paper); }
 .lang__opt:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 @media (max-width: 560px) { .lang__opt { padding: 7px 8px; font-size: 0.7rem; } }
@@ -115,6 +115,29 @@
 @media (pointer: coarse) {
   .lang__opt { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
 }
+
+/* ── Theme toggle ─────────────────────────────────────────────────────────── */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  background: transparent;
+  border: var(--border);
+  border-radius: 2px;
+  padding: 7px 10px;
+  line-height: 1;
+  color: var(--ink-70);
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.theme-toggle:hover { color: var(--fg); background: var(--bg-2); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.theme-toggle__dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+@media (max-width: 560px) { .theme-toggle { padding: 7px 8px; font-size: 0.7rem; } }
+@media (pointer: coarse) { .theme-toggle { min-height: 44px; } }
 
 /* ── Japanese typography ─────────────────────────────────────────────────────
    Japanese has no inter-word spaces, so the tracking that gives the Latin mono
@@ -200,7 +223,11 @@
 
 .hero__lede { max-width: 46ch; margin-left: auto; }
 .hero__intro { font-size: var(--fs-body-lg); line-height: 1.5; font-weight: 500; }
-.hero__hl { background: var(--accent); box-shadow: 0 0 0 4px var(--accent); }
+/* color is pinned to --accent-ink (fixed, never swaps): this sits on the
+   fixed --accent fill, so it must not inherit the theme-swapping --fg — in
+   dark mode that would put light cream text on vermillion at 2.78:1, failing
+   WCAG outright. */
+.hero__hl { background: var(--accent); box-shadow: 0 0 0 4px var(--accent); color: var(--accent-ink); }
 
 /* Actions — one primary, one direct-contact */
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1.75rem; }
@@ -213,7 +240,7 @@
               background 0.25s var(--ease), color 0.25s var(--ease);
 }
 .btn--primary { background: var(--ink); color: var(--paper); }
-.btn--primary:hover { background: var(--accent); color: var(--accent-ink); transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--ink); }
+.btn--primary:hover { background: var(--accent); color: var(--accent-ink); transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--border-color); }
 .btn--ghost { background: transparent; text-transform: none; letter-spacing: 0.02em; }
 .btn--ghost:hover { background: var(--ink); color: var(--paper); transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--accent); }
 .btn__arrow { transition: transform 0.25s var(--ease); }
@@ -234,7 +261,7 @@
   color: var(--ink-70);
   transition: color 0.25s var(--ease);
 }
-.hero__shipped-item:hover { color: var(--ink); }
+.hero__shipped-item:hover { color: var(--fg); }
 
 @media (prefers-reduced-motion: reduce) {
   .kw__c { opacity: 1; transform: none; animation: none; }
@@ -256,7 +283,9 @@
 }
 
 /* ── Marquee ─────────────────────────────────────────────────────────────── */
-.marquee { overflow: hidden; background: var(--ink); color: var(--paper); padding-block: 0.75rem; position: relative; z-index: 2; white-space: nowrap; }
+/* Fixed var(--ink)/var(--paper) — see the note on .cs-impact above; same
+   reasoning, same defensive borders for the dark-mode seam on both edges. */
+.marquee { overflow: hidden; background: var(--ink); color: var(--paper); border-block: var(--border); padding-block: 0.75rem; position: relative; z-index: 2; white-space: nowrap; }
 .marquee__track { display: inline-flex; gap: 0; animation: marquee 32s linear infinite; will-change: transform; }
 .marquee:hover .marquee__track { animation-play-state: paused; }
 .marquee__item { font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.9rem; display: inline-flex; align-items: center; }
@@ -270,20 +299,20 @@
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   border: var(--border);
-  background: var(--paper);
+  background: var(--bg);
   overflow: hidden;
   transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
-.ccard:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--ink); }
+.ccard:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--border-color); }
 .ccard--flip { grid-template-columns: 1.1fr 0.9fr; }
 .ccard--flip .ccard__visual { order: 2; border-left: var(--border); border-right: none; }
 .ccard__visual {
   border-right: var(--border);
-  background: var(--paper-2);
+  background: var(--bg-2);
   display: flex; align-items: center; justify-content: center;
   padding: clamp(1.5rem, 4vw, 3rem);
   min-height: 340px;
-  background-image: radial-gradient(rgba(11,11,11,0.06) 1.2px, transparent 1.2px);
+  background-image: radial-gradient(rgba(var(--grain-rgb), 0.06) 1.2px, transparent 1.2px);
   background-size: 14px 14px;
 }
 .ccard__body { padding: clamp(1.5rem, 3.5vw, 2.75rem); display: flex; flex-direction: column; }
@@ -310,13 +339,19 @@
 }
 
 /* ── Mock phone ──────────────────────────────────────────────────────────── */
+/* The mock's own border is pinned to a literal fixed-ink 3px/1.5px rule rather
+   than the shared --border-thick/--border tokens: it draws a screenshot of a
+   light-mode phone UI, which should look identical in both site themes, the
+   same way a photograph doesn't recolor itself when the page around it does.
+   Every other var(--ink)/var(--paper) inside .mock and .mk- below is the same
+   deliberate choice and stays untouched for the same reason. */
 .mock {
   width: 214px; max-width: 62vw; aspect-ratio: 214 / 402;
-  background: var(--paper); border: var(--border-thick); border-radius: 26px;
+  background: var(--paper); border: 3px solid var(--ink); border-radius: 26px;
   padding: 12px; position: relative; box-shadow: 6px 6px 0 rgba(11,11,11,0.12);
 }
 .mock__notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 58px; height: 6px; background: var(--ink); border-radius: 4px; z-index: 2; }
-.mock__screen { height: 100%; border: var(--border); border-radius: 16px; padding: 20px 12px 12px; overflow: hidden; display: flex; flex-direction: column; gap: 8px; background: var(--paper); }
+.mock__screen { height: 100%; border: 1.5px solid var(--ink); border-radius: 16px; padding: 20px 12px 12px; overflow: hidden; display: flex; flex-direction: column; gap: 8px; background: var(--paper); }
 .mk-bar { display: block; background: var(--ink); border-radius: 2px; opacity: 0.85; }
 .mk-bar--accent { background: var(--accent); opacity: 1; }
 .mk-row { display: flex; align-items: center; gap: 8px; }
@@ -399,7 +434,7 @@
   vertical-align: middle;
 }
 .wrow__link { display: block; margin-top: 0.6rem; color: var(--accent-deep); }
-.wrow:hover, .wrow:focus-visible { padding-left: 1.25rem; background: var(--paper-2); outline: none; }
+.wrow:hover, .wrow:focus-visible { padding-left: 1.25rem; background: var(--bg-2); outline: none; }
 .wrow__role { color: var(--ink-70); font-size: 0.95rem; }
 .wrow__company { font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1; }
 .wrow__dates { color: var(--ink-45); }
@@ -421,7 +456,9 @@
 .edu__note { color: var(--ink-70); margin-top: 0.5rem; }
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */
-.footer { background: var(--ink); color: var(--paper); padding-block: clamp(4rem, 9vw, 8rem); position: relative; z-index: 2; margin-top: clamp(3rem, 7vw, 6rem); }
+/* Fixed var(--ink)/var(--paper) — see the note on .cs-impact above; same
+   reasoning, same defensive border-top for the dark-mode seam. */
+.footer { background: var(--ink); color: var(--paper); border-top: var(--border); padding-block: clamp(4rem, 9vw, 8rem); position: relative; z-index: 2; margin-top: clamp(3rem, 7vw, 6rem); }
 .footer__eyebrow { color: var(--accent); }
 .footer__cta { display: inline-block; font-size: var(--fs-hero); text-transform: uppercase; line-height: 0.85; margin: 1.5rem 0 clamp(2.5rem, 6vw, 5rem); transition: transform 0.35s var(--ease); }
 .footer__cta:hover { transform: skewX(-5deg); }
@@ -440,7 +477,7 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 /* ── Case study page ─────────────────────────────────────────────────────── */
 .cs-hero { padding-top: clamp(2rem, 5vw, 4rem); padding-bottom: clamp(2rem, 5vw, 3rem); border-bottom: var(--border); }
 .cs-back { display: inline-block; margin-bottom: 2rem; color: var(--ink-70); }
-.cs-back:hover { color: var(--ink); }
+.cs-back:hover { color: var(--fg); }
 .cs-hero__meta { display: flex; gap: 0.6rem; color: var(--ink-70); margin-bottom: 1.25rem; }
 .cs-hero__title { font-size: var(--fs-display); max-width: 16ch; }
 .cs-hero__tagline { font-size: var(--fs-body-lg); color: var(--ink-70); max-width: 52ch; margin-top: 1.25rem; }
@@ -463,14 +500,20 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 @media (max-width: 780px) { .cs-pa { grid-template-columns: 1fr; gap: 2.5rem; } }
 
 .cs-solutions { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.cs-sol { border: var(--border); padding: clamp(1.5rem, 3vw, 2.25rem); background: var(--paper); transition: background 0.3s var(--ease); }
-.cs-sol:hover { background: var(--paper-2); }
+.cs-sol { border: var(--border); padding: clamp(1.5rem, 3vw, 2.25rem); background: var(--bg); transition: background 0.3s var(--ease); }
+.cs-sol:hover { background: var(--bg-2); }
 .cs-sol__num { font-size: 1.1rem; color: var(--accent-deep); }
 .cs-sol__head { font-size: var(--fs-h3); margin-top: 0.75rem; line-height: 1.05; }
 .cs-sol__body { color: var(--ink-70); margin-top: 0.85rem; font-size: 1.05rem; }
 @media (max-width: 680px) { .cs-solutions { grid-template-columns: 1fr; } }
 
-.cs-impact { background: var(--ink); color: var(--paper); padding-block: clamp(3.5rem, 8vw, 6.5rem); position: relative; z-index: 2; }
+/* Deliberately fixed var(--ink)/var(--paper), not --bg/--fg: this band is
+   meant to read as the darkest thing on the page regardless of site theme,
+   same as .footer and .marquee. In dark mode --bg sits only slightly lighter
+   than --ink (a believable but soft step, by design — see tokens.css), so a
+   hairline border-top guarantees a visible seam even where the fill contrast
+   alone would be subtle. */
+.cs-impact { background: var(--ink); color: var(--paper); border-top: var(--border); padding-block: clamp(3.5rem, 8vw, 6.5rem); position: relative; z-index: 2; }
 .cs-impact .cs-kicker { color: var(--accent); -webkit-text-stroke: 0; }
 .cs-impact__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; }
 .cs-impact__cell { border-left: 1.5px solid rgba(245,242,234,0.3); padding-left: 1.25rem; }
@@ -478,8 +521,10 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 .cs-impact__label { color: rgba(245,242,234,0.6); display: block; margin-top: 0.85rem; max-width: 22ch; line-height: 1.4; }
 .cs-closing { margin-top: clamp(2.5rem, 5vw, 3.5rem); font-size: var(--fs-body-lg); max-width: 60ch; color: rgba(245,242,234,0.85); font-family: var(--font-display); font-weight: 500; }
 
-.cs-next { display: block; border-top: var(--border-thick); background: var(--paper); transition: background 0.3s var(--ease); position: relative; z-index: 2; }
-.cs-next:hover { background: var(--accent); }
+.cs-next { display: block; border-top: var(--border-thick); background: var(--bg); transition: background 0.3s var(--ease); position: relative; z-index: 2; }
+/* color pinned fixed, same reasoning as .hero__hl: this sits on the fixed
+   --accent fill, so it must not inherit the theme-swapping --fg. */
+.cs-next:hover { background: var(--accent); color: var(--accent-ink); }
 .cs-next__inner { padding-block: clamp(2.5rem, 6vw, 4.5rem); display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
 .cs-next__title { font-size: var(--fs-h2); flex: 1; min-width: 60%; line-height: 1; }
 .cs-next__arrow { font-size: var(--fs-h2); transition: transform 0.3s var(--ease); }

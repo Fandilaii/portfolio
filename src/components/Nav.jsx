@@ -2,11 +2,13 @@ import { onSectionClick } from '../lib/scrollToSection.js'
 import { TransitionLink } from '../lib/transitionNav.jsx'
 import useScrollMetrics from '../hooks/useScrollMetrics.js'
 import LangSwitcher from './LangSwitcher.jsx'
+import ThemeToggle from './ThemeToggle.jsx'
 import { useT } from '../i18n/index.jsx'
 
-// Fixed top bar. Section links call scrollToSection rather than setting the
-// hash — under HashRouter the hash is the route, so `href="#work"` would blank
-// the page.
+// Fixed top bar. Section links call scrollToSection rather than a real href —
+// under BrowserRouter a bare `#work` anchor would still work, but routing it
+// through scrollToSection keeps behaviour identical whether the link fires
+// from the home page or (via TransitionLink) after navigating back to it.
 export default function Nav({ variant = 'home' }) {
   const { profile, ui } = useT()
   const { direction, atTop } = useScrollMetrics()
@@ -30,12 +32,14 @@ export default function Nav({ variant = 'home' }) {
               <a href="#work" onClick={onSectionClick('work')}>{ui.nav.work}</a>
               <a href="#index" onClick={onSectionClick('index')}>{ui.nav.resume}</a>
               <a href="#about" onClick={onSectionClick('about')}>{ui.nav.about}</a>
+              <ThemeToggle />
               <LangSwitcher />
               <a href="#contact" onClick={onSectionClick('contact')} className="nav__cta">{ui.nav.contact}</a>
             </>
           ) : (
             <>
               <TransitionLink to="/" state={{ scrollTo: 'work' }}>{ui.nav.allWork}</TransitionLink>
+              <ThemeToggle />
               <LangSwitcher />
               <a href={`mailto:${profile.email}`} className="nav__cta">{ui.nav.email}</a>
             </>

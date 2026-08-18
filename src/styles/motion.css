@@ -232,7 +232,7 @@
 }
 .cursor__ring {
   width: 34px; height: 34px;
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid var(--border-color);
   margin: -17px 0 0 -17px;
   transition: opacity 0.25s var(--ease), width 0.25s var(--ease),
               height 0.25s var(--ease), margin 0.25s var(--ease),

@@ -9,6 +9,7 @@ import Cursor from './components/Cursor.jsx'
 import ScrollProgress from './components/ScrollProgress.jsx'
 import { TransitionProvider } from './lib/transitionNav.jsx'
 import { LocaleProvider } from './i18n/index.jsx'
+import { ThemeProvider } from './theme/index.jsx'
 import LangGate from './components/LangGate.jsx'
 
 // BrowserRouter gives clean paths (/work/finku-fingpt). Deep links survive on
@@ -17,6 +18,7 @@ import LangGate from './components/LangGate.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ThemeProvider>
       <LocaleProvider>
       <LangGate />
       <TransitionProvider>
@@ -29,6 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </Routes>
       </TransitionProvider>
       </LocaleProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 )

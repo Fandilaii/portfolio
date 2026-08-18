@@ -2,20 +2,40 @@
    The whole system lives here. Expressive brutalist, but LOCKED:
    two type families + one mono, one accent, a small fixed type scale.
    Craft, not chaos.
+
+   Dark mode: --ink and --paper are FIXED brand anchors and never swap — they
+   stay literal across both themes because dozens of self-contained elements
+   (buttons, badges, the phone mockups, the language gate, the route-transition
+   wipe) are deliberately drawn as "always dark ink on always light paper"
+   regardless of site theme, the same way a photograph doesn't change tone when
+   the page around it does. What DOES swap is a second, smaller set of
+   semantic tokens — --bg/--fg/--bg-2/--border-color/--accent-deep — which only
+   the page canvas and generic structural chrome read from.
 */
 :root {
-  /* Palette — paper / ink / one loud accent */
+  /* Palette — paper / ink / one loud accent. Fixed in both themes. */
   --paper: #f5f2ea;
-  --paper-2: #ece7da;   /* recessed panels */
+  --paper-2: #ece7da;   /* recessed panels, light mode */
   --ink: #0b0b0b;
-  --ink-70: rgba(11, 11, 11, 0.7);
-  --ink-45: rgba(11, 11, 11, 0.45);
-  --accent: #ff4a1c;    /* hot vermillion — the single identity color */
+  --accent: #ff4a1c;    /* hot vermillion — the single identity color, never swaps */
   --accent-ink: #0b0b0b;
+
+  /* ── Theme-aware layer (light defaults) ──────────────────────────────────
+     --grain-rgb is an r,g,b triplet (not a color) so the paper-grain texture
+     can be rebuilt as rgba(var(--grain-rgb), alpha) in either theme. */
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --bg-2: var(--paper-2);
+  --border-color: var(--ink);
+  --grain-rgb: 11, 11, 11;
+  --fg-rgb: 11, 11, 11;
   /* Deepened vermillion for ACCENT TEXT ON PAPER only.
      Pure --accent is 3.0:1 on paper (fails WCAG AA); this is 5.0:1.
      Pure --accent stays correct for fills and for text on ink (5.9:1). */
   --accent-deep: #c2320d;
+  --ink-70: rgba(var(--fg-rgb), 0.7);
+  --ink-45: rgba(var(--fg-rgb), 0.45);
+  color-scheme: light;
 
   /* Fonts. Noto Sans JP is appended to every stack: the Latin faces have no
      CJK glyphs, so without it Japanese would drop to an arbitrary system font
@@ -34,12 +54,50 @@
   --fs-body: 1.0625rem;
   --fs-label: 0.78rem;     /* mono, uppercase, tracked */
 
-  /* Structure */
-  --border: 1.5px solid var(--ink);
-  --border-thick: 3px solid var(--ink);
+  /* Structure. Built from --border-color so page chrome (nav, section
+     dividers, card outlines) flips with theme automatically. The phone
+     mockups deliberately opt back OUT of this with an explicit fixed-ink
+     override in components.css — see the note there. */
+  --border: 1.5px solid var(--border-color);
+  --border-thick: 3px solid var(--border-color);
   --maxw: 1360px;
   --gutter: clamp(1.25rem, 5vw, 4rem);
 
   /* Motion */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Dark theme ────────────────────────────────────────────────────────────
+   Two layers carrying identical values, on purpose:
+   1. @media (prefers-color-scheme: dark), guarded by :not([data-theme="light"])
+      — applies automatically for a system-dark visitor who has never touched
+      the toggle. Pure CSS, resolves at first paint, zero flash, zero JS.
+   2. :root[data-theme="dark"] — applies once ThemeToggle sets the attribute,
+      overriding system preference either direction. The tiny inline script in
+      index.html sets this attribute before first paint when a choice was
+      already stored, so returning visitors never see a flash either.
+   Colors keep --paper/--paper-2/--ink family's warm undertone rather than
+   introducing an unrelated grey, so the theme reads as "the same brand, lit
+   differently" rather than a different site. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #1c1812;
+    --fg: #efe9dc;
+    --bg-2: #26211a;
+    --border-color: var(--fg);
+    --grain-rgb: 245, 242, 234;
+    --fg-rgb: 239, 233, 220;
+    --accent-deep: var(--accent); /* 5.3:1 on --bg — no deepening needed */
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #1c1812;
+  --fg: #efe9dc;
+  --bg-2: #26211a;
+  --border-color: var(--fg);
+  --grain-rgb: 245, 242, 234;
+  --fg-rgb: 239, 233, 220;
+  --accent-deep: var(--accent);
+  color-scheme: dark;
 }

@@ -3,6 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Anti-flash: if the visitor has an explicit stored theme choice, apply
+      // it before first paint. A system-preferred (never explicitly chosen)
+      // dark theme needs no JS at all — tokens.css handles that with a pure
+      // @media(prefers-color-scheme) rule. This blocking, non-module script
+      // only covers the case CSS can't: an explicit choice that overrides the
+      // current system preference.
+      try {
+        var t = localStorage.getItem('fl-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
     <title>Fandi Lai — Senior Product Designer (Fintech &amp; Digital Banking), Jakarta</title>
     <meta
       name="description"
