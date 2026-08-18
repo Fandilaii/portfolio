@@ -5,13 +5,17 @@ import { useEffect, useRef, useState } from 'react'
 // avoids stacking handlers that each force layout on every scroll event.
 //
 // Returns: progress 0..1, direction 'up' | 'down', velocity (px/frame, signed),
-// and atTop.
+// atTop, and the raw y scroll position (for consumers like BackToTop that
+// need an absolute px threshold rather than a document-relative fraction —
+// `progress` alone would show/hide inconsistently between a long home page
+// and a much shorter case-study page).
 export default function useScrollMetrics() {
   const [metrics, setMetrics] = useState({
     progress: 0,
     direction: 'up',
     velocity: 0,
     atTop: true,
+    y: 0,
   })
   const lastY = useRef(0)
   const ticking = useRef(false)
@@ -30,7 +34,7 @@ export default function useScrollMetrics() {
         const progress = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0
         // Ignore sub-pixel jitter when deciding direction.
         const direction = Math.abs(delta) < 1 ? prev.direction : delta > 0 ? 'down' : 'up'
-        return { progress, direction, velocity: delta, atTop: y < 8 }
+        return { progress, direction, velocity: delta, atTop: y < 8, y }
       })
     }
 

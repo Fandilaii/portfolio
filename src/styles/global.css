@@ -76,7 +76,7 @@ ul { list-style: none; padding: 0; }
   margin-bottom: clamp(2rem, 5vw, 4rem);
   flex-wrap: wrap;
 }
-.section-head h2 { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: 800; line-height: 0.95; letter-spacing: -0.02em; }
+.section-head h2 { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: 800; line-height: 0.95; letter-spacing: -0.02em; text-wrap: balance; }
 .section-head .idx { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.16em; margin-left: auto; opacity: 0.6; }
 
 /* Scroll reveal */

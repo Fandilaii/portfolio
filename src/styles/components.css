@@ -230,6 +230,9 @@
   line-height: 1.1;
   margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
   max-width: 20ch;
+  /* "Senior Product Designer" alone exceeds 20ch on phones and wraps inside
+     the mask reveal — balance picks a sane break instead of an orphan word. */
+  text-wrap: balance;
 }
 /* Second line (the domain) is muted and led by a short accent rule. Both lines
    are mask-revealed, so the rule rides inside the clipping box with the text. */
@@ -497,6 +500,52 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 .footer__ext { color: var(--accent); }
 .footer__base { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; color: rgba(245,242,234,0.5); }
 .footer__top:hover { color: var(--accent); }
+/* ── Floating back-to-top ────────────────────────────────────────────────────
+   Fixed bottom-right, fades in past ~1 screen of scroll (driven by JS via the
+   --visible class, not CSS alone, since "one screen" needs the real viewport
+   height). Hover lift + hard offset shadow matches the same interaction
+   language as .ccard/.btn rather than inventing a new one. */
+.back-to-top {
+  position: fixed;
+  right: clamp(1rem, 4vw, 2rem);
+  bottom: clamp(1rem, 4vw, 2rem);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: var(--border);
+  color: var(--fg);
+  opacity: 0;
+  transform: translateY(12px) scale(0.9);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease),
+              background 0.2s var(--ease), color 0.2s var(--ease),
+              border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.back-to-top--visible { opacity: 1; transform: none; pointer-events: auto; }
+.back-to-top--visible:hover, .back-to-top--visible:focus-visible {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  transform: translate(-3px, -3px);
+  box-shadow: 4px 4px 0 var(--border-color);
+}
+.back-to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.back-to-top__arrow {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-1px); /* optical centering of the glyph in the circle */
+}
+@media (max-width: 480px) {
+  .back-to-top { width: 44px; height: 44px; }
+}
+
 @media (max-width: 720px) { .footer__rails { grid-template-columns: 1fr 1fr; gap: 1.5rem 1rem; } }
 @media (max-width: 420px) { .footer__rails { grid-template-columns: 1fr; } }
 
@@ -505,7 +554,9 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 .cs-back { display: inline-block; margin-bottom: 2rem; color: var(--ink-70); }
 .cs-back:hover { color: var(--fg); }
 .cs-hero__meta { display: flex; gap: 0.6rem; color: var(--ink-70); margin-bottom: 1.25rem; }
-.cs-hero__title { font-size: var(--fs-display); max-width: 16ch; }
+/* Case-study titles pass through MaskLines as a single line and wrap on
+   every phone against this max-width — balance keeps the break sane. */
+.cs-hero__title { font-size: var(--fs-display); max-width: 16ch; text-wrap: balance; }
 .cs-hero__tagline { font-size: var(--fs-body-lg); color: var(--ink-70); max-width: 52ch; margin-top: 1.25rem; }
 .cs-hero__figure { margin-top: clamp(2.5rem, 6vw, 4rem); display: flex; align-items: center; gap: clamp(2rem, 6vw, 5rem); flex-wrap: wrap; justify-content: center; }
 .cs-hero__accent { text-align: center; }
@@ -552,6 +603,6 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
    --accent fill, so it must not inherit the theme-swapping --fg. */
 .cs-next:hover { background: var(--accent); color: var(--accent-ink); }
 .cs-next__inner { padding-block: clamp(2.5rem, 6vw, 4.5rem); display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-.cs-next__title { font-size: var(--fs-h2); flex: 1; min-width: 60%; line-height: 1; }
+.cs-next__title { font-size: var(--fs-h2); flex: 1; min-width: 60%; line-height: 1; text-wrap: balance; }
 .cs-next__arrow { font-size: var(--fs-h2); transition: transform 0.3s var(--ease); }
 .cs-next:hover .cs-next__arrow { transform: translateX(12px); }
