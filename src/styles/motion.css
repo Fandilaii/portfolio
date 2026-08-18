@@ -393,4 +393,5 @@ body.has-cursor .cursor__ring { opacity: 1; }
   .fchar { opacity: 1 !important; transform: none !important; transition: none !important; }
   .lamp-switch, .lamp-switch__plate, .lamp-switch__paddle { transition: none !important; }
   .back-to-top { transition: none !important; }
+  .nav__toggle-bar, .nav__links { transition: none !important; }
 }

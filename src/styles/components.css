@@ -23,7 +23,66 @@
 .nav__links a:not(.nav__cta):hover::after { width: 100%; }
 .nav__cta { background: var(--ink); color: var(--paper); padding: 8px 14px !important; border-radius: 2px; }
 .nav__cta:hover { background: var(--accent); color: var(--accent-ink); }
-@media (max-width: 620px) { .nav__links a[href="#about"], .nav__links a[href="#index"] { display: none; } }
+.nav__utility { display: flex; align-items: center; gap: clamp(0.9rem, 2.5vw, 2rem); }
+/* Résumé/About only need hiding in the cramped inline row (451–620px) — below
+   450px they reappear inside the dropdown, which has room for everything. */
+@media (max-width: 620px) and (min-width: 451px) {
+  .nav__links a[href="#about"], .nav__links a[href="#index"] { display: none; }
+}
+
+/* ── Mobile nav: hamburger + dropdown, below 450px only ──────────────────────
+   .nav__links is the SAME container used on desktop — CSS relayouts it into a
+   collapsible column rather than duplicating the links/ThemeToggle/LangSwitcher
+   for mobile, so there is only ever one instance of each to keep in sync. */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.nav__toggle-bar {
+  display: block;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 1px;
+  transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+}
+/* Bars morph into an X — driven off the button's own aria-expanded, the same
+   single-source-of-truth pattern .lamp-switch uses with aria-checked. */
+.nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-child(2) { opacity: 0; }
+.nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 450px) {
+  .nav__toggle { display: flex; }
+
+  .nav__links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--bg);
+    border-bottom: var(--border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s var(--ease);
+  }
+  .nav__links--open { max-height: 420px; overflow-y: auto; }
+  .nav__links a:not(.nav__cta) { padding: 14px var(--gutter); min-height: 44px; display: flex; align-items: center; }
+  .nav__links a:not(.nav__cta)::after { display: none; } /* the underline-on-hover reads oddly full-width; the row itself is the hit target */
+  .nav__links a[href="#about"], .nav__links a[href="#index"] { display: flex; } /* undo the 451–620px hide rule */
+  .nav__utility { padding: 10px var(--gutter); border-top: var(--border); justify-content: flex-start; gap: 1rem; }
+  .nav__cta { margin: 10px var(--gutter) 14px; text-align: center; padding: 14px !important; }
+}
 
 /* ── First-visit language gate ───────────────────────────────────────────── */
 .gate {
