@@ -101,7 +101,7 @@ export default function CaseStudy() {
                 <Reveal className="cs-impact__cell" key={idx} delay={idx * 70}>
                   <span className="cs-impact__val display">
                     <CountUp value={m.value} />
-                    {m.suffix && <span className="accent">{m.suffix}</span>}
+                    {m.suffix && <span className="cs-impact__suffix accent">{m.suffix}</span>}
                   </span>
                   <span className="cs-impact__label mono-label">{m.label}</span>
                 </Reveal>

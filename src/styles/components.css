@@ -358,10 +358,20 @@
 
 .hero__stats { margin-top: clamp(3rem, 7vw, 6rem); border-top: var(--border-thick); border-bottom: var(--border); }
 .hero__stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-.hero__stat { padding: clamp(1.5rem, 4vw, 2.75rem) 0; border-left: var(--border); padding-left: clamp(1rem, 2.5vw, 2rem); }
+/* container-type so .hero__stat-val can size off the ACTUAL column width
+   (cqw) rather than the viewport (vw) — the two diverge exactly where it
+   matters here: "3.2 → 4.5★" is much longer than "245%" or "7+", and a
+   vw-based size that fit the short values in a 3-column row overflowed the
+   long one onto a wrapped second line, which also threw the accent-rule
+   below it out of alignment with the other two columns. */
+.hero__stat { container-type: inline-size; padding: clamp(1.5rem, 4vw, 2.75rem) 0; border-left: var(--border); padding-left: clamp(1rem, 2.5vw, 2rem); }
 .hero__stat:first-child { border-left: none; padding-left: 0; }
-.hero__stat-val { font-size: clamp(2.4rem, 6.5vw, 5rem); line-height: 0.9; }
-.hero__stat-suffix { font-size: 0.5em; vertical-align: super; }
+.hero__stat-val { font-size: clamp(2.4rem, 13cqw, 5rem); line-height: 0.9; white-space: nowrap; }
+/* 0.4em, not the 0.18em .hero__reg uses for its ® mark — a star needs to
+   stay legible as a rating symbol — but a filled glyph still carries far
+   more visual ink than a numeral at the same size, so it needs to sit well
+   below the "co-equal with the number" weight 0.5em was giving it. */
+.hero__stat-suffix { font-size: 0.4em; vertical-align: super; margin-left: 0.05em; }
 .hero__stat-label { color: var(--ink-70); margin-top: 0.85rem; display: block; max-width: 22ch; letter-spacing: 0.1em; line-height: 1.4; }
 @media (max-width: 720px) {
   .hero__stats-grid { grid-template-columns: 1fr; }
@@ -652,8 +662,14 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 .cs-impact { background: var(--ink); color: var(--paper); border-top: var(--border); padding-block: clamp(3.5rem, 8vw, 6.5rem); position: relative; z-index: 2; }
 .cs-impact .cs-kicker { color: var(--accent); -webkit-text-stroke: 0; }
 .cs-impact__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; }
-.cs-impact__cell { border-left: 1.5px solid rgba(245,242,234,0.3); padding-left: 1.25rem; }
-.cs-impact__val { font-size: clamp(2.6rem, 6vw, 4.5rem); line-height: 0.9; display: block; }
+/* Same fix as .hero__stat: cqw-sized off the actual cell width rather than
+   the viewport, so a long arrow-form value like "3.2 → 4.5★" can't wrap and
+   throw its row out of alignment with the other impact cells. */
+.cs-impact__cell { container-type: inline-size; border-left: 1.5px solid rgba(245,242,234,0.3); padding-left: 1.25rem; }
+.cs-impact__val { font-size: clamp(2.6rem, 13cqw, 4.5rem); line-height: 0.9; display: block; white-space: nowrap; }
+/* This suffix previously had no size rule at all — it rendered at full
+   number height. See the note on .hero__stat-suffix for the 0.4em reasoning. */
+.cs-impact__suffix { font-size: 0.4em; vertical-align: super; margin-left: 0.05em; }
 .cs-impact__label { color: rgba(245,242,234,0.6); display: block; margin-top: 0.85rem; max-width: 22ch; line-height: 1.4; }
 .cs-closing { margin-top: clamp(2.5rem, 5vw, 3.5rem); font-size: var(--fs-body-lg); max-width: 60ch; color: rgba(245,242,234,0.85); font-family: var(--font-display); font-weight: 500; }
 
