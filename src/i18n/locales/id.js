@@ -48,6 +48,7 @@ export const ui = {
     readCase: 'Baca studi kasus →',
     education: 'Pendidikan',
   },
+  side: { eyebrow: 'Di luar jam kerja', heading: ['Proyek', 'sampingan'], idx: '04 — MAIN', cta: 'Mainkan panduannya' },
   footer: {
     eyebrow: 'Punya masalah rumit di layar kecil?',
     cta: ['Mari', 'bicara.'],
@@ -195,3 +196,14 @@ export const education = {
   years: '2014 – 2018',
   note: 'HCI, Algoritma',
 }
+
+export const sideProjects = [
+  {
+    href: '/mahjong_101/',
+    tag: 'Proyek sampingan',
+    meta: 'Panduan interaktif · Bahasa Inggris',
+    title: 'Mahjong 101',
+    tagline: 'Panduan bergaya game yang mengajarkan mahjong untuk anak usia 7 tahun ke atas. 10 level, kuis, bintang, dan trofi.',
+    metric: { value: '10', label: 'Level menuju Mahjong Master' },
+  },
+]

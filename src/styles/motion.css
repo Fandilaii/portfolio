@@ -394,4 +394,5 @@ body.has-cursor .cursor__ring { opacity: 1; }
   .lamp-switch, .lamp-switch__plate, .lamp-switch__paddle { transition: none !important; }
   .back-to-top { transition: none !important; }
   .nav__toggle-bar, .nav__links { transition: none !important; }
+  .sp-tile { transition: none !important; }
 }

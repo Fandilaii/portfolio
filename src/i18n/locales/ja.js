@@ -47,6 +47,7 @@ export const ui = {
     readCase: 'ケースを読む →',
     education: '学歴',
   },
+  side: { eyebrow: '仕事の外で', heading: ['サイド', 'プロジェクト'], idx: '04 — 遊び', cta: 'ガイドで遊ぶ' },
   footer: {
     eyebrow: '小さな画面に、難しい課題がありますか？',
     cta: ['話し', 'ましょう。'],
@@ -194,3 +195,14 @@ export const education = {
   years: '2014年 – 2018年',
   note: 'HCI, アルゴリズム',
 }
+
+export const sideProjects = [
+  {
+    href: '/mahjong_101/',
+    tag: 'サイドプロジェクト',
+    meta: 'インタラクティブガイド · 英語',
+    title: 'Mahjong 101',
+    tagline: '7歳以上の子どもに、ゲーム感覚で麻雀を教えるガイド。10のレベル、クイズ、スター、トロフィー付き。',
+    metric: { value: '10', label: 'マスターまでのレベル' },
+  },
+]

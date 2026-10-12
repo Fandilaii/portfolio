@@ -45,6 +45,7 @@ export const ui = {
     readCase: 'Read the case →',
     education: 'Education',
   },
+  side: { eyebrow: 'Off the clock', heading: ['Side', 'projects'], idx: '04 — PLAY', cta: 'Play the guide' },
   footer: {
     eyebrow: 'Got a hard problem on a small screen?',
     cta: ['Let’s', 'talk.'],
@@ -192,3 +193,16 @@ export const education = {
   years: '2014 – 2018',
   note: 'HCI, Algorithms',
 }
+
+// Personal projects outside client work. `href` is a standalone static page
+// under public/, so it's a full page load, not a router route.
+export const sideProjects = [
+  {
+    href: '/mahjong_101/',
+    tag: 'Side project',
+    meta: 'Interactive web guide',
+    title: 'Mahjong 101',
+    tagline: 'A game-style guide that teaches mahjong to kids aged 7 and up. 10 levels, a quiz, stars and trophies.',
+    metric: { value: '10', label: 'Levels to Mahjong Master' },
+  },
+]

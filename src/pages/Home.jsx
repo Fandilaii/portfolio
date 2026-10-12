@@ -6,6 +6,7 @@ import Marquee from '../components/Marquee.jsx'
 import SelectedWork from '../components/SelectedWork.jsx'
 import About from '../components/About.jsx'
 import WorkIndex from '../components/WorkIndex.jsx'
+import SideProject from '../components/SideProject.jsx'
 import Footer from '../components/Footer.jsx'
 import { useT } from '../i18n/index.jsx'
 
@@ -29,6 +30,7 @@ export default function Home() {
         <SelectedWork />
         <About />
         <WorkIndex />
+        <SideProject />
       </main>
       <Footer />
     </>
