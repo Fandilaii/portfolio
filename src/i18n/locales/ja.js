@@ -22,14 +22,14 @@ export const profile = {
 export const ui = {
   langName: '日本語',
   meta: {
-    title: 'Fandi Lai — シニアプロダクトデザイナー（フィンテック・デジタルバンキング）ジャカルタ',
+    title: 'Fandi Lai — シニアプロダクトデザイナー（フィンテック・デジタルバンキング）',
     description:
-      'ジャカルタ在住のシニアプロダクトデザイナー、Fandi Lai。フィンテック、デジタルバンキング、Eコマースで7年以上の経験。KoinWorks では本人確認完了ユーザーを245%伸ばし、銀行アプリの評価を3.2から4.5へ引き上げました。',
+      'シニアプロダクトデザイナー、Fandi Lai。フィンテック、デジタルバンキング、Eコマースで7年以上の経験。欧州への移住が可能です。KoinWorks では本人確認完了ユーザーを245%伸ばし、銀行アプリの評価を3.2から4.5へ引き上げました。',
   },
   nav: { work: '実績', resume: '経歴', about: '概要', contact: 'お問い合わせ', allWork: '実績一覧', email: 'メール', home: 'ホーム' },
   hero: {
     available: 'お仕事のご相談受付中',
-    remote: 'リモート可',
+    remote: '欧州への移住可',
     roleLines: ['シニアプロダクトデザイナー', 'フィンテック & デジタルバンキング'],
     introBefore: '複雑な',
     introHighlight: 'お金の体験',
@@ -165,7 +165,7 @@ export const caseStudies = [
 
 export const workIndex = [
   { role: 'シニアプロダクトデザイナー', company: 'Finku', dates: '2026年2月 – 現在', current: true, slug: 'finku-fingpt',
-    note: '個人向け家計管理アプリの唯一のプロダクトデザイナー。FinGPT（AIによる明細インサイト）を設計し、オンボーディングを20画面以上から4画面へ削減。重複ブロックと予算の自動整理を備えた独自のカテゴリ機能をリリース。' },
+    note: '個人向け家計管理アプリの唯一のプロダクトデザイナー。FinGPT（AIアシスタントとAIによるインサイト）を設計し、オンボーディングを20画面以上から4画面へ削減。多通貨対応、Premiumのペイウォール、取引記録の高速化（OCR、iOSショートカット）、HouseholdとTracking DaysのMVPを企画からハンドオフまで主導。' },
   { role: 'シニアプロダクトデザイナー', company: 'Goers', dates: '2025年6月 – 2026年1月',
     note: 'コンテンツの見つけやすさを軸にホーム画面のリデザインを主導。購入までの導線を端から端まで簡素化し、ユーザビリティテストはすべて自分で実施。' },
   { role: 'プロダクトデザイナー（プラットフォーム）', company: 'KoinWorks', dates: '2022年3月 – 2025年6月', slug: 'koinworks-registration',
