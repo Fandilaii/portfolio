@@ -23,14 +23,14 @@ export const profile = {
 export const ui = {
   langName: 'Bahasa Indonesia',
   meta: {
-    title: 'Fandi Lai — Senior Product Designer (Fintech & Perbankan Digital), Jakarta',
+    title: 'Fandi Lai — Senior Product Designer (Fintech & Perbankan Digital)',
     description:
-      'Fandi Lai, Senior Product Designer di Jakarta dengan pengalaman 7+ tahun di fintech, perbankan digital, dan e-commerce. Menaikkan pengguna terverifikasi 245% di KoinWorks dan membawa aplikasi perbankan dari 3.2 ke 4.5 bintang.',
+      'Fandi Lai, Senior Product Designer dengan pengalaman 7+ tahun di fintech, perbankan digital, dan e-commerce, siap relokasi ke Eropa. Menaikkan pengguna terverifikasi 245% di KoinWorks dan membawa aplikasi perbankan dari 3.2 ke 4.5 bintang.',
   },
   nav: { work: 'Karya', resume: 'Riwayat', about: 'Tentang', contact: 'Kontak', allWork: 'Semua karya', email: 'Email', home: 'Beranda' },
   hero: {
     available: 'Terbuka untuk peluang',
-    remote: 'Terbuka kerja remote',
+    remote: 'Siap relokasi (Eropa)',
     roleLines: ['Senior Product Designer', 'fintech & perbankan digital'],
     introBefore: 'Saya membuat ',
     introHighlight: 'urusan uang yang rumit',
@@ -166,7 +166,7 @@ export const caseStudies = [
 
 export const workIndex = [
   { role: 'Senior Product Designer', company: 'Finku', dates: 'Feb 2026 – Sekarang', current: true, slug: 'finku-fingpt',
-    note: 'Satu-satunya product designer di aplikasi keuangan pribadi. Merancang FinGPT (insight e-statement berbasis AI), memangkas onboarding dari 20+ layar jadi 4, dan merilis sistem kategori kustom dengan penolakan duplikat serta pembersihan budget otomatis.' },
+    note: 'Satu-satunya product designer di aplikasi keuangan pribadi. Merancang FinGPT (asisten AI dan insight otomatis berbasis AI) dan memangkas onboarding dari 20+ layar jadi 4. Memimpin dukungan multi-mata uang, paywall Premium, pencatatan transaksi yang lebih cepat (OCR, iOS Shortcuts), serta MVP Household dan Tracking Days dari brief sampai handoff.' },
   { role: 'Senior Product Designer', company: 'Goers', dates: 'Jun 2025 – Jan 2026',
     note: 'Memimpin redesign homepage untuk kemudahan menemukan konten; menyederhanakan perjalanan pembelian dari hulu ke hilir dan menjalankan sendiri seluruh usability testing.' },
   { role: 'Product Designer, Platform', company: 'KoinWorks', dates: 'Mar 2022 – Jun 2025', slug: 'koinworks-registration',

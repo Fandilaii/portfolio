@@ -20,14 +20,14 @@ export const profile = {
 export const ui = {
   langName: 'English',
   meta: {
-    title: 'Fandi Lai — Senior Product Designer (Fintech & Digital Banking), Jakarta',
+    title: 'Fandi Lai — Senior Product Designer (Fintech & Digital Banking)',
     description:
-      'Fandi Lai is a Senior Product Designer in Jakarta with 7+ years in fintech, digital banking, and e-commerce. Lifted verified users 245% at KoinWorks and took a banking app from 3.2 to 4.5 stars.',
+      'Fandi Lai is a Senior Product Designer with 7+ years in fintech, digital banking, and e-commerce, open to relocation in Europe. Lifted verified users 245% at KoinWorks and took a banking app from 3.2 to 4.5 stars.',
   },
   nav: { work: 'Work', resume: 'Résumé', about: 'About', contact: 'Contact', allWork: 'All work', email: 'Email', home: 'Home' },
   hero: {
     available: 'Available for work',
-    remote: 'Remote-friendly',
+    remote: 'Open to relocation (EU)',
     roleLines: ['Senior Product Designer', 'fintech & digital banking'],
     introBefore: 'I make ',
     introHighlight: 'complicated money',
@@ -163,7 +163,7 @@ export const caseStudies = [
 
 export const workIndex = [
   { role: 'Senior Product Designer', company: 'Finku', dates: 'Feb 2026 – Present', current: true, slug: 'finku-fingpt',
-    note: 'Sole product designer on a personal finance app. Designed FinGPT (AI e-statement insights), cut onboarding from 20+ screens to 4, and shipped a custom category system with duplicate blocking and automatic budget cleanup.' },
+    note: 'Sole product designer on a personal finance app. Designed FinGPT (AI assistant and AI-generated insights) and cut onboarding from 20+ screens to 4. Led multi-currency support, the Premium paywall, faster transaction logging (OCR, iOS Shortcuts), and the Household and Tracking Days MVPs from brief to handoff.' },
   { role: 'Senior Product Designer', company: 'Goers', dates: 'Jun 2025 – Jan 2026',
     note: 'Led the homepage redesign for content discoverability; simplified the purchase journey end-to-end and ran all usability testing myself.' },
   { role: 'Product Designer, Platform', company: 'KoinWorks', dates: 'Mar 2022 – Jun 2025', slug: 'koinworks-registration',
