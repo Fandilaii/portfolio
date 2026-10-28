@@ -38,7 +38,7 @@ export const ui = {
     cta: 'Lihat karya',
     shippedAt: 'Pernah membangun produk di',
   },
-  work: { eyebrow: 'Karya pilihan', heading: ['Tiga taruhan', 'yang berhasil'], idx: '01 — KASUS', readCase: 'Baca kasus' },
+  work: { eyebrow: 'Karya pilihan', heading: ['Empat taruhan,', 'dari dekat'], idx: '01 — KASUS', readCase: 'Baca kasus' },
   about: { eyebrow: 'Siapa di baliknya', heading: ['Satu siklus penuh,', 'dari riset ke angka'], idx: '02 — TENTANG' },
   index: {
     eyebrow: 'Semua peran, terbaru di atas',
@@ -62,6 +62,7 @@ export const ui = {
     role: 'Peran', timeline: 'Periode', scope: 'Lingkup',
     problem: '01 — Masalahnya', approach: '02 — Pendekatannya',
     shipped: '03 — Yang saya kerjakan', impact: '04 — Dampaknya',
+    screens: "Layar aslinya",
     next: 'Kasus berikutnya',
   },
 }
@@ -109,8 +110,43 @@ export const caseStudies = [
       'Yang ini masih berjalan, jadi saya belum mau mengklaim hasil. Onboarding-nya sudah live dan saya sedang mengukur time-on-task — keputusan desain belum selesai sampai angkanya bergerak.',
   },
   {
-    slug: 'koinworks-registration',
+    slug: 'finku-q2-logging',
     index: '02',
+    company: 'Finku',
+    title: "Multi-mata uang, dan empat cara mencatat transaksi",
+    tagline: "Membuka aplikasi yang tadinya hanya Rupiah ke mata uang dan negara lain, dan membuat pencatatan jadi bagian yang mudah.",
+    role: "Senior Product Designer",
+    timeline: "Q2 2026",
+    scope: ["Multi-mata uang", "Registrasi global", "Upload dokumen & OCR", "iOS Shortcuts", "Edge case"],
+    accentMetric: { value: '20', label: "Mata uang didukung" },
+    cover: { src: '/work/finku-q2/logging-currency.png', alt: "Input manual Finku dalam dolar AS, dengan nilai Rupiah di bawah nominal" },
+    problem:
+      "Finku dibangun untuk satu negara dan satu mata uang: saldo Rupiah, nomor HP Indonesia. Orang yang berpenghasilan, menabung, atau bepergian dengan mata uang lain tidak punya tempat untuk mencatat uang itu. Pencatatan juga jadi beban, karena setiap transaksi yang diketik manual adalah satu alasan lagi untuk berhenti mencatat.",
+    approach:
+      "Saya menjadikan mata uang sebagai properti tiap akun keuangan, bukan pengaturan global, sehingga pengguna bisa memegang IDR dan USD berdampingan dan tetap melihat satu gambaran utuh. Untuk pencatatan, saya mengumpulkan semua jalur input ke satu layar Upload dan merancang tahap review yang menangkap kesalahan sebelum apa pun tersimpan.",
+    solutions: [
+      { head: "Mata uang per akun", body: "Pengguna memilih mata uang saat setup dan per akun setelahnya, dari daftar 20 mata uang yang bisa dicari. Mencatat dalam mata uang asing langsung menampilkan nilai Rupiah di bawah nominal, jadi tidak perlu menghitung sendiri. Kode negara global membuka pendaftaran untuk nomor di luar Indonesia." },
+      { head: "Satu layar, empat jalan masuk", body: "Upload e-statement dari bank mana saja, scan struk, pilih screenshot dari galeri, atau tempel transaksi dari mana saja dan biarkan FinGPT yang mencatat." },
+      { head: "Review sebelum menyimpan", body: "Transaksi hasil baca dikelompokkan per tanggal dan sudah tercentang. Baris tanpa tanggal terdeteksi diberi tanda, dan transaksi yang kemungkinan dobel (tanggal, nominal, dan akun sama) tidak tercentang dengan catatan untuk dicek ulang." },
+      { head: "Mencatat tanpa membuka aplikasi", body: "Panduan setup iOS Shortcuts memungkinkan pengguna mencatat dari notifikasi, Apple Pay, atau screenshot dengan Triple Tap atau Action Button." },
+    ],
+    screens: [
+      { src: '/work/finku-q2/logging-currency.png', alt: "Input transaksi manual dalam USD", caption: "Input manual dalam dolar AS, dengan nilai Rupiah di bawah nominal." },
+      { src: '/work/finku-q2/currency-picker.png', alt: "Daftar pemilih mata uang", caption: "Pemilih mata uang yang bisa dicari: bendera, kode, dan simbol di tiap baris." },
+      { src: '/work/finku-q2/upload-hub.png', alt: "Layar Upload dengan empat opsi pencatatan", caption: "Semua jalur pencatatan di satu layar, dengan tempel sebagai yang terbaru." },
+      { src: '/work/finku-q2/review.png', alt: "Layar review transaksi setelah upload e-statement", caption: "Tahap review: dikelompokkan per tanggal, tanggal tak terdeteksi dan transaksi dobel diberi tanda. (Nama contoh dihapus.)" },
+      { src: '/work/finku-q2/shortcut.png', alt: "Panduan setup iOS Shortcut", caption: "Panduan setup mencatat lewat Triple Tap iOS atau Action Button." },
+    ],
+    impact: [
+      { value: "20", label: "Mata uang di pemilih" },
+      { value: "4", label: "Cara mencatat dari satu layar" },
+    ],
+    closing:
+      "Belum ada angka peluncuran di sini. Yang sedang saya pantau: porsi transaksi yang dicatat lewat upload dibanding diketik, dan berapa banyak pengguna yang menambah mata uang kedua.",
+  },
+  {
+    slug: 'koinworks-registration',
+    index: '03',
     company: 'KoinWorks',
     title: 'Alur registrasi yang menaikkan pengguna terverifikasi 245%',
     tagline: 'Field lebih sedikit, validasi real-time, dan penurunan 20% pada tingkat berhenti di tengah jalan.',
@@ -139,7 +175,7 @@ export const caseStudies = [
   },
   {
     slug: 'mandiri-taspen',
-    index: '03',
+    index: '04',
     company: 'Mandiri Taspen',
     title: 'Membangun ulang digital banking untuk usaha kecil',
     tagline: 'Dari aplikasi 3.2★ jadi 4.5★ — dan satu sistem visual untuk 50+ layar.',

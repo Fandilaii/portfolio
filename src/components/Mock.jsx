@@ -93,7 +93,18 @@ function Mandiri() {
 
 const MAP = { 'finku-fingpt': Finku, 'koinworks-registration': KoinWorks, 'mandiri-taspen': Mandiri }
 
-export default function Mock({ kind }) {
+// A real screen exported from Figma, in the same phone frame as the mocks.
+export function Shot({ src, alt }) {
+  return (
+    <div className="mock mock--shot">
+      <img className="mock__img" src={src} alt={alt} loading="lazy" decoding="async" />
+    </div>
+  )
+}
+
+// A study with a `cover` shows a real screen; the rest keep their schematic.
+export default function Mock({ kind, cover }) {
+  if (cover) return <Shot src={cover.src} alt={cover.alt} />
   const C = MAP[kind] || Finku
   return <C />
 }

@@ -8,7 +8,7 @@ import MaskLines from '../components/MaskLines.jsx'
 import { TransitionLink } from '../lib/transitionNav.jsx'
 import { useT } from '../i18n/index.jsx'
 
-// One template, three data entries. Problem → Approach → Solution → Impact.
+// One template, one data entry per study. Problem → Approach → Solution → Impact.
 export default function CaseStudy() {
   const { slug } = useParams()
   const { caseStudies, ui } = useT()
@@ -34,7 +34,7 @@ export default function CaseStudy() {
             <p className="cs-hero__tagline">{study.tagline}</p>
 
             <div className="cs-hero__figure">
-              <div className="vt-mock px"><Mock kind={study.slug} /></div>
+              <div className="vt-mock px"><Mock kind={study.slug} cover={study.cover} /></div>
               <div className="cs-hero__accent px">
                 <span className="cs-hero__accent-val display">
                   <CountUp value={study.accentMetric.value} />
@@ -91,6 +91,23 @@ export default function CaseStudy() {
             ))}
           </div>
         </section>
+
+        {/* Screens — real exports, only for studies that have them */}
+        {study.screens && (
+          <section className="shell cs-block cs-screens-wrap">
+            <span className="mono-label cs-kicker">{ui.caseStudy.screens}</span>
+            <div className="cs-screens">
+              {study.screens.map((s, idx) => (
+                <Reveal as="figure" className="cs-screen" key={s.src} delay={idx * 70}>
+                  <div className="cs-screen__frame">
+                    <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
+                  </div>
+                  <figcaption className="cs-screen__cap">{s.caption}</figcaption>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Impact */}
         <section className="cs-impact">
