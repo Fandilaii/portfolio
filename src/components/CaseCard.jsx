@@ -62,7 +62,7 @@ export default function CaseCard({ study, flip = false }) {
         {/* data-morph pairs these with the case-study page for the shared-element
             view transition — the mock and title fly to their new positions. */}
         <div className="ccard__mockwrap px" ref={wrapRef} data-morph="mock">
-          <Mock kind={study.slug} />
+          <Mock kind={study.slug} cover={study.cover} />
         </div>
       </div>
 

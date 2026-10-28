@@ -679,6 +679,17 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 .cs-sol__body { color: var(--ink-70); margin-top: 0.85rem; font-size: 1.05rem; }
 @media (max-width: 680px) { .cs-solutions { grid-template-columns: 1fr; } }
 
+/* Real screens. The phone frame matches .mock; the image fills it top-aligned
+   so tall exports crop at the bottom rather than shrinking. */
+.mock--shot { padding: 0; overflow: hidden; background: #fff; }
+.mock__img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 23px; }
+.cs-screens-wrap { padding-top: 0; }
+.cs-screens { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 240px); gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem; scroll-snap-type: x mandatory; }
+.cs-screen { margin: 0; scroll-snap-align: start; }
+.cs-screen__frame { border: 3px solid var(--ink); border-radius: 26px; overflow: hidden; background: #fff; aspect-ratio: 360 / 760; box-shadow: 6px 6px 0 rgba(11,11,11,0.12); }
+.cs-screen__frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.cs-screen__cap { margin-top: 0.9rem; font-size: 0.9rem; line-height: 1.45; color: var(--ink-70); }
+
 /* Deliberately fixed var(--ink)/var(--paper), not --bg/--fg: this band is
    meant to read as the darkest thing on the page regardless of site theme,
    same as .footer and .marquee. In dark mode --bg sits only slightly lighter

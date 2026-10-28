@@ -35,7 +35,7 @@ export const ui = {
     cta: 'See the work',
     shippedAt: 'Shipped product at',
   },
-  work: { eyebrow: 'Selected work', heading: ['Three bets', 'that moved'], idx: '01 — CASES', readCase: 'Read case' },
+  work: { eyebrow: 'Selected work', heading: ['Four bets,', 'up close'], idx: '01 — CASES', readCase: 'Read case' },
   about: { eyebrow: 'Who’s behind it', heading: ['Full loop,', 'start to metric'], idx: '02 — ABOUT' },
   index: {
     eyebrow: 'Every role, newest first',
@@ -59,6 +59,7 @@ export const ui = {
     role: 'Role', timeline: 'Timeline', scope: 'Scope',
     problem: '01 — The problem', approach: '02 — The approach',
     shipped: '03 — What I shipped', impact: '04 — The impact',
+    screens: "Real screens",
     next: 'Next case',
   },
 }
@@ -106,8 +107,43 @@ export const caseStudies = [
       'This one is still in flight, so I am not going to claim a result yet. Onboarding is live and I am measuring time-on-task now — the design decision isn’t finished until the number moves.',
   },
   {
-    slug: 'koinworks-registration',
+    slug: 'finku-q2-logging',
     index: '02',
+    company: 'Finku',
+    title: "Multi-currency, and four ways to log a transaction",
+    tagline: "Opening a Rupiah-only app to other currencies and countries, and making logging the easy part.",
+    role: "Senior Product Designer",
+    timeline: "Q2 2026",
+    scope: ["Multi-currency", "Global registration", "Document upload & OCR", "iOS Shortcuts", "Edge cases"],
+    accentMetric: { value: '20', label: "Currencies supported" },
+    cover: { src: '/work/finku-q2/logging-currency.png', alt: "Finku manual input in US dollars, with the Rupiah equivalent under the amount" },
+    problem:
+      "Finku was built for one country and one currency: Rupiah balances, Indonesian phone numbers. People who earn, save or travel in other currencies had nowhere to put that money. Logging was the other drag, because every transaction typed by hand is one more reason to stop tracking.",
+    approach:
+      "I made currency a property of each financial account rather than a global setting, so a user can hold IDR and USD side by side and still see one picture. For logging, I gathered every input path into one Upload screen and designed the review step that catches mistakes before anything is saved.",
+    solutions: [
+      { head: "Currency per account", body: "Users pick a currency during setup and per account after that, from a searchable list of 20. Logging in a foreign currency shows the Rupiah equivalent right under the amount, so nobody does the maths in their head. Global country codes open sign-up beyond Indonesian numbers." },
+      { head: "One screen, four ways in", body: "Upload a statement from any bank, scan a receipt, pick a screenshot from the gallery, or paste a transaction from anywhere and let FinGPT record it." },
+      { head: "Review before saving", body: "Parsed transactions arrive grouped by date and pre-selected. Rows without a detected date are flagged, and likely duplicates (same date, amount and account) arrive unticked with a note to check." },
+      { head: "Logging without opening the app", body: "A setup guide for iOS Shortcuts lets users log from a notification, Apple Pay or a screenshot with a Triple Tap or the Action Button." },
+    ],
+    screens: [
+      { src: '/work/finku-q2/logging-currency.png', alt: "Manual transaction input in USD", caption: "Manual input in US dollars, with the Rupiah equivalent under the amount." },
+      { src: '/work/finku-q2/currency-picker.png', alt: "Currency picker list", caption: "Searchable currency picker: flag, code and symbol on every row." },
+      { src: '/work/finku-q2/upload-hub.png', alt: "Upload screen with four logging options", caption: "Every logging path on one screen, with paste as the newest." },
+      { src: '/work/finku-q2/review.png', alt: "Transaction review screen after a statement upload", caption: "Review step: grouped by date, with undetected dates and duplicates flagged. (Sample name removed.)" },
+      { src: '/work/finku-q2/shortcut.png', alt: "iOS Shortcut setup guide", caption: "Setup guide for logging with an iOS Triple Tap or the Action Button." },
+    ],
+    impact: [
+      { value: "20", label: "Currencies in the picker" },
+      { value: "4", label: "Ways to log from one screen" },
+    ],
+    closing:
+      "No launch numbers here yet. What I am watching: the share of transactions logged by upload instead of typing, and how many users add a second currency.",
+  },
+  {
+    slug: 'koinworks-registration',
+    index: '03',
     company: 'KoinWorks',
     title: 'The registration flow that lifted verified users 245%',
     tagline: 'Fewer fields, real-time validation, and a 20% drop in abandonment.',
@@ -136,7 +172,7 @@ export const caseStudies = [
   },
   {
     slug: 'mandiri-taspen',
-    index: '03',
+    index: '04',
     company: 'Mandiri Taspen',
     title: 'Rebuilding digital banking for small business',
     tagline: 'From a 3.2★ app to a 4.5★ one — and a visual system across 50+ screens.',
