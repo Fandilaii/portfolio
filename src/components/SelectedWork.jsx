@@ -10,7 +10,7 @@ export default function SelectedWork() {
   // The pinned stage needs room and motion. Small or short viewports, and
   // anyone who asked for reduced motion, get the plain card grid.
   const staged = useMediaQuery(
-    '(min-width: 980px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)'
+    '(min-width: 980px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)'
   )
 
   return (

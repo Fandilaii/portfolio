@@ -109,6 +109,23 @@ export default function CaseStudy() {
           </section>
         )}
 
+        {/* Boards — wide process and before/after images */}
+        {study.boards && (
+          <section className="shell cs-block cs-boards-wrap">
+            <span className="mono-label cs-kicker">{ui.caseStudy.boards}</span>
+            <div className="cs-boards">
+              {study.boards.map((b, idx) => (
+                <Reveal as="figure" className="cs-board" key={b.src} delay={idx * 70}>
+                  <div className="cs-board__frame">
+                    <img src={b.src} alt={b.alt} loading="lazy" decoding="async" />
+                  </div>
+                  <figcaption className="cs-screen__cap">{b.caption}</figcaption>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Impact */}
         <section className="cs-impact">
           <div className="shell">
