@@ -718,3 +718,14 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 .cs-next__title { font-size: var(--fs-h2); flex: 1; min-width: 60%; line-height: 1; text-wrap: balance; }
 .cs-next__arrow { font-size: var(--fs-h2); transition: transform 0.3s var(--ease); }
 .cs-next:hover .cs-next__arrow { transform: translateX(12px); }
+
+/* ── Case-study boards ───────────────────────────────────────────────────────
+   Wide images (process artefacts, before/after comparisons). Two columns on
+   desktop; an odd last board spans the full row. */
+.cs-boards-wrap { padding-top: 0; }
+.cs-boards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2rem); margin-top: 1.5rem; }
+.cs-board { margin: 0; }
+.cs-board:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.cs-board__frame { border: var(--border); background: #fff; overflow: hidden; box-shadow: 6px 6px 0 rgba(var(--fg-rgb), 0.12); }
+.cs-board__frame img { display: block; width: 100%; height: auto; }
+@media (max-width: 780px) { .cs-boards { grid-template-columns: 1fr; } }
