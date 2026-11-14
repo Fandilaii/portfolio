@@ -91,19 +91,30 @@ export const caseStudies = [
     timeline: 'Feb 2026 – Sekarang',
     scope: ['Desain fitur AI', 'Onboarding', 'Sistem asinkron', 'Copy Bahasa Indonesia', 'Handoff Figma'],
     accentMetric: { value: '20 → 4', label: 'Layar onboarding' },
+    cover: { src: '/work/finku-fingpt/chat-answer.png', alt: "FinGPT menjawab pertanyaan pengeluaran, lalu bertanya apakah jawabannya sudah cukup" },
     problem:
-      'Finku adalah aplikasi keuangan pribadi, dan saya satu-satunya product designer di sana, bekerja bersama satu researcher — saya memegang alur, UI, copy Bahasa Indonesia, dan handoff. Ada dua masalah yang menumpuk: onboarding sudah membengkak jadi 20+ layar percakapan sebelum pengguna merasakan manfaat apa pun, dan pengguna tidak punya cara cepat untuk tahu ke mana sebenarnya uang mereka pergi.',
+      "Finku adalah aplikasi keuangan pribadi, dan saya satu-satunya product designer di sana, bekerja bersama satu researcher — saya memegang alur, UI, copy Bahasa Indonesia, dan handoff. Ada dua masalah yang menumpuk: onboarding sudah membengkak jadi 20+ layar percakapan sebelum pengguna merasakan manfaat apa pun, dan pengguna tidak punya cara cepat untuk tahu ke mana sebenarnya uang mereka pergi. Dan AI yang membicarakan uangmu harus layak dipercaya: tidak boleh menebak, macet, atau membuatmu buntu.",
     approach:
-      'Saya memangkas onboarding jadi 4 layar dengan memisahkan secara tegas mana yang benar-benar dibutuhkan di awal dan mana yang bisa dipelajari belakangan. Lalu saya merancang FinGPT — fitur AI yang membaca e-statement bank dan memunculkan insight pengeluaran — supaya manfaatnya terasa tanpa pengguna harus mencatat sendiri.',
+      "Saya memangkas onboarding jadi 4 layar dengan memisahkan secara tegas mana yang benar-benar dibutuhkan di awal dan mana yang bisa dipelajari belakangan. Lalu saya merancang FinGPT — fitur AI yang membaca e-statement bank dan memunculkan insight pengeluaran — supaya manfaatnya terasa tanpa pengguna harus mencatat sendiri. Saya merancang semua kondisi FinGPT, bukan hanya alur idealnya: apa yang ia katakan sebelum datanya cukup, saat ia salah paham, dan saat sistem gagal.",
     solutions: [
       { head: 'Upload asinkron, tiga kondisi', body: 'Membaca e-statement butuh waktu, jadi saya membuat kartu mengambang di beranda dengan tiga kondisi (mengunggah, memproses, siap) plus push notification saat selesai — pengguna cukup melempar file lalu lanjut beraktivitas, bukan menatap loading.' },
-      { head: 'Chatroom yang membaca uangmu', body: 'FinGPT menyampaikan insight lewat model interaksi chatroom, jadi bertanya "ke mana uang saya bulan lalu?" terasa seperti mengobrol, bukan membaca laporan.' },
+      { head: "Saran dari apa yang ia lihat", body: "FinGPT membuka percakapan dengan saran berdasarkan pola transaksimu. Kalau ia melihat rencana liburan, ia menawarkan budget perjalanan, simulasi biaya, atau dana darurat yang perlu disiapkan. Tidak ada yang dihadapkan ke kolom teks kosong." },
+      { head: "Insight menunggu data yang cukup", body: "Insight AI terbuka setelah 15 transaksi tercatat. Sebelum itu, kartunya memberi tahu berapa transaksi lagi yang dibutuhkan dan menawarkan FinGPT untuk mencatatnya, bukan menebak dari data yang terlalu sedikit." },
+      { head: "Tidak pernah buntu", body: "Saat FinGPT tidak paham input, ia menunjukkan format beserta contohnya. Saat permintaan gagal, tombol coba lagi ada di gelembung yang sama. Setiap jawaban diakhiri pertanyaan: sudah cukup, atau mau konsultasi lebih lanjut?" },
       { head: 'Kategori yang ada aturannya', body: 'Sistem kategori kustom memungkinkan pengguna membuat sub-kategori di bawah kategori yang sudah ada — dengan penolakan duplikat, batas 30 kategori, dan pembersihan budget otomatis saat kategori dihapus, supaya fleksibilitasnya tidak berubah jadi berantakan.' },
       { head: 'Bahasa yang sama untuk alignment', body: 'Saya memperkenalkan format Problem → Approach → Solution → Vision → Next Steps untuk presentasi ke stakeholder. Sekarang formatnya jadi standar di rapat alignment.' },
     ],
+    screens: [
+      { src: '/work/finku-fingpt/chat-answer.png', alt: "Jawaban FinGPT membandingkan pengeluaran bulanan", caption: "Jawaban dengan angka nyata, lalu pertanyaan: \"Sudah cukup, atau mau konsultasi lebih lanjut?\"" },
+      { src: '/work/finku-fingpt/suggested-prompts.png', alt: "Saran prompt FinGPT", caption: "Saran prompt berdasarkan apa yang FinGPT lihat, di sini rencana liburan." },
+      { src: '/work/finku-fingpt/unrecognized.png', alt: "FinGPT menangani input yang tidak dikenali", caption: "Input yang tidak terbaca dibalas dengan format dan contoh, bukan pesan error." },
+      { src: '/work/finku-fingpt/retry.png', alt: "Error FinGPT dengan tombol coba lagi", caption: "Permintaan yang gagal tetap menjaga percakapan dan menawarkan coba lagi satu ketuk." },
+      { src: '/work/finku-fingpt/insights-feed.png', alt: "Daftar transaksi dengan ringkasan finansial AI", caption: "Ringkasan AI di atas daftar transaksi, plus pengingat transaksi yang belum terkategori." },
+      { src: '/work/finku-fingpt/insights-threshold.png', alt: "Kondisi kosong insight AI sebelum 15 transaksi", caption: "Di bawah 15 transaksi, insight menjelaskan apa yang dibutuhkan, bukan menebak." },
+    ],
     impact: [
       { value: '20 → 4', label: 'Layar onboarding sebelum pengguna merasakan manfaat' },
-      { value: '3', label: 'Kondisi upload, supaya proses baca file tidak menghambat pengguna' },
+      { value: "15", label: "Transaksi sebelum insight AI muncul" },
       { value: '30', label: 'Batas kategori, dengan pembersihan budget otomatis' },
     ],
     closing:

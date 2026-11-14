@@ -88,19 +88,30 @@ export const caseStudies = [
     timeline: 'Feb 2026 – Present',
     scope: ['AI feature design', 'Onboarding', 'Async systems', 'Bahasa Indonesia copy', 'Figma handoff'],
     accentMetric: { value: '20 → 4', label: 'Onboarding screens' },
+    cover: { src: '/work/finku-fingpt/chat-answer.png', alt: "FinGPT answering a spending question, then asking if the answer was enough" },
     problem:
-      "Finku is a personal finance app, and I'm the sole product designer working alongside one researcher — I own flows, UI, Bahasa Indonesia copy, and handoff. Two problems sat on top of each other: onboarding had ballooned to 20+ conversational screens before a user saw any value, and users had no fast way to understand where their money actually went.",
+      "Finku is a personal finance app, and I'm the sole product designer working alongside one researcher — I own flows, UI, Bahasa Indonesia copy, and handoff. Two problems sat on top of each other: onboarding had ballooned to 20+ conversational screens before a user saw any value, and users had no fast way to understand where their money actually went. And an AI that talks about your money has to earn trust: it can't guess, stall or leave you stuck.",
     approach:
-      'I cut onboarding down to 4 screens by ruthlessly separating what we need to start from what we can learn later, and I designed FinGPT — an AI feature that reads bank e-statements and surfaces spending insights — so the value shows up without the user doing the accounting themselves.',
+      "I cut onboarding down to 4 screens by ruthlessly separating what we need to start from what we can learn later, and I designed FinGPT — an AI feature that reads bank e-statements and surfaces spending insights — so the value shows up without the user doing the accounting themselves. I designed every FinGPT state, not just the happy path: what it says before it has enough data, when it misreads you, and when the system fails.",
     solutions: [
       { head: 'Async upload, three states', body: 'Statement parsing takes time, so I built a floating homepage card with three states (uploading, processing, ready) plus a push notification on completion — the user drops a file and gets on with their day instead of staring at a spinner.' },
-      { head: 'A chatroom that reads your money', body: 'FinGPT surfaces insights through a chatroom interaction model, so asking "where did my money go last month?" feels like a conversation, not a report.' },
+      { head: "Prompts from what it noticed", body: "FinGPT opens with suggestions based on what it spotted in your transactions. If it sees a holiday coming, it offers a trip budget, a cost simulation, or an emergency fund to set aside. Nobody faces a blank text box." },
+      { head: "Insights wait for enough data", body: "AI insights unlock after 15 logged transactions. Before that, the card says how many more are needed and offers to let FinGPT log them, rather than guessing from too little." },
+      { head: "Never a dead end", body: "When FinGPT cannot read an input, it shows the format with examples. When a request fails, a one-tap retry sits in the same bubble. Every answer ends by asking whether that was enough or the user wants to dig further." },
       { head: 'Categories with rules', body: 'A custom category system lets users create sub-categories under existing ones — with duplicate blocking, a 30-category cap, and automatic budget cleanup when a category is removed, so the flexibility never turns into a mess.' },
       { head: 'A shared language for alignment', body: 'I introduced a Problem → Approach → Solution → Vision → Next Steps format for stakeholder presentations. It’s now the default for alignment meetings.' },
     ],
+    screens: [
+      { src: '/work/finku-fingpt/chat-answer.png', alt: "FinGPT chat answer comparing monthly spending", caption: "An answer with real numbers, then a check: \"Was that enough, or do you want to go further?\"" },
+      { src: '/work/finku-fingpt/suggested-prompts.png', alt: "FinGPT suggested prompts", caption: "Suggested prompts based on what FinGPT noticed, here a planned holiday." },
+      { src: '/work/finku-fingpt/unrecognized.png', alt: "FinGPT handling unrecognized input", caption: "Unreadable input gets the expected format and examples, not an error." },
+      { src: '/work/finku-fingpt/retry.png', alt: "FinGPT error with retry button", caption: "A failed request keeps the conversation and offers a one-tap retry." },
+      { src: '/work/finku-fingpt/insights-feed.png', alt: "Transaction list with AI financial summary", caption: "AI summary at the top of the transaction list, plus a nudge for uncategorised items." },
+      { src: '/work/finku-fingpt/insights-threshold.png', alt: "AI insights empty state before 15 transactions", caption: "Below 15 transactions, insights explain what is needed instead of guessing." },
+    ],
     impact: [
       { value: '20 → 4', label: 'Onboarding screens before a user sees value' },
-      { value: '3', label: 'Upload states, so parsing never blocks the user' },
+      { value: "15", label: "Transactions before AI insights appear" },
       { value: '30', label: 'Category cap, with automatic budget cleanup' },
     ],
     closing:
