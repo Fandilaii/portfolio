@@ -237,6 +237,7 @@ export const caseStudies = [
   },
   {
     slug: "mandiri-taspen",
+    cover: {"src": "/work/mandiri-taspen/cover-home.png", "alt": "Layar beranda Movin' dengan ikon layanan besar berlabel"},
     index: "05",
     company: "Mandiri Taspen",
     title: "Membangun ulang aplikasi bank untuk pensiunan",

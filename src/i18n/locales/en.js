@@ -234,6 +234,7 @@ export const caseStudies = [
   },
   {
     slug: "mandiri-taspen",
+    cover: {"src": "/work/mandiri-taspen/cover-home.png", "alt": "Movin' home screen with large labelled service icons"},
     index: "05",
     company: "Mandiri Taspen",
     title: "Rebuilding a banking app for retirees",

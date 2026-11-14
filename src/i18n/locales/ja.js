@@ -236,6 +236,7 @@ export const caseStudies = [
   },
   {
     slug: "mandiri-taspen",
+    cover: {"src": "/work/mandiri-taspen/cover-home.png", "alt": "大きなラベル付きアイコンが並ぶ Movin' のホーム画面"},
     index: "05",
     company: "Mandiri Taspen",
     title: "退職者のための銀行アプリ再構築",
