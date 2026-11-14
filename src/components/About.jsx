@@ -1,5 +1,7 @@
 import Reveal from './Reveal.jsx'
 import MaskLines from './MaskLines.jsx'
+import ScrubText from './ScrubText.jsx'
+import PixelGlyph, { GLYPH_ORDER } from './PixelGlyph.jsx'
 import { useT } from '../i18n/index.jsx'
 
 // About + skills. The lede deliberately does not restate the hero — the hero
@@ -18,7 +20,7 @@ export default function About() {
 
         <div className="about__grid">
           <Reveal className="about__bio">
-            <p className="about__lede">{profile.intro}</p>
+            <ScrubText className="about__lede" text={profile.intro} />
             <p className="about__body">{profile.longIntro}</p>
             <p className="about__body">{profile.ownership}</p>
           </Reveal>
@@ -26,7 +28,10 @@ export default function About() {
           <div className="about__skills px">
             {skills.map((s, i) => (
               <Reveal className="skillblock" key={s.group} delay={i * 70}>
-                <span className="skillblock__group mono-label">{s.group}</span>
+                <span className="skillblock__group mono-label">
+                  <PixelGlyph name={GLYPH_ORDER[i]} />
+                  {s.group}
+                </span>
                 <Reveal as="ul" className="skillblock__tags" stagger>
                   {s.items.map((it) => (
                     <li className="tag" key={it}>{it}</li>

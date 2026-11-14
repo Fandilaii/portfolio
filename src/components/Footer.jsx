@@ -1,5 +1,6 @@
 import { onSectionClick } from '../lib/scrollToSection.js'
 import useInView from '../hooks/useInView.js'
+import DotField from './DotField.jsx'
 import { useT } from '../i18n/index.jsx'
 
 // Big CTA with each character lifting in. aria-label keeps the link's
@@ -58,6 +59,8 @@ export default function Footer() {
             <span className="footer__rail-val">{profile.location}</span>
           </div>
         </div>
+
+        <DotField />
 
         <div className="footer__base mono-label">
           <span>© {year} Fandi Lai</span>
