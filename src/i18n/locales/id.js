@@ -166,7 +166,7 @@ export const caseStudies = [
     timeline: "Jun 2025 – Jan 2026",
     scope: ["UX audit", "Benchmark kompetitor", "Homepage", "Pencarian", "Arsitektur informasi", "Mobile web"],
     accentMetric: {"value": "4", "label": "Masalah discovery diperbaiki"},
-    cover: {"src": "/work/goers/cover-home.png", "alt": "Homepage mobile Goers yang baru dengan lokasi dan kategori"},
+    cover: {"src": "/work/goers/search-landing.png", "alt": "Pencarian Goers yang didesain ulang dengan pencarian terakhir dan populer"},
     problem: "Goers menjual tiket konser, olahraga, tempat wisata, dan event komunitas, dan kreator bisa membuat event sendiri. Sebagian besar pengunjung datang dengan tujuan yang sudah jelas. Targetnya adalah discovery organik: orang menemukan event yang tidak mereka cari. Homepage-nya justru menghambat. Kategori dan lokasi tersembunyi di burger menu, semua section memakai kartu yang sama, artikel terlihat seperti event, dan tanggal tidak muncul di daftar.",
     approach: "Saya mulai dari UX audit di tiga tempat discovery terjadi (homepage, eksplorasi event, pencarian) dan membandingkan dengan Tiket.com, Loket, dan Eventbrite. Daftar masalah yang panjang mengerucut jadi empat: sedikit pintu masuk ke discovery, tidak ada personalisasi, hierarki antar jenis konten lemah, dan daftar kurasi yang tidak menonjol. Tiap perubahan di redesign menjawab salah satunya.",
     solutions: [
@@ -205,7 +205,7 @@ export const caseStudies = [
     timeline: 'Mar 2022 – Jun 2025',
     scope: ['Registrasi', 'Desain form', 'Produk baru 0→1', 'Sistem voucher', 'Kolaborasi UX research'],
     accentMetric: { value: '+248%', label: 'Pengguna terverifikasi' },
-    cover: {"src": "/work/koinworks/cover-account-type.png", "alt": "Layar pilihan tipe akun KoinWorks"},
+    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "Layar pilihan tipe akun KoinWorks"},
     problem:
       'KoinWorks adalah platform pinjaman dan edukasi finansial, dan registrasinya bocor. Form-nya meminta terlalu banyak, terlalu awal, dan memvalidasi terlalu telat — orang baru kena error di ujung, lalu pergi.',
     approach:
