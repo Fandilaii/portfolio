@@ -200,13 +200,18 @@
 /* ── Scroll progress ─────────────────────────────────────────────────────── */
 .progress {
   position: fixed;
-  top: 60px;              /* sits directly under the 60px nav */
+  top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  z-index: 49;
+  height: 8px;
+  z-index: 49;            /* just under the nav (50), so the open menu covers it */
   pointer-events: none;
+  /* Rides directly under the nav (60px + its 1px border) and follows it up to
+     the top edge when the nav auto-hides, on the same timing. */
+  transform: translateY(61px);
+  transition: transform 0.4s var(--ease);
 }
+.progress--top { transform: none; }
 .progress__bar {
   height: 100%;
   background: var(--accent);
@@ -381,6 +386,7 @@ body.has-cursor .cursor__ring { opacity: 1; }
   .cursor__dot, .cursor__ring { display: none !important; }
   .nav { transition: none !important; }
   .nav--hidden { transform: none !important; }
+  .progress { transform: translateY(61px) !important; transition: none !important; }
   .hero__stat-rule { transform: scaleX(1) !important; transition: none !important; }
   .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
   .wrow::before { transition: none !important; }
