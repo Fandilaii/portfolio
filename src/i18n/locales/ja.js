@@ -165,7 +165,7 @@ export const caseStudies = [
     timeline: "2025年6月 – 2026年1月",
     scope: ["UX監査", "競合ベンチマーク", "ホーム", "検索", "情報設計", "モバイルWeb"],
     accentMetric: {"value": "4", "label": "解決したディスカバリーの課題"},
-    cover: {"src": "/work/goers/cover-home.png", "alt": "場所とカテゴリを備えた Goers の新しいモバイルホーム"},
+    cover: {"src": "/work/goers/search-landing.png", "alt": "最近の検索と人気の検索を表示する、再設計した Goers の検索画面"},
     problem: "Goers はコンサート、スポーツ、観光施設、コミュニティイベントのチケットを販売し、クリエイターが自分のイベントを作ることもできます。訪問者の多くは、目的が決まった状態で来ていました。目標はオーガニックなディスカバリー、つまり探していなかったイベントに出会ってもらうことです。ところがホームはその逆でした。カテゴリと場所はバーガーメニューの中に隠れ、どのセクションも同じカードで、記事がイベントのように見え、一覧には日付がありませんでした。",
     approach: "ディスカバリーが起きる三つの場所（ホーム、イベント探索、検索）の UX 監査から始め、Tiket.com、Loket、Eventbrite と比較しました。長い課題リストは四つに絞られました。ディスカバリーへの入口が少ない、パーソナライズがない、コンテンツ種別の階層が弱い、キュレーションが目立たない。リデザインの各変更は、このいずれかに対応しています。",
     solutions: [
@@ -204,7 +204,7 @@ export const caseStudies = [
     timeline: '2022年3月 – 2025年6月',
     scope: ['登録フロー', 'フォーム設計', '新規プロダクト 0→1', 'クーポン設計', 'UXリサーチとの協働'],
     accentMetric: { value: '+248%', label: '本人確認完了ユーザー' },
-    cover: {"src": "/work/koinworks/cover-account-type.png", "alt": "KoinWorks のアカウント種別選択画面"},
+    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "KoinWorks のアカウント種別選択画面"},
     problem:
       'KoinWorks は融資と金融教育のプラットフォームで、登録フローからユーザーが漏れ続けていました。フォームは早い段階で多くを尋ねすぎ、検証は遅すぎました。最後になってエラーに当たり、そのまま離脱していたのです。',
     approach:
@@ -236,6 +236,7 @@ export const caseStudies = [
   },
   {
     slug: "mandiri-taspen",
+    cover: {"src": "/work/mandiri-taspen/cover-home.png", "alt": "大きなラベル付きアイコンが並ぶ Movin' のホーム画面"},
     index: "05",
     company: "Mandiri Taspen",
     title: "退職者のための銀行アプリ再構築",

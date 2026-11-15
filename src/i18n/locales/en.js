@@ -163,7 +163,7 @@ export const caseStudies = [
     timeline: "Jun 2025 – Jan 2026",
     scope: ["UX audit", "Competitor benchmark", "Homepage", "Search", "Information architecture", "Mobile web"],
     accentMetric: {"value": "4", "label": "Discovery problems fixed"},
-    cover: {"src": "/work/goers/cover-home.png", "alt": "Redesigned Goers mobile homepage with location and categories"},
+    cover: {"src": "/work/goers/search-landing.png", "alt": "Redesigned Goers search with recent and popular searches"},
     problem: "Goers sells tickets for concerts, sports, attractions and community events, and lets creators publish their own. Most visitors arrived knowing what they wanted. The goal was organic discovery: people finding events they had not searched for. The homepage worked against that. Categories and location were hidden in the burger menu, every section used the same card, articles looked like events, and dates were missing from listings.",
     approach: "I started with a UX audit of the three places discovery happens (homepage, event exploration, search) and benchmarked Tiket.com, Loket and Eventbrite. That reduced a long list of issues to four problems: few entry points to discovery, no personalisation, weak hierarchy between content types, and curated lists that did not stand out. Each change in the redesign maps to one of them.",
     solutions: [
@@ -202,7 +202,7 @@ export const caseStudies = [
     timeline: 'Mar 2022 – Jun 2025',
     scope: ['Registration', 'Form design', 'New products 0→1', 'Voucher systems', 'UX research partnership'],
     accentMetric: { value: '+248%', label: 'Verified users' },
-    cover: {"src": "/work/koinworks/cover-account-type.png", "alt": "KoinWorks account type selection screen"},
+    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "KoinWorks account type selection screen"},
     problem:
       'KoinWorks is a lending and financial-education platform, and registration was leaking users. The form asked for too much, too early, and validated too late — people hit an error at the end and left.',
     approach:
@@ -234,6 +234,7 @@ export const caseStudies = [
   },
   {
     slug: "mandiri-taspen",
+    cover: {"src": "/work/mandiri-taspen/cover-home.png", "alt": "Movin' home screen with large labelled service icons"},
     index: "05",
     company: "Mandiri Taspen",
     title: "Rebuilding a banking app for retirees",
