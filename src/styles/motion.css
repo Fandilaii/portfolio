@@ -5,7 +5,6 @@
 */
 
 :root {
-  --t-cover: 220ms;   /* keep in sync with COVER_MS in lib/transitionNav.jsx */
 
   /* A real spring, sampled into a linear() curve. Overshoots ~1.5% and settles,
      which a cubic-bezier physically cannot express — beziers are monotonic
@@ -23,33 +22,6 @@
   inherits: true;
   initial-value: 0;
 }
-
-/* ── Shared-element route morph (View Transitions API) ───────────────────────
-   The card's phone mock and title carry the same view-transition-name as their
-   counterparts on the case-study page, so the browser tweens between the two
-   boxes: the card visually becomes the page. */
-.vt-mock { view-transition-name: case-mock; }
-.vt-title { view-transition-name: case-title; }
-
-::view-transition-group(case-mock),
-::view-transition-group(case-title) {
-  animation-duration: 0.62s;
-  animation-timing-function: var(--spring);
-}
-/* Cross-fade the paired snapshots quickly; the box morph carries the motion */
-::view-transition-old(case-mock),
-::view-transition-new(case-mock),
-::view-transition-old(case-title),
-::view-transition-new(case-title) {
-  animation-duration: 0.28s;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root),
-::view-transition-new(root) { animation-duration: 0.42s; }
-
-/* The morphing pair must sit above the page fade */
-::view-transition-group(case-mock) { z-index: 10; }
-::view-transition-group(case-title) { z-index: 11; }
 
 /* ── Scroll-driven reveals ───────────────────────────────────────────────────
    Where the browser supports it, reveals are driven by a view() timeline rather
@@ -179,21 +151,50 @@
 }
 .mask__inner.in { transform: none; }
 
-/* ── Route transition wipe ───────────────────────────────────────────────── */
-.wipe {
+/* ── Route transition curtain (driven by GSAP in lib/transitionNav.jsx) ────
+   Fixed ink on paper in both themes, like the footer: it is the darkest thing
+   on the page. Columns overlap by 1px so no hairline shows between them. */
+.pt {
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: var(--ink);
-  pointer-events: none;
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform var(--t-cover) var(--ease);
-}
-.wipe--on {
-  transform: scaleY(1);
-  transform-origin: top;
+  visibility: hidden;
   pointer-events: all;
+  overflow: hidden;
+  contain: strict;
+}
+.pt__cols { position: absolute; inset: 0; display: flex; }
+.pt__col {
+  flex: 1 1 0;
+  margin-right: -1px;
+  background: var(--ink);
+  border-top: 3px solid var(--accent);
+  will-change: transform;
+}
+.pt__col:last-child { margin-right: 0; }
+.pt__label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+/* The label rises out of, and leaves through, its own one-line mask */
+.pt__label-mask { display: block; overflow: hidden; padding-block: 0.15em; }
+.pt__label-in { display: block; color: var(--paper); font-size: 0.8rem; letter-spacing: 0.22em; text-align: center; will-change: transform; }
+/* The tapped phone, lifted above the curtain while it flies to its new place */
+.pt__ghost {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 1001;
+  visibility: hidden;
+  pointer-events: none;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.pt__ghost-mock { width: 100% !important; height: 100% !important; max-width: none !important; aspect-ratio: auto !important; box-sizing: border-box !important; box-shadow: none; }
+@media (max-width: 700px) {
+  .pt__col:nth-child(n + 4) { display: none; }
 }
 
 /* ── Scroll progress ─────────────────────────────────────────────────────── */
@@ -369,16 +370,13 @@ body.has-cursor .cursor__ring { opacity: 1; }
 /* ── Reduced motion: resolve everything to its final state ───────────────── */
 @media (prefers-reduced-motion: reduce) {
   /* New-technique kill switches */
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) { animation: none !important; }
   .cgrid, .wlist, .hero__shipped-list { transform: none !important; }
   .px { animation: none !important; translate: none !important; }
   .kw__c { transition: none !important; font-variation-settings: 'wght' 800 !important; }
   .section-head h2 .mask__inner { animation: none !important; }
 
   .mask__inner { transform: none !important; transition: none !important; }
-  .wipe { display: none !important; }
+  .pt, .pt__ghost { display: none !important; }
   .progress__bar { transition: none !important; }
   .cursor__dot, .cursor__ring { display: none !important; }
   .nav { transition: none !important; }
