@@ -50,7 +50,7 @@ export const ui = {
     eyebrow: 'Got a hard problem on a small screen?',
     cta: ['Let’s', 'talk.'],
     ctaAria: 'Let’s talk — email Fandi Lai',
-    email: 'Email', linkedin: 'LinkedIn', phone: 'Phone', basedIn: 'Based in', relocation: 'Open to relocation in Europe, or remote',
+    email: 'Email', linkedin: 'LinkedIn', phone: 'Phone', basedIn: 'Based in', relocation: 'Open to relocation in Europe, or remote. 1 month notice.',
     backToTop: 'Back to top ↑',
     built: 'Designed & built end-to-end',
   },

@@ -53,7 +53,7 @@ export const ui = {
     eyebrow: 'Punya masalah rumit di layar kecil?',
     cta: ['Mari', 'bicara.'],
     ctaAria: 'Mari bicara — kirim email ke Fandi Lai',
-    email: 'Email', linkedin: 'LinkedIn', phone: 'Telepon', basedIn: 'Berbasis di', relocation: 'Siap relokasi ke Eropa, atau remote',
+    email: 'Email', linkedin: 'LinkedIn', phone: 'Telepon', basedIn: 'Berbasis di', relocation: 'Siap relokasi ke Eropa, atau remote. Notice 1 bulan.',
     backToTop: 'Kembali ke atas ↑',
     built: 'Dirancang & dibangun sendiri',
   },

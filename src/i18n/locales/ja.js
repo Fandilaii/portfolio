@@ -52,7 +52,7 @@ export const ui = {
     eyebrow: '小さな画面に、難しい課題がありますか？',
     cta: ['話し', 'ましょう。'],
     ctaAria: '話しましょう — Fandi Lai にメールを送る',
-    email: 'メール', linkedin: 'LinkedIn', phone: '電話', basedIn: '拠点', relocation: '欧州への移住、またはリモート可',
+    email: 'メール', linkedin: 'LinkedIn', phone: '電話', basedIn: '拠点', relocation: '欧州への移住、またはリモート可。退職まで1か月。',
     backToTop: 'トップへ戻る ↑',
     built: 'デザインから実装まで',
   },
