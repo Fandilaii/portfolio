@@ -88,6 +88,9 @@ export default function Hero() {
             <a href={`mailto:${profile.email}`} className="btn btn--ghost">
               {profile.email}
             </a>
+            <a href="/Fandi_Lai_CV.pdf" download className="btn btn--ghost">
+              {ui.hero.cv} <span className="btn__arrow">↓</span>
+            </a>
           </div>
         </div>
       </div>

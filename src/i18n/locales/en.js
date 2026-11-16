@@ -33,6 +33,7 @@ export const ui = {
     introHighlight: 'complicated money',
     introAfter: ' feel simple on a phone screen. Research, flows, prototypes — and the metric at the end.',
     cta: 'See the work',
+    cv: 'Download CV',
     shippedAt: 'Shipped product at',
   },
   work: { eyebrow: 'Selected work', heading: ['Six bets,', 'up close'], idx: '01 — CASES', readCase: 'Read case' },

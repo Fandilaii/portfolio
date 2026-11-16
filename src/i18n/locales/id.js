@@ -36,6 +36,7 @@ export const ui = {
     introHighlight: 'urusan uang yang rumit',
     introAfter: ' terasa sederhana di layar ponsel. Riset, alur, prototipe — dan angkanya di akhir.',
     cta: 'Lihat karya',
+    cv: 'Unduh CV',
     shippedAt: 'Pernah membangun produk di',
   },
   work: { eyebrow: 'Karya pilihan', heading: ['Enam taruhan,', 'dari dekat'], idx: '01 — KASUS', readCase: 'Baca kasus' },
