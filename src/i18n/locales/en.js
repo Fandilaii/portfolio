@@ -152,11 +152,13 @@ export const caseStudies = [
     ],
     impact: [
       { value: '20 → 4', label: 'Onboarding screens before a user sees value' },
-      { value: "15", label: "Transactions before AI insights appear" },
-      { value: '30', label: 'Category cap, with automatic budget cleanup' },
+      {"value": "1 in 8", "label": "Weekly active users who use FinGPT"},
+      {"value": "~5×", "label": "Times a week each of them uses it"},
+      {"value": "1 in 2", "label": "FinGPT users who come back the next week"},
+      {"value": "Over half", "label": "New sign-ups who log a first transaction within 3 days"},
     ],
     closing:
-      'This one is still in flight, so I am not going to claim a result yet. Onboarding is live and I am measuring time-on-task now — the design decision isn’t finished until the number moves.',
+      "FinGPT is now a weekly habit for about one in eight active users, and half of them return the week after. Figures are rounded from Finku’s product analytics, November 2026.",
   },
   {
     slug: 'finku-q2-logging',
@@ -187,11 +189,13 @@ export const caseStudies = [
       { src: '/work/finku-q2/shortcut.png', alt: "iOS Shortcut setup guide", caption: "Setup guide for logging with an iOS Triple Tap or the Action Button." },
     ],
     impact: [
-      { value: "20", label: "Currencies in the picker" },
-      { value: "4", label: "Ways to log from one screen" },
+      {"value": "20", "label": "Currencies in the picker"},
+      {"value": "4", "label": "Ways to log from one screen"},
+      {"value": "1 in 15", "label": "Weekly active users who log with Quick Input"},
+      {"value": "2 in 3", "label": "Quick Input users who use it again the next week"},
     ],
     closing:
-      "No launch numbers here yet. What I am watching: the share of transactions logged by upload instead of typing, and how many users add a second currency.",
+      "Quick Input stuck: people who try it keep using it, about three times a week. Figures are rounded from Finku’s product analytics, November 2026. Multi-currency is used by a small group so far, which is expected while most users are in Indonesia.",
   },
   {
     slug: "office-coffee",

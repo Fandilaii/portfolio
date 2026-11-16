@@ -155,11 +155,13 @@ export const caseStudies = [
     ],
     impact: [
       { value: '20 → 4', label: 'Layar onboarding sebelum pengguna merasakan manfaat' },
-      { value: "15", label: "Transaksi sebelum insight AI muncul" },
-      { value: '30', label: 'Batas kategori, dengan pembersihan budget otomatis' },
+      {"value": "1 dari 8", "label": "Pengguna aktif mingguan yang memakai FinGPT"},
+      {"value": "~5×", "label": "Kali seminggu tiap pengguna memakainya"},
+      {"value": "1 dari 2", "label": "Pengguna FinGPT yang kembali minggu berikutnya"},
+      {"value": "Lebih dari ½", "label": "Pengguna baru yang mencatat transaksi pertama dalam 3 hari"},
     ],
     closing:
-      'Yang ini masih berjalan, jadi saya belum mau mengklaim hasil. Onboarding-nya sudah live dan saya sedang mengukur time-on-task — keputusan desain belum selesai sampai angkanya bergerak.',
+      "FinGPT kini jadi kebiasaan mingguan bagi sekitar satu dari delapan pengguna aktif, dan separuhnya kembali minggu berikutnya. Angka dibulatkan dari analitik produk Finku, November 2026.",
   },
   {
     slug: 'finku-q2-logging',
@@ -190,11 +192,13 @@ export const caseStudies = [
       { src: '/work/finku-q2/shortcut.png', alt: "Panduan setup iOS Shortcut", caption: "Panduan setup mencatat lewat Triple Tap iOS atau Action Button." },
     ],
     impact: [
-      { value: "20", label: "Mata uang di pemilih" },
-      { value: "4", label: "Cara mencatat dari satu layar" },
+      {"value": "20", "label": "Mata uang di pemilih"},
+      {"value": "4", "label": "Cara mencatat dari satu layar"},
+      {"value": "1 dari 15", "label": "Pengguna aktif mingguan yang mencatat lewat Quick Input"},
+      {"value": "2 dari 3", "label": "Pengguna Quick Input yang memakainya lagi minggu berikutnya"},
     ],
     closing:
-      "Belum ada angka peluncuran di sini. Yang sedang saya pantau: porsi transaksi yang dicatat lewat upload dibanding diketik, dan berapa banyak pengguna yang menambah mata uang kedua.",
+      "Quick Input melekat: yang mencobanya terus memakainya, sekitar tiga kali seminggu. Angka dibulatkan dari analitik produk Finku, November 2026. Multi-currency baru dipakai kelompok kecil, wajar karena sebagian besar pengguna ada di Indonesia.",
   },
   {
     slug: "office-coffee",
