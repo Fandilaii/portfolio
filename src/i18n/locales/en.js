@@ -50,7 +50,7 @@ export const ui = {
     eyebrow: 'Got a hard problem on a small screen?',
     cta: ['Let’s', 'talk.'],
     ctaAria: 'Let’s talk — email Fandi Lai',
-    email: 'Email', linkedin: 'LinkedIn', phone: 'Phone', basedIn: 'Based in',
+    email: 'Email', linkedin: 'LinkedIn', phone: 'Phone', basedIn: 'Based in', relocation: 'Open to relocation in Europe, or remote',
     backToTop: 'Back to top ↑',
     built: 'Designed & built end-to-end',
   },
@@ -80,8 +80,48 @@ export const tickerItems = [
 
 export const caseStudies = [
   {
-    slug: 'finku-fingpt',
+    slug: 'koinworks-registration',
     index: '01',
+    company: 'KoinWorks',
+    title: 'The registration flow that lifted verified users 248%',
+    tagline: 'Fewer fields, real-time validation, and a 20% drop in abandonment.',
+    role: 'Product Designer, Platform',
+    timeline: 'Mar 2022 – Jun 2025',
+    scope: ['Registration', 'Form design', 'New products 0→1', 'Voucher systems', 'UX research partnership'],
+    accentMetric: { value: '+248%', label: 'Verified users' },
+    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "KoinWorks account type selection screen"},
+    problem:
+      'KoinWorks is a lending and financial-education platform, and registration was leaking users. The form asked for too much, too early, and validated too late — people hit an error at the end and left.',
+    approach:
+      'I redesigned the registration flow around real-time validation and fewer form fields — catching mistakes the moment they happen and removing everything that did not need to be there to get a verified account.',
+    solutions: [
+      {"head": "KYC people can finish", "body": "Research showed three failures: reviews that failed without a reason, liveness checks that errored, and blurry ID photos. I split KYC into five visible steps, told people what each check needs before they start, and said why regulated data is requested."},
+      { head: 'Validate as you type', body: 'Errors surface inline, at the field, at the moment they occur — never a wall of red at submit. The user always knows they are on track.' },
+      { head: 'Cut the field count', body: 'I stripped the form to what verification genuinely requires and deferred the rest, so the path from "start" to "verified" got dramatically shorter.' },
+      { head: 'Products from concept to launch', body: 'I also took KoinBill (bill payments) and KoinLearn (financial education) from concept through research, prototyping, usability testing, and launch — retention improved 15%.' },
+      { head: 'Vouchers that bring people back', body: 'I designed the voucher and promotion systems that drove a 30% lift in repeat transactions, working closely with UX research on personas and stakeholder interviews.' },
+    ],
+    screens: [
+      {"src": "/work/koinworks/kyc-account-type.png", "alt": "Account type selection", "caption": "One choice up front: investing or a business loan. Each card says what you get before you commit."},
+      {"src": "/work/koinworks/kyc-phone.png", "alt": "Phone number entry with referral code", "caption": "Phone number first. The referral field confirms the reward inline as soon as the code is valid."},
+      {"src": "/work/koinworks/kyc-otp.png", "alt": "OTP entry sent over WhatsApp", "caption": "OTP over WhatsApp, with SMS as the fallback. A 5-step bar shows how much is left."},
+      {"src": "/work/koinworks/kyc-password.png", "alt": "Password creation with live rules", "caption": "Password rules tick off as you type, so there is no error to discover at submit."},
+      {"src": "/work/koinworks/kyc-ektp.png", "alt": "e-KTP photo instructions", "caption": "Before the ID photo: three plain tips that prevent the blurry-KTP rejection, plus the OJK note on why we ask."},
+      {"src": "/work/koinworks/home-final.png", "alt": "Redesigned personal homepage", "caption": "The personal homepage rebuilt around the investment products, after KoinWorks narrowed from super-app to investing."},
+    ],
+    impact: [
+      { value: '+248%', label: 'Verified users' },
+      {"value": "+78%", "label": "First transactions"},
+      { value: '−20%', label: 'Drop-off' },
+      { value: '+15%', label: 'Retention (KoinBill / KoinLearn)' },
+      { value: '+30%', label: 'Repeat transactions (vouchers)' },
+    ],
+    closing:
+      'The registration numbers are the ones I point to first — a focused change to one form, and the top of the funnel moved more than any redesign I have shipped since.',
+  },
+  {
+    slug: 'finku-fingpt',
+    index: '02',
     company: 'Finku',
     title: 'FinGPT & the 4-screen onboarding',
     tagline: 'An AI feature that reads your bank statements — and an onboarding that stops asking so many questions.',
@@ -120,7 +160,7 @@ export const caseStudies = [
   },
   {
     slug: 'finku-q2-logging',
-    index: '02',
+    index: '03',
     company: 'Finku',
     title: "Multi-currency, and four ways to log a transaction",
     tagline: "Opening a Rupiah-only app to other currencies and countries, and making logging the easy part.",
@@ -155,7 +195,7 @@ export const caseStudies = [
   },
   {
     slug: "office-coffee",
-    index: "03",
+    index: "04",
     company: "Office Coffee",
     title: "Ordering from the table, and a POS the staff can run",
     tagline: "Office Coffee: QR ordering for guests and a tablet POS for the counter, designed as one system.",
@@ -182,6 +222,7 @@ export const caseStudies = [
       {"src": "/work/office-coffee/qr-order-received.png", "alt": "Order received", "caption": "Order received: the order number and what happens next."},
     ],
     boards: [
+      {"src": "/work/office-coffee/board-edge-states.png", "alt": "Guest error and edge states", "caption": "The states guests hit when something goes wrong: loading, no search results, no connection, outlet closed, payment failed and session expired."},
       {"src": "/work/office-coffee/pos-main.png", "alt": "POS cashier screen", "caption": "The cashier screen: favourites, library and custom items, with member prices."},
       {"src": "/work/office-coffee/pos-mode.png", "alt": "Mode selection", "caption": "Choosing a mode after login: cashier or guest checkout."},
       {"src": "/work/office-coffee/pos-open-bill.png", "alt": "Open bills", "caption": "Open bills, so a table can keep ordering and pay once."},
@@ -196,7 +237,7 @@ export const caseStudies = [
   },
   {
     slug: "goers-discovery",
-    index: "04",
+    index: "05",
     company: "Goers",
     title: "Helping people find events they were not looking for",
     tagline: "An audit and redesign of discovery on Goers: homepage, categories, explore and search.",
@@ -232,46 +273,6 @@ export const caseStudies = [
       {"value": "2", "label": "New entry points to all events"},
     ],
     closing: "The redesign is live on goersapp.com. I led the homepage work, simplified the purchase journey end to end, and ran the usability testing myself.",
-  },
-  {
-    slug: 'koinworks-registration',
-    index: '05',
-    company: 'KoinWorks',
-    title: 'The registration flow that lifted verified users 248%',
-    tagline: 'Fewer fields, real-time validation, and a 20% drop in abandonment.',
-    role: 'Product Designer, Platform',
-    timeline: 'Mar 2022 – Jun 2025',
-    scope: ['Registration', 'Form design', 'New products 0→1', 'Voucher systems', 'UX research partnership'],
-    accentMetric: { value: '+248%', label: 'Verified users' },
-    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "KoinWorks account type selection screen"},
-    problem:
-      'KoinWorks is a lending and financial-education platform, and registration was leaking users. The form asked for too much, too early, and validated too late — people hit an error at the end and left.',
-    approach:
-      'I redesigned the registration flow around real-time validation and fewer form fields — catching mistakes the moment they happen and removing everything that did not need to be there to get a verified account.',
-    solutions: [
-      {"head": "KYC people can finish", "body": "Research showed three failures: reviews that failed without a reason, liveness checks that errored, and blurry ID photos. I split KYC into five visible steps, told people what each check needs before they start, and said why regulated data is requested."},
-      { head: 'Validate as you type', body: 'Errors surface inline, at the field, at the moment they occur — never a wall of red at submit. The user always knows they are on track.' },
-      { head: 'Cut the field count', body: 'I stripped the form to what verification genuinely requires and deferred the rest, so the path from "start" to "verified" got dramatically shorter.' },
-      { head: 'Products from concept to launch', body: 'I also took KoinBill (bill payments) and KoinLearn (financial education) from concept through research, prototyping, usability testing, and launch — retention improved 15%.' },
-      { head: 'Vouchers that bring people back', body: 'I designed the voucher and promotion systems that drove a 30% lift in repeat transactions, working closely with UX research on personas and stakeholder interviews.' },
-    ],
-    screens: [
-      {"src": "/work/koinworks/kyc-account-type.png", "alt": "Account type selection", "caption": "One choice up front: investing or a business loan. Each card says what you get before you commit."},
-      {"src": "/work/koinworks/kyc-phone.png", "alt": "Phone number entry with referral code", "caption": "Phone number first. The referral field confirms the reward inline as soon as the code is valid."},
-      {"src": "/work/koinworks/kyc-otp.png", "alt": "OTP entry sent over WhatsApp", "caption": "OTP over WhatsApp, with SMS as the fallback. A 5-step bar shows how much is left."},
-      {"src": "/work/koinworks/kyc-password.png", "alt": "Password creation with live rules", "caption": "Password rules tick off as you type, so there is no error to discover at submit."},
-      {"src": "/work/koinworks/kyc-ektp.png", "alt": "e-KTP photo instructions", "caption": "Before the ID photo: three plain tips that prevent the blurry-KTP rejection, plus the OJK note on why we ask."},
-      {"src": "/work/koinworks/home-final.png", "alt": "Redesigned personal homepage", "caption": "The personal homepage rebuilt around the investment products, after KoinWorks narrowed from super-app to investing."},
-    ],
-    impact: [
-      { value: '+248%', label: 'Verified users' },
-      {"value": "+78%", "label": "First transactions"},
-      { value: '−20%', label: 'Drop-off' },
-      { value: '+15%', label: 'Retention (KoinBill / KoinLearn)' },
-      { value: '+30%', label: 'Repeat transactions (vouchers)' },
-    ],
-    closing:
-      'The registration numbers are the ones I point to first — a focused change to one form, and the top of the funnel moved more than any redesign I have shipped since.',
   },
   {
     slug: "mandiri-taspen",

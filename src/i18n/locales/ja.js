@@ -52,7 +52,7 @@ export const ui = {
     eyebrow: '小さな画面に、難しい課題がありますか？',
     cta: ['話し', 'ましょう。'],
     ctaAria: '話しましょう — Fandi Lai にメールを送る',
-    email: 'メール', linkedin: 'LinkedIn', phone: '電話', basedIn: '拠点',
+    email: 'メール', linkedin: 'LinkedIn', phone: '電話', basedIn: '拠点', relocation: '欧州への移住、またはリモート可',
     backToTop: 'トップへ戻る ↑',
     built: 'デザインから実装まで',
   },
@@ -82,8 +82,48 @@ export const tickerItems = [
 
 export const caseStudies = [
   {
-    slug: 'finku-fingpt',
+    slug: 'koinworks-registration',
     index: '01',
+    company: 'KoinWorks',
+    title: '本人確認完了ユーザーを248%伸ばした登録フロー',
+    tagline: '入力項目を減らし、リアルタイム検証を入れ、離脱を20%削減。',
+    role: 'プロダクトデザイナー（プラットフォーム）',
+    timeline: '2022年3月 – 2025年6月',
+    scope: ['登録フロー', 'フォーム設計', '新規プロダクト 0→1', 'クーポン設計', 'UXリサーチとの協働'],
+    accentMetric: { value: '+248%', label: '本人確認完了ユーザー' },
+    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "KoinWorks のアカウント種別選択画面"},
+    problem:
+      'KoinWorks は融資と金融教育のプラットフォームで、登録フローからユーザーが漏れ続けていました。フォームは早い段階で多くを尋ねすぎ、検証は遅すぎました。最後になってエラーに当たり、そのまま離脱していたのです。',
+    approach:
+      'リアルタイム検証と入力項目の削減を軸に、登録フローを設計し直しました。間違いはその場で拾い、本人確認済みアカウントを作るうえで必要のないものは、すべて取り除きました。',
+    solutions: [
+      {"head": "最後まで終えられる KYC", "body": "調査で三つの失敗が見つかりました。理由の分からない審査落ち、エラーになる生体確認、ぼやけた身分証写真です。KYC を見える五つのステップに分け、各確認に必要なものを事前に伝え、規制上のデータを求める理由も示しました。"},
+      { head: '入力しながら検証する', body: 'エラーは発生したその瞬間に、その項目の場所で表示されます。送信してから赤字がずらりと並ぶことはありません。ユーザーは常に、自分が正しい道筋にいると分かります。' },
+      { head: '項目数を削る', body: '本人確認に本当に必要なものだけを残し、残りは後回しにしました。「開始」から「確認済み」までの距離が、大幅に短くなりました。' },
+      { head: 'コンセプトからリリースまで', body: 'KoinBill（請求書支払い）と KoinLearn（金融教育）も、リサーチ、プロトタイピング、ユーザビリティテストを経てリリースまで担当しました。継続率は15%改善しました。' },
+      { head: '再訪を促すクーポン', body: 'クーポンとプロモーションの仕組みを設計し、リピート取引を30%押し上げました。ペルソナ設計とステークホルダーインタビューでは、UXリサーチと密に連携しました。' },
+    ],
+    screens: [
+      {"src": "/work/koinworks/kyc-account-type.png", "alt": "アカウント種別の選択画面", "caption": "最初に選ぶのはひとつだけ。投資か事業ローンか。各カードが、選ぶ前に内容を説明します。"},
+      {"src": "/work/koinworks/kyc-phone.png", "alt": "電話番号と紹介コードの入力", "caption": "まず電話番号。紹介コードは有効と分かった時点で、その場で特典を確認します。"},
+      {"src": "/work/koinworks/kyc-otp.png", "alt": "WhatsApp で届く OTP の入力", "caption": "OTP は WhatsApp で送り、SMS を予備に。5ステップのバーが残りを示します。"},
+      {"src": "/work/koinworks/kyc-password.png", "alt": "ルールをその場で確認できるパスワード作成", "caption": "入力に合わせてルールにチェックが付くので、送信時に初めてエラーを知ることがありません。"},
+      {"src": "/work/koinworks/kyc-ektp.png", "alt": "e-KTP 撮影の案内", "caption": "身分証の撮影前に、ぼやけによる差し戻しを防ぐ三つのヒントと、データを求める理由（OJK）を表示します。"},
+      {"src": "/work/koinworks/home-final.png", "alt": "再設計した個人向けホーム", "caption": "KoinWorks がスーパーアプリから投資へ絞ったあと、投資商品を中心に組み直した個人向けホーム。"},
+    ],
+    impact: [
+      { value: '+248%', label: '本人確認完了ユーザー' },
+      {"value": "+78%", "label": "初回取引"},
+      { value: '−20%', label: '離脱率' },
+      { value: '+15%', label: '継続率（KoinBill / KoinLearn）' },
+      { value: '+30%', label: 'リピート取引（クーポン）' },
+    ],
+    closing:
+      'この登録フローの数字を、私は最初に挙げます。ひとつのフォームへの集中した変更で、ファネルの入口はその後手がけたどのリデザインよりも大きく動きました。',
+  },
+  {
+    slug: 'finku-fingpt',
+    index: '02',
     company: 'Finku',
     title: 'FinGPT と、4画面のオンボーディング',
     tagline: '銀行の明細を読み取るAI機能と、質問をやめたオンボーディング。',
@@ -122,7 +162,7 @@ export const caseStudies = [
   },
   {
     slug: 'finku-q2-logging',
-    index: '02',
+    index: '03',
     company: 'Finku',
     title: "多通貨対応と、取引を記録する四つの方法",
     tagline: "ルピア専用だったアプリを他の通貨と国に開き、記録をいちばん簡単な作業にする。",
@@ -157,7 +197,7 @@ export const caseStudies = [
   },
   {
     slug: "office-coffee",
-    index: "03",
+    index: "04",
     company: "Office Coffee",
     title: "テーブルから注文、スタッフが使いこなせるPOS",
     tagline: "Office Coffee：お客様向けのQR注文とカウンター用タブレットPOSを、一つの仕組みとして設計。",
@@ -184,6 +224,7 @@ export const caseStudies = [
       {"src": "/work/office-coffee/qr-order-received.png", "alt": "注文受付", "caption": "注文受付：注文番号と次の流れ。"},
     ],
     boards: [
+      {"src": "/work/office-coffee/board-edge-states.png", "alt": "お客様向けのエラーと例外の状態", "caption": "問題が起きたときにお客様が目にする状態：読み込み中、検索結果なし、通信エラー、営業時間外、決済失敗、セッション切れ。"},
       {"src": "/work/office-coffee/pos-main.png", "alt": "POSレジ画面", "caption": "レジ画面：お気に入り、メニュー一覧、カスタム商品と会員価格。"},
       {"src": "/work/office-coffee/pos-mode.png", "alt": "モード選択", "caption": "ログイン後のモード選択：レジかゲストチェックアウト。"},
       {"src": "/work/office-coffee/pos-open-bill.png", "alt": "オープンビル", "caption": "オープンビルで、テーブルは追加注文してまとめて会計。"},
@@ -198,7 +239,7 @@ export const caseStudies = [
   },
   {
     slug: "goers-discovery",
-    index: "04",
+    index: "05",
     company: "Goers",
     title: "探していなかったイベントに出会えるように",
     tagline: "Goers のディスカバリーを監査し再設計。ホーム、カテゴリ、探索、検索。",
@@ -234,46 +275,6 @@ export const caseStudies = [
       {"value": "2", "label": "全イベントへの新しい入口"},
     ],
     closing: "リデザインは goersapp.com で公開されています。ホームの設計を主導し、購入までの導線を端から端まで簡素化し、ユーザビリティテストも自分で実施しました。",
-  },
-  {
-    slug: 'koinworks-registration',
-    index: '05',
-    company: 'KoinWorks',
-    title: '本人確認完了ユーザーを248%伸ばした登録フロー',
-    tagline: '入力項目を減らし、リアルタイム検証を入れ、離脱を20%削減。',
-    role: 'プロダクトデザイナー（プラットフォーム）',
-    timeline: '2022年3月 – 2025年6月',
-    scope: ['登録フロー', 'フォーム設計', '新規プロダクト 0→1', 'クーポン設計', 'UXリサーチとの協働'],
-    accentMetric: { value: '+248%', label: '本人確認完了ユーザー' },
-    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "KoinWorks のアカウント種別選択画面"},
-    problem:
-      'KoinWorks は融資と金融教育のプラットフォームで、登録フローからユーザーが漏れ続けていました。フォームは早い段階で多くを尋ねすぎ、検証は遅すぎました。最後になってエラーに当たり、そのまま離脱していたのです。',
-    approach:
-      'リアルタイム検証と入力項目の削減を軸に、登録フローを設計し直しました。間違いはその場で拾い、本人確認済みアカウントを作るうえで必要のないものは、すべて取り除きました。',
-    solutions: [
-      {"head": "最後まで終えられる KYC", "body": "調査で三つの失敗が見つかりました。理由の分からない審査落ち、エラーになる生体確認、ぼやけた身分証写真です。KYC を見える五つのステップに分け、各確認に必要なものを事前に伝え、規制上のデータを求める理由も示しました。"},
-      { head: '入力しながら検証する', body: 'エラーは発生したその瞬間に、その項目の場所で表示されます。送信してから赤字がずらりと並ぶことはありません。ユーザーは常に、自分が正しい道筋にいると分かります。' },
-      { head: '項目数を削る', body: '本人確認に本当に必要なものだけを残し、残りは後回しにしました。「開始」から「確認済み」までの距離が、大幅に短くなりました。' },
-      { head: 'コンセプトからリリースまで', body: 'KoinBill（請求書支払い）と KoinLearn（金融教育）も、リサーチ、プロトタイピング、ユーザビリティテストを経てリリースまで担当しました。継続率は15%改善しました。' },
-      { head: '再訪を促すクーポン', body: 'クーポンとプロモーションの仕組みを設計し、リピート取引を30%押し上げました。ペルソナ設計とステークホルダーインタビューでは、UXリサーチと密に連携しました。' },
-    ],
-    screens: [
-      {"src": "/work/koinworks/kyc-account-type.png", "alt": "アカウント種別の選択画面", "caption": "最初に選ぶのはひとつだけ。投資か事業ローンか。各カードが、選ぶ前に内容を説明します。"},
-      {"src": "/work/koinworks/kyc-phone.png", "alt": "電話番号と紹介コードの入力", "caption": "まず電話番号。紹介コードは有効と分かった時点で、その場で特典を確認します。"},
-      {"src": "/work/koinworks/kyc-otp.png", "alt": "WhatsApp で届く OTP の入力", "caption": "OTP は WhatsApp で送り、SMS を予備に。5ステップのバーが残りを示します。"},
-      {"src": "/work/koinworks/kyc-password.png", "alt": "ルールをその場で確認できるパスワード作成", "caption": "入力に合わせてルールにチェックが付くので、送信時に初めてエラーを知ることがありません。"},
-      {"src": "/work/koinworks/kyc-ektp.png", "alt": "e-KTP 撮影の案内", "caption": "身分証の撮影前に、ぼやけによる差し戻しを防ぐ三つのヒントと、データを求める理由（OJK）を表示します。"},
-      {"src": "/work/koinworks/home-final.png", "alt": "再設計した個人向けホーム", "caption": "KoinWorks がスーパーアプリから投資へ絞ったあと、投資商品を中心に組み直した個人向けホーム。"},
-    ],
-    impact: [
-      { value: '+248%', label: '本人確認完了ユーザー' },
-      {"value": "+78%", "label": "初回取引"},
-      { value: '−20%', label: '離脱率' },
-      { value: '+15%', label: '継続率（KoinBill / KoinLearn）' },
-      { value: '+30%', label: 'リピート取引（クーポン）' },
-    ],
-    closing:
-      'この登録フローの数字を、私は最初に挙げます。ひとつのフォームへの集中した変更で、ファネルの入口はその後手がけたどのリデザインよりも大きく動きました。',
   },
   {
     slug: "mandiri-taspen",

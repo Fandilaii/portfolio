@@ -53,7 +53,7 @@ export const ui = {
     eyebrow: 'Punya masalah rumit di layar kecil?',
     cta: ['Mari', 'bicara.'],
     ctaAria: 'Mari bicara — kirim email ke Fandi Lai',
-    email: 'Email', linkedin: 'LinkedIn', phone: 'Telepon', basedIn: 'Berbasis di',
+    email: 'Email', linkedin: 'LinkedIn', phone: 'Telepon', basedIn: 'Berbasis di', relocation: 'Siap relokasi ke Eropa, atau remote',
     backToTop: 'Kembali ke atas ↑',
     built: 'Dirancang & dibangun sendiri',
   },
@@ -83,8 +83,48 @@ export const tickerItems = [
 
 export const caseStudies = [
   {
-    slug: 'finku-fingpt',
+    slug: 'koinworks-registration',
     index: '01',
+    company: 'KoinWorks',
+    title: 'Alur registrasi yang menaikkan pengguna terverifikasi 248%',
+    tagline: 'Field lebih sedikit, validasi real-time, dan penurunan 20% pada tingkat berhenti di tengah jalan.',
+    role: 'Product Designer, Platform',
+    timeline: 'Mar 2022 – Jun 2025',
+    scope: ['Registrasi', 'Desain form', 'Produk baru 0→1', 'Sistem voucher', 'Kolaborasi UX research'],
+    accentMetric: { value: '+248%', label: 'Pengguna terverifikasi' },
+    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "Layar pilihan tipe akun KoinWorks"},
+    problem:
+      'KoinWorks adalah platform pinjaman dan edukasi finansial, dan registrasinya bocor. Form-nya meminta terlalu banyak, terlalu awal, dan memvalidasi terlalu telat — orang baru kena error di ujung, lalu pergi.',
+    approach:
+      'Saya mendesain ulang alur registrasi di sekitar validasi real-time dan field yang lebih sedikit — menangkap kesalahan tepat saat terjadi, dan membuang semua yang sebenarnya tidak dibutuhkan untuk mendapatkan akun terverifikasi.',
+    solutions: [
+      {"head": "KYC yang bisa diselesaikan", "body": "Riset menemukan tiga kegagalan: review yang gagal tanpa alasan, liveness yang error, dan foto KTP buram. Saya memecah KYC jadi lima langkah yang terlihat, memberi tahu syarat tiap pengecekan sebelum mulai, dan menjelaskan kenapa data yang diatur regulasi diminta."},
+      { head: 'Validasi sambil mengetik', body: 'Error muncul langsung di field-nya, tepat saat terjadi — bukan tumpukan peringatan merah saat submit. Pengguna selalu tahu dirinya masih di jalur yang benar.' },
+      { head: 'Memangkas jumlah field', body: 'Saya menyisakan hanya yang benar-benar dibutuhkan untuk verifikasi dan menunda sisanya, sehingga jarak dari "mulai" ke "terverifikasi" jadi jauh lebih pendek.' },
+      { head: 'Produk dari konsep ke rilis', body: 'Saya juga membawa KoinBill (pembayaran tagihan) dan KoinLearn (edukasi finansial) dari konsep sampai rilis, lewat riset, prototyping, dan usability testing — retensi naik 15%.' },
+      { head: 'Voucher yang menarik orang kembali', body: 'Saya merancang sistem voucher dan promosi yang mendorong kenaikan 30% pada transaksi berulang, bekerja erat dengan UX research untuk persona dan wawancara stakeholder.' },
+    ],
+    screens: [
+      {"src": "/work/koinworks/kyc-account-type.png", "alt": "Layar pilihan tipe akun", "caption": "Satu pilihan di awal: investasi atau pinjaman usaha. Tiap kartu menjelaskan isinya sebelum pengguna memilih."},
+      {"src": "/work/koinworks/kyc-phone.png", "alt": "Input nomor HP dengan kode referral", "caption": "Nomor HP dulu. Kolom referral langsung mengonfirmasi hadiahnya begitu kodenya valid."},
+      {"src": "/work/koinworks/kyc-otp.png", "alt": "Input OTP lewat WhatsApp", "caption": "OTP lewat WhatsApp, dengan SMS sebagai cadangan. Bar 5 langkah menunjukkan sisa prosesnya."},
+      {"src": "/work/koinworks/kyc-password.png", "alt": "Pembuatan kata sandi dengan aturan langsung", "caption": "Aturan kata sandi tercentang saat mengetik, jadi tidak ada error yang baru muncul saat submit."},
+      {"src": "/work/koinworks/kyc-ektp.png", "alt": "Instruksi foto e-KTP", "caption": "Sebelum foto KTP: tiga tips sederhana yang mencegah penolakan karena KTP buram, plus catatan OJK soal alasan datanya diminta."},
+      {"src": "/work/koinworks/home-final.png", "alt": "Homepage personal yang baru", "caption": "Homepage personal dibangun ulang di sekitar produk investasi, setelah KoinWorks fokus dari super-app ke investasi."},
+    ],
+    impact: [
+      { value: '+248%', label: 'Pengguna terverifikasi' },
+      {"value": "+78%", "label": "Transaksi pertama"},
+      { value: '−20%', label: 'Berhenti di tengah jalan' },
+      { value: '+15%', label: 'Retensi (KoinBill / KoinLearn)' },
+      { value: '+30%', label: 'Transaksi berulang (voucher)' },
+    ],
+    closing:
+      'Angka registrasi ini yang pertama saya tunjukkan — satu perubahan terfokus pada satu form, dan bagian atas funnel bergerak lebih jauh dibanding redesign mana pun yang saya kerjakan setelahnya.',
+  },
+  {
+    slug: 'finku-fingpt',
+    index: '02',
     company: 'Finku',
     title: 'FinGPT & onboarding 4 layar',
     tagline: 'Fitur AI yang membaca e-statement bank — dan onboarding yang berhenti bertanya terlalu banyak.',
@@ -123,7 +163,7 @@ export const caseStudies = [
   },
   {
     slug: 'finku-q2-logging',
-    index: '02',
+    index: '03',
     company: 'Finku',
     title: "Multi-mata uang, dan empat cara mencatat transaksi",
     tagline: "Membuka aplikasi yang tadinya hanya Rupiah ke mata uang dan negara lain, dan membuat pencatatan jadi bagian yang mudah.",
@@ -158,7 +198,7 @@ export const caseStudies = [
   },
   {
     slug: "office-coffee",
-    index: "03",
+    index: "04",
     company: "Office Coffee",
     title: "Pesan dari meja, dan POS yang mudah dijalankan staf",
     tagline: "Office Coffee: pemesanan lewat QR untuk tamu dan POS tablet untuk kasir, dirancang sebagai satu sistem.",
@@ -185,6 +225,7 @@ export const caseStudies = [
       {"src": "/work/office-coffee/qr-order-received.png", "alt": "Pesanan diterima", "caption": "Pesanan diterima: nomor pesanan dan langkah berikutnya."},
     ],
     boards: [
+      {"src": "/work/office-coffee/board-edge-states.png", "alt": "Kondisi error dan edge case untuk tamu", "caption": "Kondisi yang ditemui tamu saat ada masalah: loading, pencarian kosong, tanpa koneksi, outlet tutup, pembayaran gagal dan sesi habis."},
       {"src": "/work/office-coffee/pos-main.png", "alt": "Layar kasir POS", "caption": "Layar kasir: favorit, library dan menu custom, dengan harga member."},
       {"src": "/work/office-coffee/pos-mode.png", "alt": "Pilih mode", "caption": "Memilih mode setelah login: kasir atau guest checkout."},
       {"src": "/work/office-coffee/pos-open-bill.png", "alt": "Open bill", "caption": "Open bill, agar meja bisa terus memesan dan membayar sekali."},
@@ -199,7 +240,7 @@ export const caseStudies = [
   },
   {
     slug: "goers-discovery",
-    index: "04",
+    index: "05",
     company: "Goers",
     title: "Membantu orang menemukan event yang tidak mereka cari",
     tagline: "Audit dan redesign discovery di Goers: homepage, kategori, eksplorasi, dan pencarian.",
@@ -235,46 +276,6 @@ export const caseStudies = [
       {"value": "2", "label": "Pintu masuk baru ke semua event"},
     ],
     closing: "Redesign-nya sudah live di goersapp.com. Saya memimpin pengerjaan homepage, menyederhanakan perjalanan pembelian dari hulu ke hilir, dan menjalankan sendiri usability testing-nya.",
-  },
-  {
-    slug: 'koinworks-registration',
-    index: '05',
-    company: 'KoinWorks',
-    title: 'Alur registrasi yang menaikkan pengguna terverifikasi 248%',
-    tagline: 'Field lebih sedikit, validasi real-time, dan penurunan 20% pada tingkat berhenti di tengah jalan.',
-    role: 'Product Designer, Platform',
-    timeline: 'Mar 2022 – Jun 2025',
-    scope: ['Registrasi', 'Desain form', 'Produk baru 0→1', 'Sistem voucher', 'Kolaborasi UX research'],
-    accentMetric: { value: '+248%', label: 'Pengguna terverifikasi' },
-    cover: {"src": "/work/koinworks/kyc-account-type.png", "alt": "Layar pilihan tipe akun KoinWorks"},
-    problem:
-      'KoinWorks adalah platform pinjaman dan edukasi finansial, dan registrasinya bocor. Form-nya meminta terlalu banyak, terlalu awal, dan memvalidasi terlalu telat — orang baru kena error di ujung, lalu pergi.',
-    approach:
-      'Saya mendesain ulang alur registrasi di sekitar validasi real-time dan field yang lebih sedikit — menangkap kesalahan tepat saat terjadi, dan membuang semua yang sebenarnya tidak dibutuhkan untuk mendapatkan akun terverifikasi.',
-    solutions: [
-      {"head": "KYC yang bisa diselesaikan", "body": "Riset menemukan tiga kegagalan: review yang gagal tanpa alasan, liveness yang error, dan foto KTP buram. Saya memecah KYC jadi lima langkah yang terlihat, memberi tahu syarat tiap pengecekan sebelum mulai, dan menjelaskan kenapa data yang diatur regulasi diminta."},
-      { head: 'Validasi sambil mengetik', body: 'Error muncul langsung di field-nya, tepat saat terjadi — bukan tumpukan peringatan merah saat submit. Pengguna selalu tahu dirinya masih di jalur yang benar.' },
-      { head: 'Memangkas jumlah field', body: 'Saya menyisakan hanya yang benar-benar dibutuhkan untuk verifikasi dan menunda sisanya, sehingga jarak dari "mulai" ke "terverifikasi" jadi jauh lebih pendek.' },
-      { head: 'Produk dari konsep ke rilis', body: 'Saya juga membawa KoinBill (pembayaran tagihan) dan KoinLearn (edukasi finansial) dari konsep sampai rilis, lewat riset, prototyping, dan usability testing — retensi naik 15%.' },
-      { head: 'Voucher yang menarik orang kembali', body: 'Saya merancang sistem voucher dan promosi yang mendorong kenaikan 30% pada transaksi berulang, bekerja erat dengan UX research untuk persona dan wawancara stakeholder.' },
-    ],
-    screens: [
-      {"src": "/work/koinworks/kyc-account-type.png", "alt": "Layar pilihan tipe akun", "caption": "Satu pilihan di awal: investasi atau pinjaman usaha. Tiap kartu menjelaskan isinya sebelum pengguna memilih."},
-      {"src": "/work/koinworks/kyc-phone.png", "alt": "Input nomor HP dengan kode referral", "caption": "Nomor HP dulu. Kolom referral langsung mengonfirmasi hadiahnya begitu kodenya valid."},
-      {"src": "/work/koinworks/kyc-otp.png", "alt": "Input OTP lewat WhatsApp", "caption": "OTP lewat WhatsApp, dengan SMS sebagai cadangan. Bar 5 langkah menunjukkan sisa prosesnya."},
-      {"src": "/work/koinworks/kyc-password.png", "alt": "Pembuatan kata sandi dengan aturan langsung", "caption": "Aturan kata sandi tercentang saat mengetik, jadi tidak ada error yang baru muncul saat submit."},
-      {"src": "/work/koinworks/kyc-ektp.png", "alt": "Instruksi foto e-KTP", "caption": "Sebelum foto KTP: tiga tips sederhana yang mencegah penolakan karena KTP buram, plus catatan OJK soal alasan datanya diminta."},
-      {"src": "/work/koinworks/home-final.png", "alt": "Homepage personal yang baru", "caption": "Homepage personal dibangun ulang di sekitar produk investasi, setelah KoinWorks fokus dari super-app ke investasi."},
-    ],
-    impact: [
-      { value: '+248%', label: 'Pengguna terverifikasi' },
-      {"value": "+78%", "label": "Transaksi pertama"},
-      { value: '−20%', label: 'Berhenti di tengah jalan' },
-      { value: '+15%', label: 'Retensi (KoinBill / KoinLearn)' },
-      { value: '+30%', label: 'Transaksi berulang (voucher)' },
-    ],
-    closing:
-      'Angka registrasi ini yang pertama saya tunjukkan — satu perubahan terfokus pada satu form, dan bagian atas funnel bergerak lebih jauh dibanding redesign mana pun yang saya kerjakan setelahnya.',
   },
   {
     slug: "mandiri-taspen",
