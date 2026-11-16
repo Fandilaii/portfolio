@@ -57,6 +57,7 @@ export default function Footer() {
           <div className="footer__rail">
             <span className="mono-label">{ui.footer.basedIn}</span>
             <span className="footer__rail-val">{profile.location}</span>
+            <span className="footer__rail-sub">{ui.footer.relocation}</span>
           </div>
         </div>
 
