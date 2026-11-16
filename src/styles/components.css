@@ -806,6 +806,10 @@ a.footer__rail:hover .footer__rail-val { color: var(--accent); }
 .wstage__tagline { color: var(--ink-70); margin-top: 0.7rem; font-size: 1.05rem; line-height: 1.45; max-width: 52ch; }
 .wstage__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding-block: clamp(0.9rem, 2.4vh, 1.5rem) clamp(0.8rem, 2vh, 1.4rem); }
 .wstage__cta { flex: none; }
+/* Six or more cases: tighten the closed rows so the open one still fits on
+   short laptop screens (1280×680) without clipping the pin. */
+.wstage__list:has(> .wstage__item:nth-child(6)) .wstage__head { padding-block: clamp(0.3rem, 1vh, 0.85rem); }
+.wstage__list:has(> .wstage__item:nth-child(6)) .wstage__title { font-size: clamp(1.05rem, min(2.3vw, 3vh), 2.1rem); }
 
 /* ── Scroll-lit text ─────────────────────────────────────────────────────────
    ScrubText writes --sp (0..1). A word at position --i of --n lights once the
