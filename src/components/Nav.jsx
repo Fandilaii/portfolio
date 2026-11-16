@@ -5,6 +5,7 @@ import useScrollMetrics from '../hooks/useScrollMetrics.js'
 import LangSwitcher from './LangSwitcher.jsx'
 import ThemeToggle from './ThemeToggle.jsx'
 import { useT } from '../i18n/index.jsx'
+import LogoMark from './LogoMark.jsx'
 
 // Fixed top bar. Section links call scrollToSection rather than a real href —
 // under BrowserRouter a bare `#work` anchor would still work, but routing it
@@ -51,7 +52,7 @@ export default function Nav({ variant = 'home' }) {
           aria-label={`${ui.nav.home} — ${profile.name}`}
           onClick={closeAnd(variant === 'home' ? onSectionClick('top') : undefined)}
         >
-          <span className="nav__dot" /> Fandi&nbsp;Lai
+          <LogoMark className="nav__mark" /> Fandi&nbsp;Lai
         </TransitionLink>
 
         <button

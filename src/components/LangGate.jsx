@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { LOCALES, useLocale } from '../i18n/index.jsx'
+import LogoMark from './LogoMark.jsx'
 
 // First-visit language picker. Shown only when no choice has ever been stored.
 //
@@ -58,7 +59,7 @@ export default function LangGate() {
     <div className="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
       <div className="gate__panel" ref={panelRef}>
         <span className="gate__eyebrow mono-label">
-          <span className="gate__dot" aria-hidden="true" /> Fandi&nbsp;Lai
+          <LogoMark className="gate__mark" /> Fandi&nbsp;Lai
         </span>
 
         <h2 className="gate__title display" id="gate-title">
