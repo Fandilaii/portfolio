@@ -65,6 +65,7 @@ export default function Footer() {
 
         <div className="footer__base mono-label">
           <span>© {year} Fandi Lai</span>
+          <a href="/Fandi_Lai_CV.pdf" download className="footer__top">{ui.hero.cv} ↓</a>
           <a href="#top" onClick={onSectionClick('top')} className="footer__top">{ui.footer.backToTop}</a>
           <span>{ui.footer.built}</span>
         </div>

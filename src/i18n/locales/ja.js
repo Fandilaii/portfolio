@@ -35,6 +35,7 @@ export const ui = {
     introHighlight: 'お金の体験',
     introAfter: 'を、スマートフォンの画面でシンプルに。リサーチ、フロー、プロトタイプ — そして最後に数字を出します。',
     cta: '実績を見る',
+    cv: '履歴書をダウンロード',
     shippedAt: 'プロダクトを届けた場所',
   },
   work: { eyebrow: '主な実績', heading: ['六つの挑戦を', '近くで見る'], idx: '01 — 実績', readCase: 'ケースを読む' },
