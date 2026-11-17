@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>Video Tutorial Finku</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  Finku · Video Tutorial webview · v2 (2026-11-17): real @finku_id snapshot (9 videos), pinned start video, short titles; v2.1 HD thumbnails
+  Lists videos from youtube.com/@finku_id and plays them inline (youtube-nocookie embed).
+
+  DESIGNER / ENGINEER NOTES (English; UI copy is Bahasa Indonesia)
+  - Data source is ONE constant: FINKU_VIDEO_FEED below. Default is 'sample' (fake placeholder data,
+    clearly bannered) because YouTube was unreachable from the build sandbox.
+  - Override without editing: window.FINKU_VIDEO_FEED_OVERRIDE = {...} before this script, or query
+    params ?source=json&url=https://... , or native injection FinkuVideos.load([...items]).
+  - Out to native: postToNative({type}) -> close | open_youtube | open_channel | video_play |
+    video_progress | video_watched | video_error | ready. See ENGINEER-NOTES.md.
+  - Tokens: 8px grid, min font 12px, cobalt #035CDC, amber #F1B438.
+  - ?review=1 shows a state switcher (designer tool, never ship it on).
+-->
+<style>
+:root{
+  --blue:#035CDC; --blue-700:#0249B0; --blue-50:#EAF2FF; --blue-100:#D6E6FF;
+  --amber:#F1B438; --amber-50:#FEF6E4;
+  --ink:#141A24; --ink-2:#4A5466; --ink-3:#7A8496; --line:#E6EAF0; --bg:#FFFFFF; --surface:#F5F7FA;
+  --red:#D92D20;
+  --r-s:8px; --r-m:16px; --r-l:24px;
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px;
+  --font:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:20px}
+body{min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block}
+.wrap{max-width:480px;margin:0 auto;padding-bottom:calc(var(--s4) + env(safe-area-inset-bottom))}
+
+/* App bar */
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:var(--s1);height:56px;padding:0 var(--s1);
+  padding-top:env(safe-area-inset-top);background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid transparent;transition:border-color .2s}
+.bar.scrolled{border-bottom-color:var(--line)}
+.bar h1{flex:1;font-size:16px;line-height:24px;font-weight:700}
+.icon-btn{width:40px;height:40px;border-radius:20px;display:grid;place-items:center}
+.icon-btn:active{background:var(--surface)}
+.icon-btn svg{width:24px;height:24px}
+
+/* Sample / offline banners */
+.banner{margin:var(--s1) var(--s2) 0;padding:var(--s1) 12px;border-radius:var(--r-s);font-size:12px;line-height:16px;display:flex;gap:var(--s1);align-items:flex-start}
+.banner.sample{background:var(--amber-50);border:1px dashed var(--amber);color:#7A5200}
+.banner.offline{background:var(--surface);color:var(--ink-2)}
+.banner b{font-weight:700}
+
+/* Intro */
+.intro{padding:var(--s2) var(--s2) 0}
+.intro h2{font-size:20px;line-height:28px;font-weight:700}
+.intro p{margin-top:4px;color:var(--ink-2)}
+
+/* Hero player */
+.hero{padding:var(--s2) var(--s2) 0}
+.frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r-m);overflow:hidden;background:var(--blue)}
+.frame img{width:100%;height:100%;object-fit:cover}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.frame .tap{position:absolute;inset:0;display:grid;place-items:center;width:100%}
+.play-l{width:56px;height:56px;border-radius:28px;background:#fff;display:grid;place-items:center;box-shadow:0 4px 16px rgba(3,30,80,.25)}
+.play-l svg{width:24px;height:24px;margin-left:3px;fill:var(--blue)}
+.dur{position:absolute;right:var(--s1);bottom:var(--s1);background:rgba(10,14,22,.85);color:#fff;font-size:12px;line-height:16px;font-weight:600;padding:2px 6px;border-radius:6px}
+.hero .kicker{margin-top:12px;font-size:12px;line-height:16px;font-weight:700;color:var(--blue);text-transform:none;letter-spacing:.2px;display:flex;align-items:center;gap:6px}
+.hero .kicker .dot{width:8px;height:8px;border-radius:4px;background:var(--amber)}
+.hero h3{margin-top:4px;font-size:16px;line-height:24px;font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hero .meta{margin-top:4px;font-size:12px;line-height:16px;color:var(--ink-3)}
+.yt-link{margin-top:var(--s1);display:inline-flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;color:var(--blue);padding:4px 0}
+.yt-link svg{width:16px;height:16px}
+
+/* Brand tile (no thumbnail / sample) */
+.tile{position:absolute;inset:0;background:radial-gradient(120% 90% at 85% 15%,#2C7BF0 0%,var(--blue) 55%,#0247AE 100%)}
+.tile::after{content:"";position:absolute;right:-12%;top:-20%;width:55%;aspect-ratio:1;border-radius:50%;border:10px solid rgba(241,180,56,.35)}
+.tile.sm::after{border-width:5px}
+
+/* Player overlay states */
+.overlay{position:absolute;inset:0;background:rgba(10,20,40,.88);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:var(--s2);gap:var(--s1)}
+.overlay p{font-size:14px;line-height:20px;font-weight:600}
+.overlay small{font-size:12px;line-height:16px;opacity:.8}
+.btn-sm{margin-top:4px;height:32px;padding:0 var(--s2);border-radius:var(--r-s);background:#fff;color:var(--blue);font-size:12px;font-weight:700}
+
+/* Section */
+.section{padding:var(--s3) var(--s2) 0}
+.section-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--s1)}
+.section-h h4{font-size:14px;line-height:20px;font-weight:700;color:var(--ink-2)}
+.section-h span{font-size:12px;color:var(--ink-3)}
+.divider{height:1px;background:var(--line);margin:var(--s3) var(--s2) 0}
+
+/* List rows */
+.row{display:flex;gap:12px;width:100%;text-align:left;padding:var(--s1) 0;border-radius:var(--r-s)}
+.row:active{background:var(--surface)}
+.row .th{position:relative;flex:0 0 128px;height:72px;border-radius:var(--r-s);overflow:hidden;background:var(--blue-50)}
+.row .th img{width:100%;height:100%;object-fit:cover}
+.row .th .tap{position:absolute;inset:0;display:grid;place-items:center}
+.play-s{width:24px;height:24px;border-radius:12px;background:#fff;display:grid;place-items:center;box-shadow:0 2px 8px rgba(3,30,80,.2)}
+.play-s svg{width:12px;height:12px;margin-left:2px;fill:var(--blue)}
+.row .dur{right:4px;bottom:4px;padding:0 4px;border-radius:4px}
+.row .txt{flex:1;min-width:0;padding-top:2px}
+.row .t{font-size:14px;line-height:20px;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.row .m{margin-top:4px;font-size:12px;line-height:16px;color:var(--ink-3);display:flex;gap:6px;align-items:center}
+.row.now .t{color:var(--blue)}
+.pill{font-size:12px;line-height:16px;font-weight:600;padding:0 6px;border-radius:4px;background:var(--blue-50);color:var(--blue)}
+.pill.watched{background:#E7F6EC;color:#13804B}
+
+.more{margin-top:var(--s1);width:100%;height:40px;border-radius:var(--r-s);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--blue)}
+.cta{margin:var(--s3) var(--s2) 0;width:calc(100% - 32px);height:48px;border-radius:var(--r-s);background:var(--surface);font-size:14px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:var(--s1)}
+.cta svg{width:20px;height:20px}
+
+/* Skeleton */
+.sk{background:linear-gradient(90deg,#EEF1F5 0%,#F7F9FB 50%,#EEF1F5 100%);background-size:200% 100%;animation:sh 1.2s linear infinite;border-radius:var(--r-s)}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+
+/* Full states */
+.state{padding:var(--s4) var(--s3);text-align:center;display:flex;flex-direction:column;align-items:center}
+.state .ill{width:96px;height:96px;border-radius:48px;background:var(--blue-50);display:grid;place-items:center;margin-bottom:var(--s2)}
+.state .ill svg{width:48px;height:48px}
+.state h3{font-size:16px;line-height:24px;font-weight:700}
+.state p{margin-top:var(--s1);color:var(--ink-2)}
+.btn{margin-top:var(--s3);width:100%;max-width:312px;height:48px;border-radius:var(--r-s);background:var(--blue);color:#fff;font-size:14px;font-weight:700}
+.btn.ghost{margin-top:var(--s1);background:var(--surface);color:var(--ink)}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:calc(var(--s3) + env(safe-area-inset-bottom));transform:translate(-50%,16px);opacity:0;background:#1B2333;color:#fff;font-size:12px;line-height:16px;padding:12px var(--s2);border-radius:var(--r-s);max-width:calc(100% - 32px);transition:.2s;pointer-events:none;z-index:50}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* Review bar (designer only) */
+.review{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#0E1525;color:#fff;padding:var(--s1);display:flex;gap:4px;overflow-x:auto;font-size:12px}
+.review b{padding:6px 4px;white-space:nowrap;color:var(--amber)}
+.review button{white-space:nowrap;padding:6px 10px;border-radius:6px;background:#26314A;font-size:12px}
+.review button.on{background:var(--blue)}
+body.has-review .wrap{padding-bottom:96px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar" id="bar">
+    <button class="icon-btn" id="btnBack" aria-label="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#141A24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <h1>Video Tutorial</h1>
+    <button class="icon-btn" id="btnChannel" aria-label="Buka channel YouTube Finku">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#141A24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+    </button>
+  </header>
+  <main id="app" aria-live="polite"></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ================================================================
+   DATA SOURCE · the only thing engineering needs to change
+   ================================================================ */
+const FINKU_VIDEO_FEED = Object.assign({
+  // 'json'   = Finku endpoint returning normalized JSON (RECOMMENDED; see ENGINEER-NOTES.md + worker.js)
+  // 'rss'    = YouTube RSS XML through a CORS proxy (no API key, last 15 uploads, no durations)
+  // 'native' = the app injects data with FinkuVideos.load(items); page waits for it
+  // 'static' = SNAPSHOT_FEED below: real @finku_id videos copied by hand on 17 Nov 2026 (not live)
+  // 'sample' = built-in placeholder data (NOT real Finku videos)
+  source: 'static',
+  url: '',                                   // endpoint for 'json' or proxied RSS URL for 'rss'
+  channelId: 'UCekLgS8Bm_JacnlOmliPQ-w',     // resolved from @finku_id on 2026-11-17
+  channelUrl: 'https://www.youtube.com/@finku_id',
+  featuredVideoId: 'U0PPJuq-ly8',            // pin "Mulai dari sini" (add an account = first real step); null = newest
+  excludeShorts: true,                       // drop Shorts when the feed tells us (isShort or url)
+  pageSize: 8,                               // rows before "Muat lebih banyak"
+  cacheKey: 'finku_video_feed_v1',           // last good feed, used when offline
+  timeoutMs: 10000,
+  watchedRatio: 0.8,                         // fires video_watched at 80% or on end
+}, window.FINKU_VIDEO_FEED_OVERRIDE || {});
+
+(function applyQuery(){
+  const q = new URLSearchParams(location.search);
+  if (q.get('source')) FINKU_VIDEO_FEED.source = q.get('source');
+  if (q.get('url')) FINKU_VIDEO_FEED.url = q.get('url');
+  if (q.get('featured')) FINKU_VIDEO_FEED.featuredVideoId = q.get('featured');
+})();
+
+/* SNAPSHOT · real videos from youtube.com/@finku_id/videos, collected 17 Nov 2026 by Helsinki.
+   Dates are approximate (YouTube showed "11d ago" / "2w ago"). Replace with the live feed (source:'json'). */
+const SNAPSHOT_FEED = [
+  {id:'hAdOqtL4NiY', title:'Cara Buat Kategori Sendiri di Aplikasi Finku | Tambah Subkategori Pengeluaran', publishedAt:'2026-11-06T05:09:00Z', durationSec:50},
+  {id:'guRtMlL6Iqw', title:'Cara Atur Tanggal Mulai Bulan di Aplikasi Finku Sesuai Tanggal Gajian Kamu', publishedAt:'2026-11-06T05:08:00Z', durationSec:45},
+  {id:'cQ0kiudWSzc', title:'Cara Pakai Mode Bersama di Finku | Pantau dan Catat Keuangan Bareng Pasangan dalam 1 Aplikasi', publishedAt:'2026-11-06T05:07:00Z', durationSec:68},
+  {id:'LR9ULSow-Lo', title:'Cara Kelola Memori FinGPT di Aplikasi Finku | Lihat & Hapus Informasi yang Tersimpan di AI', publishedAt:'2026-11-06T05:06:00Z', durationSec:68},
+  {id:'ElqG4hV42FU', title:'Cara Pakai FinGPT di Aplikasi Finku | Tanya, Rekomendasi Budgeting & Analisis Pengeluaran Pakai AI', publishedAt:'2026-11-06T05:05:00Z', durationSec:42},
+  {id:'U0PPJuq-ly8', title:'Cara Tambah Akun Finansial Bank & E-Wallet di Finku | Atur Saldo Awal di Aplikasi Catat Keuangan', publishedAt:'2026-11-03T05:04:00Z', durationSec:32},
+  {id:'sMEJApyJ1Es', title:'Cara Cek Total Saldo & Net Worth Keuangan di Aplikasi Finku | Dari Saldo, Investasi & Utang/Tagihan', publishedAt:'2026-11-03T05:03:00Z', durationSec:59},
+  {id:'U6j1aKatHeM', title:'Cara Ekspor Laporan Keuangan dari Aplikasi Finku ke CSV | Bisa Simpan & Buka di Spreadsheet/Excel', publishedAt:'2026-11-03T05:02:00Z', durationSec:73},
+  {id:'XU9W0Vcx3oE', title:'Kenali Weekly Recap Keuangan di Aplikasi Finku | Ringkasan & Analisis Pengeluaran Kamu Tiap Minggu', publishedAt:'2026-11-03T05:01:00Z', durationSec:48},
+];
+
+/* SAMPLE DATA · placeholders only. Titles mirror the tutorial-intro Figma mock, ids are fake. */
+const SAMPLE_FEED = [
+  {id:'SAMPLE-01', title:'Cara catat transaksi pertamamu', publishedAt:'2026-11-14T03:00:00Z', durationSec:105},
+  {id:'SAMPLE-02', title:'Cara isi saldo akunmu', publishedAt:'2026-11-10T03:00:00Z', durationSec:90},
+  {id:'SAMPLE-03', title:'Cara buat budget bulanan biar nggak boncos', publishedAt:'2026-11-03T03:00:00Z', durationSec:130},
+  {id:'SAMPLE-04', title:'Cara impor riwayat transaksi dari file', publishedAt:'2026-10-27T03:00:00Z', durationSec:150},
+  {id:'SAMPLE-05', title:'Kenalan sama FinGPT: tanya apa aja soal keuanganmu', publishedAt:'2026-10-15T03:00:00Z', durationSec:110},
+  {id:'SAMPLE-06', title:'Cara catat tagihan rutin supaya nggak telat bayar', publishedAt:'2026-09-30T03:00:00Z', durationSec:100},
+  {id:'SAMPLE-07', title:'Atur target tabungan untuk liburan akhir tahun', publishedAt:'2026-09-12T03:00:00Z', durationSec:165},
+  {id:'SAMPLE-08', title:'Pakai filter riwayat transaksi', publishedAt:'2026-08-20T03:00:00Z', durationSec:75},
+  {id:'SAMPLE-09', title:'Hari Mencatat: tumbuhkan pohonmu tiap hari', publishedAt:'2026-07-02T03:00:00Z', durationSec:95},
+  {id:'SAMPLE-10', title:'Tips: 3 kebiasaan kecil biar keuangan lebih rapi', publishedAt:'2026-05-18T03:00:00Z', durationSec:240},
+];
+
+/* ================================================================ */
+const $app = document.getElementById('app');
+const S = { items:[], status:'loading', shown:0, nowId:null, playing:false, playerState:'idle',
+            fromCache:false, isSample:false, watched:new Set(), progressSent:{} };
+
+function postToNative(msg){
+  try{
+    if (window.webkit?.messageHandlers?.finku) window.webkit.messageHandlers.finku.postMessage(msg);
+    else if (window.FinkuAndroid?.postMessage) window.FinkuAndroid.postMessage(JSON.stringify(msg));
+    else if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify(msg));
+    else console.log('[postToNative]', msg);
+  }catch(e){ console.log('[postToNative failed]', e, msg); }
+}
+
+/* ---------- Fetching + normalising ---------- */
+function withTimeout(p, ms){ return Promise.race([p, new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')), ms))]); }
+
+function normalise(list){
+  return (list||[]).map(v=>({
+    id: String(v.id||v.videoId||''),
+    title: String(v.title||'').trim(),
+    short: String(v.title||'').split(' | ')[0].trim(),
+    publishedAt: v.publishedAt||v.published||null,
+    durationSec: Number.isFinite(+v.durationSec) && +v.durationSec>0 ? +v.durationSec : null,
+    thumb: v.thumb||v.thumbnail||null,
+    isShort: !!v.isShort,
+  })).filter(v=>v.id && v.title)
+    .filter(v=>!(FINKU_VIDEO_FEED.excludeShorts && v.isShort))
+    .sort((a,b)=>new Date(b.publishedAt||0)-new Date(a.publishedAt||0));
+}
+
+function parseRss(xmlText){
+  const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
+  if (doc.querySelector('parsererror')) throw new Error('rss parse');
+  return [...doc.getElementsByTagName('entry')].map(e=>{
+    const tag = n => e.getElementsByTagNameNS('*', n)[0];
+    const link = e.querySelector('link')?.getAttribute('href')||'';
+    return {
+      id: tag('videoId')?.textContent,
+      title: e.getElementsByTagName('title')[0]?.textContent,
+      publishedAt: e.getElementsByTagName('published')[0]?.textContent,
+      thumb: tag('thumbnail')?.getAttribute('url')?.replace('hqdefault','mqdefault'),
+      isShort: link.includes('/shorts/'),
+    };
+  });
+}
+
+async function loadFeed(){
+  const c = FINKU_VIDEO_FEED;
+  if (c.source === 'static'){ await new Promise(r=>setTimeout(r,300)); return SNAPSHOT_FEED; }
+  if (c.source === 'sample'){ S.isSample = true; await new Promise(r=>setTimeout(r,600)); return SAMPLE_FEED; }
+  if (c.source === 'native'){ return new Promise((res,rej)=>{ window.__finkuResolve = res; setTimeout(()=>rej(new Error('native timeout')), c.timeoutMs); postToNative({type:'request_feed'}); }); }
+  if (!c.url) throw new Error('No feed url configured');
+  const r = await withTimeout(fetch(c.url, {headers:{Accept: c.source==='rss' ? 'application/xml,text/xml' : 'application/json'}}), c.timeoutMs);
+  if (!r.ok) throw new Error('HTTP '+r.status);
+  if (c.source === 'rss') return parseRss(await r.text());
+  const j = await r.json();
+  return Array.isArray(j) ? j : (j.items||[]);
+}
+
+function saveCache(items){ try{ localStorage.setItem(FINKU_VIDEO_FEED.cacheKey, JSON.stringify({at:Date.now(), items})); }catch(e){} }
+function readCache(){ try{ return JSON.parse(localStorage.getItem(FINKU_VIDEO_FEED.cacheKey)||'null'); }catch(e){ return null; } }
+function readWatched(){ try{ return new Set(JSON.parse(localStorage.getItem(FINKU_VIDEO_FEED.cacheKey+'_w')||'[]')); }catch(e){ return new Set(); } }
+function saveWatched(){ try{ localStorage.setItem(FINKU_VIDEO_FEED.cacheKey+'_w', JSON.stringify([...S.watched])); }catch(e){} }
+
+async function start(){
+  S.status='loading'; render();
+  S.watched = readWatched();
+  try{
+    const items = normalise(await loadFeed());
+    S.items = items; S.fromCache=false;
+    if (!S.isSample && FINKU_VIDEO_FEED.source!=='static') saveCache(items);
+    S.status = items.length ? 'ready' : 'empty';
+  }catch(err){
+    console.warn('[feed]', err);
+    const cache = !S.isSample && readCache();
+    if (cache?.items?.length){ S.items = normalise(cache.items); S.fromCache = true; S.status='ready'; }
+    else S.status = navigator.onLine === false ? 'offline' : 'error';
+  }
+  S.shown = Math.min(S.items.length, FINKU_VIDEO_FEED.pageSize + 1);
+  S.nowId = pickFeatured()?.id || null;
+  render();
+  postToNative({type:'ready', status:S.status, count:S.items.length, source:FINKU_VIDEO_FEED.source, fromCache:S.fromCache});
+}
+
+function pickFeatured(){
+  const pin = FINKU_VIDEO_FEED.featuredVideoId;
+  return (pin && S.items.find(v=>v.id===pin)) || S.items[0];
+}
+
+/* ---------- Formatting ---------- */
+function fmtDur(s){ if(!s) return ''; const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=String(s%60).padStart(2,'0'); return h? `${h}:${String(m).padStart(2,'0')}:${x}` : `${m}:${x}`; }
+function fmtAgo(iso){
+  if(!iso) return '';
+  const d = (Date.now()-new Date(iso))/864e5;
+  if (d < 1) return 'Hari ini';
+  if (d < 2) return 'Kemarin';
+  if (d < 7) return `${Math.floor(d)} hari lalu`;
+  if (d < 30) return `${Math.floor(d/7)} minggu lalu`;
+  if (d < 365) return `${Math.floor(d/30)} bulan lalu`;
+  return `${Math.floor(d/365)} tahun lalu`;
+}
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* Thumbnails: always build from the video id so we pick the size. mqdefault (320px) looked blurry on 2x/3x screens.
+   Hero: maxresdefault 1280x720 -> sddefault 640x480 -> hqdefault 480x360. Rows: hqdefault (4:3 with bars; object-fit:cover crops them).
+   maxres does not exist for every video (404), so onerror walks down the chain, then falls back to the brand tile. */
+const YT_ID = /^[A-Za-z0-9_-]{11}$/;
+const thumbChain = (v, small) => {
+  if (S.isSample) return [];
+  if (!YT_ID.test(v.id)) return v.thumb ? [v.thumb] : [];
+  const b = `https://i.ytimg.com/vi/${v.id}/`;
+  return small ? [b+'hqdefault.jpg', b+'mqdefault.jpg'] : [b+'maxresdefault.jpg', b+'sddefault.jpg', b+'hqdefault.jpg'];
+};
+window.__thumbNext = img => {
+  const rest = (img.dataset.next||'').split('|').filter(Boolean);
+  if (rest.length){ img.dataset.next = rest.slice(1).join('|'); img.src = rest[0]; }
+  else img.replaceWith(Object.assign(document.createElement('div'),{className:'tile'+(img.dataset.sm?' sm':'')}));
+};
+const ytUrl = id => `https://www.youtube.com/watch?v=${encodeURIComponent(id)}`;
+
+const ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>';
+const ICON_EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+const ICON_YT = '<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#E5262B"/><path d="M10 9v6l5-3z" fill="#fff"/></svg>';
+
+function thumbHtml(v, small){
+  const c = thumbChain(v, small);
+  if (!c.length) return `<div class="tile${small?' sm':''}"></div>`;
+  // maxresdefault 404s come back as a 120x90 grey image in some browsers, so also check naturalWidth on load
+  return `<img src="${esc(c[0])}" data-next="${esc(c.slice(1).join('|'))}" ${small?'data-sm="1"':''} alt="" ${small?'loading="lazy"':'fetchpriority="high"'} decoding="async"
+    onerror="__thumbNext(this)" onload="if(this.naturalWidth<=120)__thumbNext(this)">`;
+}
+
+/* ---------- Render ---------- */
+function render(){
+  const top = [];
+  if (S.isSample) top.push(`<div class="banner sample"><span>⚠</span><span><b>DATA CONTOH.</b> Bukan video asli dari YouTube Finku. Sambungkan feed di <b>FINKU_VIDEO_FEED</b>.</span></div>`);
+  if (S.fromCache) top.push(`<div class="banner offline"><span>📶</span><span>Kamu lagi offline. Ini daftar video terakhir yang tersimpan.</span></div>`);
+
+  if (S.status === 'loading'){ $app.innerHTML = top.join('') + skeleton(); return; }
+  if (S.status === 'empty'){ $app.innerHTML = top.join('') + stateHtml('empty'); bindState(); return; }
+  if (S.status === 'offline'){ $app.innerHTML = top.join('') + stateHtml('offline'); bindState(); return; }
+  if (S.status === 'error'){ $app.innerHTML = top.join('') + stateHtml('error'); bindState(); return; }
+
+  const now = S.items.find(v=>v.id===S.nowId) || S.items[0];
+  const isPinned = !S.playing && now.id === pickFeatured()?.id;
+  const rest = S.items.filter(v=>v.id!==now.id);
+  const visible = rest.slice(0, Math.max(0, S.shown-1));
+
+  $app.innerHTML = top.join('') + `
+    <section class="intro">
+      <h2>Kenalan sama Finku, yuk!</h2>
+      <p>Video singkat dari tim Finku biar kamu langsung bisa atur keuanganmu sendiri.</p>
+    </section>
+    <section class="hero">
+      <div class="frame" id="frame">${frameInner(now)}</div>
+      <div class="kicker">${S.playing ? '<span class="dot"></span>Sedang diputar' : (isPinned ? 'Mulai dari sini' : 'Video pilihan')}</div>
+      <h3>${esc(now.short||now.title)}</h3>
+      <div class="meta">${[fmtAgo(now.publishedAt), now.durationSec?fmtDur(now.durationSec):''].filter(Boolean).join(' · ')}${S.watched.has(now.id)?' · Sudah ditonton':''}</div>
+      <button class="yt-link" data-open="${esc(now.id)}">${ICON_EXT}Buka di YouTube</button>
+    </section>
+    ${rest.length ? `
+    <div class="divider"></div>
+    <section class="section">
+      <div class="section-h"><h4>Video lainnya</h4><span>${rest.length} video</span></div>
+      <div id="list">${visible.map(rowHtml).join('')}</div>
+      ${visible.length < rest.length ? `<button class="more" id="btnMore">Muat lebih banyak</button>` : ''}
+    </section>` : ''}
+    <button class="cta" id="btnAll">${ICON_YT}Lihat semua di YouTube</button>
+  `;
+  bindReady();
+}
+
+function frameInner(v){
+  if (S.playing && S.playerState === 'sample') return `<div class="tile"></div><div class="overlay"><p>Ini data contoh</p><small>Video asli akan diputar di sini setelah feed YouTube tersambung.</small></div>`;
+  if (S.playing && S.playerState === 'failed') return `${thumbHtml(v)}<div class="overlay"><p>Video ini nggak bisa diputar di sini</p><small>Kamu tetap bisa nonton langsung di YouTube.</small><button class="btn-sm" data-open="${esc(v.id)}">Buka di YouTube</button></div>`;
+  if (S.playing && S.playerState === 'offline') return `${thumbHtml(v)}<div class="overlay"><p>Kamu lagi offline</p><small>Sambungkan internet dulu untuk memutar video.</small><button class="btn-sm" id="btnReplay">Coba Lagi</button></div>`;
+  if (S.playing) return `<iframe id="yt" title="${esc(v.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen
+      src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&hl=id&origin=${encodeURIComponent(location.origin)}"></iframe>`;
+  return `${thumbHtml(v)}<button class="tap" id="btnPlayHero" aria-label="Putar ${esc(v.title)}"><span class="play-l">${ICON_PLAY}</span></button>${v.durationSec?`<span class="dur">${fmtDur(v.durationSec)}</span>`:''}`;
+}
+
+function rowHtml(v){
+  const w = S.watched.has(v.id);
+  return `<button class="row" data-play="${esc(v.id)}" aria-label="Putar ${esc(v.title)}">
+    <div class="th">${thumbHtml(v,true)}<span class="tap"><span class="play-s">${ICON_PLAY}</span></span>${v.durationSec?`<span class="dur">${fmtDur(v.durationSec)}</span>`:''}</div>
+    <div class="txt"><div class="t">${esc(v.short||v.title)}</div>
+      <div class="m">${w?'<span class="pill watched">Sudah ditonton</span>':''}${esc(fmtAgo(v.publishedAt))}</div></div>
+  </button>`;
+}
+
+function skeleton(){
+  const row = `<div style="display:flex;gap:12px;padding:8px 0"><div class="sk" style="flex:0 0 128px;height:72px"></div><div style="flex:1;padding-top:2px"><div class="sk" style="height:16px;width:90%"></div><div class="sk" style="height:16px;width:60%;margin-top:8px"></div><div class="sk" style="height:12px;width:30%;margin-top:8px"></div></div></div>`;
+  return `<div aria-busy="true" aria-label="Memuat video">
+    <section class="intro"><div class="sk" style="height:24px;width:70%"></div><div class="sk" style="height:16px;width:95%;margin-top:8px"></div></section>
+    <section class="hero"><div class="sk" style="aspect-ratio:16/9;border-radius:16px"></div><div class="sk" style="height:12px;width:30%;margin-top:12px"></div><div class="sk" style="height:20px;width:80%;margin-top:8px"></div></section>
+    <div class="divider"></div><section class="section">${row.repeat(4)}</section></div>`;
+}
+
+const STATES = {
+  empty:  {icon:'<svg viewBox="0 0 48 48" fill="none"><rect x="6" y="11" width="36" height="26" rx="6" stroke="#035CDC" stroke-width="3"/><path d="M21 19v10l8-5z" fill="#F1B438"/></svg>',
+           h:'Belum ada video', p:'Tim Finku lagi siapin video tutorial. Cek lagi nanti, ya.', primary:null, secondary:['Kunjungi channel YouTube','open_channel']},
+  offline:{icon:'<svg viewBox="0 0 48 48" fill="none" stroke="#035CDC" stroke-width="3" stroke-linecap="round"><path d="M6 18a26 26 0 0 1 36 0"/><path d="M12 25a17 17 0 0 1 24 0"/><path d="M18 32a8 8 0 0 1 12 0"/><circle cx="24" cy="38" r="1.5" fill="#035CDC"/><path d="M8 8l32 32" stroke="#F1B438"/></svg>',
+           h:'Kamu lagi offline', p:'Sambungkan internet dulu untuk lihat video tutorial Finku.', primary:['Coba Lagi','retry'], secondary:null},
+  error:  {icon:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="17" stroke="#035CDC" stroke-width="3"/><path d="M24 15v11" stroke="#F1B438" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="32" r="2" fill="#F1B438"/></svg>',
+           h:'Videonya belum bisa dimuat', p:'Ada gangguan sebentar. Coba lagi, atau tonton langsung di YouTube.', primary:['Coba Lagi','retry'], secondary:['Buka di YouTube','open_channel']},
+};
+function stateHtml(k){
+  const s = STATES[k];
+  return `<div class="state"><div class="ill">${s.icon}</div><h3>${s.h}</h3><p>${s.p}</p>
+    ${s.primary?`<button class="btn" data-act="${s.primary[1]}">${s.primary[0]}</button>`:''}
+    ${s.secondary?`<button class="btn ${s.primary?'ghost':''}" data-act="${s.secondary[1]}">${s.secondary[0]}</button>`:''}</div>`;
+}
+
+/* ---------- Events ---------- */
+function bindState(){
+  $app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
+    if (b.dataset.act==='retry') start();
+    if (b.dataset.act==='open_channel') openChannel();
+  });
+}
+function bindReady(){
+  document.getElementById('btnPlayHero')?.addEventListener('click', ()=>play(S.nowId));
+  document.getElementById('btnReplay')?.addEventListener('click', ()=>play(S.nowId));
+  document.getElementById('btnMore')?.addEventListener('click', ()=>{ S.shown += FINKU_VIDEO_FEED.pageSize; render(); });
+  document.getElementById('btnAll')?.addEventListener('click', openChannel);
+  $app.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>{ play(b.dataset.play); window.scrollTo({top:0, behavior:'smooth'}); });
+  $app.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openVideo(b.dataset.open));
+  const yt = document.getElementById('yt');
+  if (yt) yt.addEventListener('load', ()=>listenPlayer(yt));
+}
+
+function play(id){
+  S.nowId = id; S.playing = true;
+  S.playerState = S.isSample ? 'sample' : (navigator.onLine === false ? 'offline' : 'playing');
+  render();
+  postToNative({type:'video_play', videoId:id, title:S.items.find(v=>v.id===id)?.title});
+}
+function openVideo(id){ postToNative({type:'open_youtube', videoId:id, url:ytUrl(id)}); if (S.isSample) toast('Data contoh: belum ada video asli untuk dibuka.'); }
+function openChannel(){ postToNative({type:'open_channel', url:FINKU_VIDEO_FEED.channelUrl}); }
+
+/* Lightweight IFrame API: progress + errors without loading youtube.com/iframe_api */
+function listenPlayer(iframe){
+  const send = () => { try{ iframe.contentWindow.postMessage(JSON.stringify({event:'listening', id:'finku', channel:'widget'}), '*'); }catch(e){} };
+  send(); setTimeout(send, 500);
+}
+window.addEventListener('message', ev=>{
+  if (!/youtube(-nocookie)?\.com$/.test(new URL(ev.origin||'http://x').hostname)) return;
+  let d; try{ d = typeof ev.data==='string' ? JSON.parse(ev.data) : ev.data; }catch(e){ return; }
+  if (!d) return;
+  const id = S.nowId;
+  if (d.event==='onError'){ // 2 bad id, 5 html5, 100 removed/private, 101/150/152/153 embed blocked or missing referer
+    S.playerState='failed'; render(); postToNative({type:'video_error', videoId:id, code:d.info}); return;
+  }
+  const info = d.info || {};
+  if (d.event==='infoDelivery' && info.currentTime && info.duration){
+    const r = info.currentTime/info.duration, step = Math.floor(r*4)*25;
+    if (step && S.progressSent[id+step]===undefined){ S.progressSent[id+step]=1; postToNative({type:'video_progress', videoId:id, percent:step}); }
+    if (r >= FINKU_VIDEO_FEED.watchedRatio) markWatched(id);
+  }
+  if ((d.event==='onStateChange' && d.info===0) || info.playerState===0) markWatched(id);
+});
+function markWatched(id){
+  if (S.watched.has(id)) return;
+  S.watched.add(id); saveWatched(); postToNative({type:'video_watched', videoId:id});
+  const row = $app.querySelector(`[data-play="${CSS.escape(id)}"] .m`); if (row && !row.querySelector('.watched')) row.insertAdjacentHTML('afterbegin','<span class="pill watched">Sudah ditonton</span>');
+}
+
+let tt; function toast(t){ const el=document.getElementById('toast'); el.textContent=t; el.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove('on'), 2400); }
+
+document.getElementById('btnBack').onclick = ()=>postToNative({type:'close'});
+document.getElementById('btnChannel').onclick = openChannel;
+window.addEventListener('scroll', ()=>document.getElementById('bar').classList.toggle('scrolled', scrollY>4), {passive:true});
+window.addEventListener('online', ()=>{ if (['offline','error'].includes(S.status) || S.fromCache) start(); });
+
+/* Native bridge in */
+window.FinkuVideos = {
+  load(items){ if (window.__finkuResolve){ window.__finkuResolve(items); window.__finkuResolve=null; } else { S.items=normalise(items); S.status=S.items.length?'ready':'empty'; S.nowId=pickFeatured()?.id; S.shown=Math.min(S.items.length, FINKU_VIDEO_FEED.pageSize+1); render(); } },
+  pause(){ const f=document.getElementById('yt'); try{ f?.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}),'*'); }catch(e){} },
+  refresh: start,
+  config: FINKU_VIDEO_FEED,
+};
+document.addEventListener('visibilitychange', ()=>{ if (document.hidden) window.FinkuVideos.pause(); });
+
+/* ---------- Review bar (designer only, ?review=1) ---------- */
+(function review(){
+  const q = new URLSearchParams(location.search);
+  if (q.get('review') !== '1') return;
+  document.body.classList.add('has-review');
+  const bar = document.createElement('div'); bar.className='review';
+  const opts = [['Data',()=>{S.fromCache=false;S.playing=false;S.status='ready';}],['Loading',()=>S.status='loading'],['Kosong',()=>S.status='empty'],
+    ['Offline',()=>S.status='offline'],['Error',()=>S.status='error'],['Cache offline',()=>{S.status='ready';S.fromCache=true;}],
+    ['Player gagal',()=>{S.status='ready';S.playing=true;S.playerState='failed';}],['Player offline',()=>{S.status='ready';S.playing=true;S.playerState='offline';}]];
+  bar.innerHTML = '<b>Review</b>' + opts.map((o,i)=>`<button data-i="${i}">${o[0]}</button>`).join('');
+  bar.onclick = e=>{ const i=e.target.dataset?.i; if(i===undefined) return; if(!S.items.length){S.items=normalise(SAMPLE_FEED);S.nowId=S.items[0].id;S.shown=FINKU_VIDEO_FEED.pageSize+1;}
+    opts[i][1](); bar.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.i===i)); render(); };
+  document.body.appendChild(bar);
+})();
+
+start();
+</script>
+</body>
+</html>
