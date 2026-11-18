@@ -287,7 +287,8 @@
   .hero__blob--a { width: 90vw; height: 90vw; right: -30vw; top: -10vw; }
   .hero__blob--b { width: 70vw; height: 70vw; right: -10vw; top: 40vw; }
   .hero__blob--c { display: none; }
-  @media (prefers-reduced-motion: reduce) {
+}
+@media (prefers-reduced-motion: reduce) {
   .hero__blob { animation: none; }
 }
 
