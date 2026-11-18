@@ -46,6 +46,11 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top">
+      <div className="hero__aura" aria-hidden="true">
+        <span className="hero__blob hero__blob--a" />
+        <span className="hero__blob hero__blob--b" />
+        <span className="hero__blob hero__blob--c" />
+      </div>
       <div className="shell">
         <div className="hero__top">
           <span className="hero__status mono-label">
